@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Morgen · Crescimento organizado</title>
+  <meta name="description" content="Sistemas que unem aquisição de clientes e automação para empresas de serviços crescerem com menos trabalho manual." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=IBM+Plex+Mono:wght@400;500&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: oklch(13% 0.05 275);
+      --bg-deep: #020226;
+      --surface: oklch(18% 0.06 275);
+      --surface-2: oklch(22% 0.055 275);
+      --fg: oklch(97% 0.002 100);
+      --muted: oklch(68% 0.04 275);
+      --border: color-mix(in oklch, var(--fg) 12%, transparent);
+      --border-strong: color-mix(in oklch, var(--fg) 22%, transparent);
+      --accent: oklch(85% 0.16 95);
+      --accent-hex: #fcc92a;
+      --accent-soft: color-mix(in oklch, var(--accent) 18%, transparent);
+      --accent-glow: color-mix(in oklch, var(--accent) 28%, transparent);
+      --danger-soft: oklch(55% 0.12 25 / 0.15);
+
+      --font-display: "Syne", system-ui, sans-serif;
+      --font-body: "DM Sans", system-ui, sans-serif;
+      --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+      --radius: 14px;
+      --radius-sm: 10px;
+      --max: 1120px;
+      --ease: cubic-bezier(0.23, 1, 0.32, 1);
+      --nav-h: 72px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      .reveal { opacity: 1 !important; transform: none !important; }
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--font-body);
+      font-size: 17px;
+      line-height: 1.55;
+      color: var(--fg);
+      background: var(--bg-deep);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    img, svg { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; cursor: pointer; border: 0; background: none; color: inherit; }
+    h1, h2, h3, h4 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      text-wrap: balance;
+      margin: 0;
+    }
+    p { margin: 0; text-wrap: pretty; }
+    .muted { color: var(--muted); }
+
+    .wrap {
+      width: min(100% - 2.5rem, var(--max));
+      margin-inline: auto;
+    }
+
+    /* —— Progress bar —— */
+    .scroll-progress {
+      position: fixed;
+      top: 0; left: 0;
+      height: 2px;
+      width: 0%;
+      background: var(--accent-hex);
+      z-index: 100;
+      transform-origin: left;
+      pointer-events: none;
+    }
+
+    /* —— Nav —— */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      height: var(--nav-h);
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid transparent;
+      background: color-mix(in oklch, var(--bg-deep) 72%, transparent);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      transition: border-color 0.3s var(--ease), background 0.3s var(--ease);
+    }
+    .nav.is-scrolled {
+      border-bottom-color: var(--border);
+      background: color-mix(in oklch, var(--bg-deep) 88%, transparent);
+    }
+    .nav-inner {
+      width: min(100% - 2.5rem, var(--max));
+      margin-inline: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+    .logo-mark {
+      width: 118px;
+      height: auto;
+    }
+    .logo-mark svg { width: 100%; height: auto; }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem 1.5rem;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .nav-links a {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--muted);
+      transition: color 0.2s var(--ease);
+    }
+    .nav-links a:hover { color: var(--fg); }
+    .nav-cta { display: none; }
+    @media (min-width: 880px) {
+      .nav-cta { display: inline-flex; }
+    }
+    @media (max-width: 720px) {
+      .nav-links { display: none; }
+    }
+
+    /* —— Buttons —— */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      min-height: 48px;
+      padding: 0.75rem 1.35rem;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      letter-spacing: -0.01em;
+      transition: transform 0.25s var(--ease), background 0.2s var(--ease), box-shadow 0.25s var(--ease), color 0.2s var(--ease), border-color 0.2s var(--ease);
+    }
+    .btn:active { transform: scale(0.98); }
+    .btn-primary {
+      background: var(--accent-hex);
+      color: #020226;
+      box-shadow: 0 0 0 0 transparent;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px var(--accent-glow);
+    }
+    .btn-ghost {
+      border: 1px solid var(--border-strong);
+      color: var(--fg);
+      background: transparent;
+    }
+    .btn-ghost:hover {
+      border-color: color-mix(in oklch, var(--fg) 40%, transparent);
+      background: color-mix(in oklch, var(--fg) 4%, transparent);
+      transform: translateY(-2px);
+    }
+    .btn-arrow {
+      display: inline-block;
+      transition: transform 0.25s var(--ease);
+    }
+    .btn:hover .btn-arrow { transform: translateX(3px); }
+
+    /* —— Hero —— */
+    .hero {
+      position: relative;
+      padding: clamp(3rem, 8vw, 6.5rem) 0 clamp(4rem, 10vw, 7rem);
+      overflow: hidden;
+    }
+    .hero-orb {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      filter: blur(72px);
+      opacity: 0.55;
+      animation: float-orb 10s ease-in-out infinite;
+    }
+    .hero-orb-1 {
+      width: min(52vw, 480px);
+      height: min(52vw, 480px);
+      background: radial-gradient(circle, color-mix(in oklch, var(--accent) 35%, transparent) 0%, transparent 70%);
+      top: -12%;
+      right: -8%;
+    }
+    .hero-orb-2 {
+      width: min(40vw, 360px);
+      height: min(40vw, 360px);
+      background: radial-gradient(circle, color-mix(in oklch, oklch(45% 0.12 275) 50%, transparent) 0%, transparent 70%);
+      bottom: 5%;
+      left: -10%;
+      animation-delay: -4s;
+    }
+    @keyframes float-orb {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-28px) scale(1.04); }
+    }
+    .hero-grid {
+      position: relative;
+      display: grid;
+      gap: clamp(2.5rem, 5vw, 4rem);
+      align-items: center;
+    }
+    @media (min-width: 960px) {
+      .hero-grid {
+        grid-template-columns: 1.15fr 0.85fr;
+        gap: 3.5rem;
+      }
+    }
+    .kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent-hex);
+      margin-bottom: 1.25rem;
+    }
+    .kicker-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent-hex);
+      box-shadow: 0 0 0 0 var(--accent-glow);
+      animation: pulse-dot 2.2s var(--ease) infinite;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { box-shadow: 0 0 0 0 var(--accent-glow); }
+      50% { box-shadow: 0 0 0 8px transparent; }
+    }
+    .hero h1 {
+      font-size: clamp(2.6rem, 6.2vw, 4.4rem);
+      font-weight: 800;
+      max-width: 14ch;
+      margin-bottom: 1.35rem;
+    }
+    .hero h1 .gold { color: var(--accent-hex); }
+    .hero-lead {
+      font-size: clamp(1.05rem, 1.6vw, 1.2rem);
+      color: var(--muted);
+      max-width: 38ch;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.85rem;
+      margin-bottom: 2.5rem;
+    }
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem 2rem;
+      padding-top: 1.75rem;
+      border-top: 1px solid var(--border);
+    }
+    .hero-meta strong {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.2rem;
+    }
+    .hero-meta span {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    /* Hero panel */
+    .hero-panel {
+      position: relative;
+      border: 1px solid var(--border);
+      border-radius: calc(var(--radius) + 4px);
+      background:
+        linear-gradient(160deg, color-mix(in oklch, var(--fg) 5%, transparent) 0%, transparent 45%),
+        var(--surface);
+      padding: 1.35rem;
+      overflow: hidden;
+    }
+    .hero-panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to right, color-mix(in oklch, var(--fg) 4%, transparent) 1px, transparent 1px),
+        linear-gradient(to bottom, color-mix(in oklch, var(--fg) 4%, transparent) 1px, transparent 1px);
+      background-size: 28px 28px;
+      mask-image: linear-gradient(180deg, rgba(0,0,0,0.45), transparent 80%);
+      pointer-events: none;
+    }
+    .panel-head {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.1rem;
+    }
+    .panel-label {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .panel-live {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--accent-hex);
+    }
+    .panel-live i {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent-hex);
+      animation: pulse-dot 1.8s var(--ease) infinite;
+    }
+    .method-mini {
+      position: relative;
+      display: grid;
+      gap: 0.45rem;
+    }
+    .method-row {
+      display: grid;
+      grid-template-columns: 36px 1fr auto;
+      align-items: center;
+      gap: 0.85rem;
+      padding: 0.75rem 0.85rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: color-mix(in oklch, var(--bg-deep) 55%, transparent);
+      transition: border-color 0.25s var(--ease), background 0.25s var(--ease), transform 0.25s var(--ease);
+    }
+    .method-row.is-active {
+      border-color: color-mix(in oklch, var(--accent) 45%, transparent);
+      background: var(--accent-soft);
+      transform: translateX(4px);
+    }
+    .method-row .letter {
+      width: 36px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      border-radius: 9px;
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 0.95rem;
+      background: color-mix(in oklch, var(--fg) 6%, transparent);
+      color: var(--fg);
+    }
+    .method-row.is-active .letter {
+      background: var(--accent-hex);
+      color: #020226;
+    }
+    .method-row .name {
+      font-weight: 600;
+      font-size: 0.95rem;
+      letter-spacing: -0.01em;
+    }
+    .method-row .step {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+
+    /* —— Sections shared —— */
+    section { position: relative; }
+    .section {
+      padding: clamp(4rem, 9vw, 6.5rem) 0;
+    }
+    .section-head {
+      max-width: 36rem;
+      margin-bottom: clamp(2rem, 4vw, 3rem);
+    }
+    .section-head h2 {
+      font-size: clamp(1.9rem, 3.8vw, 2.85rem);
+      margin-bottom: 0.9rem;
+    }
+    .section-head p {
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+    .eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent-hex);
+      margin-bottom: 0.85rem;
+    }
+
+    /* —— Problem —— */
+    .problem {
+      border-top: 1px solid var(--border);
+      background: linear-gradient(180deg, color-mix(in oklch, var(--surface) 70%, var(--bg-deep)) 0%, var(--bg-deep) 100%);
+    }
+    .problem-grid {
+      display: grid;
+      gap: 1rem;
+    }
+    @media (min-width: 720px) {
+      .problem-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (min-width: 1000px) {
+      .problem-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    .problem-card {
+      padding: 1.35rem 1.4rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      transition: transform 0.3s var(--ease), border-color 0.3s var(--ease);
+    }
+    .problem-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--border-strong);
+    }
+    .problem-card .idx {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+    .problem-card h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 0.45rem;
+    }
+    .problem-card p {
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+
+    /* —— Value —— */
+    .value-layout {
+      display: grid;
+      gap: 2.5rem;
+    }
+    @media (min-width: 900px) {
+      .value-layout {
+        grid-template-columns: 0.95fr 1.05fr;
+        align-items: start;
+        gap: 3.5rem;
+      }
+    }
+    .value-list {
+      display: grid;
+      gap: 0;
+    }
+    .value-item {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 1rem;
+      padding: 1.35rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .value-item:first-child { border-top: 1px solid var(--border); }
+    .value-num {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--accent-hex);
+      padding-top: 0.2rem;
+    }
+    .value-item h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.4rem;
+    }
+    .value-item p {
+      color: var(--muted);
+      font-size: 0.98rem;
+    }
+    .promise-box {
+      border: 1px solid color-mix(in oklch, var(--accent) 35%, transparent);
+      border-radius: calc(var(--radius) + 2px);
+      background:
+        radial-gradient(ellipse 80% 60% at 20% 0%, var(--accent-soft), transparent 60%),
+        var(--surface);
+      padding: clamp(1.5rem, 3vw, 2rem);
+    }
+    .promise-box h3 {
+      font-size: 1.45rem;
+      margin-bottom: 0.75rem;
+    }
+    .promise-box > p {
+      color: var(--muted);
+      margin-bottom: 1.35rem;
+    }
+    .promise-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 0.7rem;
+    }
+    .promise-list li {
+      display: grid;
+      grid-template-columns: 22px 1fr;
+      gap: 0.7rem;
+      align-items: start;
+      font-size: 0.98rem;
+    }
+    .promise-list li svg {
+      width: 18px;
+      height: 18px;
+      margin-top: 2px;
+      color: var(--accent-hex);
+    }
+
+    /* —— Method full —— */
+    .method {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+    }
+    .method-board {
+      display: grid;
+      gap: 1rem;
+    }
+    @media (min-width: 800px) {
+      .method-board {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    .method-card {
+      position: relative;
+      padding: 1.5rem 1.4rem 1.45rem;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: color-mix(in oklch, var(--bg-deep) 65%, transparent);
+      min-height: 180px;
+      overflow: hidden;
+      transition: transform 0.3s var(--ease), border-color 0.3s var(--ease), box-shadow 0.3s var(--ease);
+    }
+    .method-card:hover {
+      transform: translateY(-4px);
+      border-color: color-mix(in oklch, var(--accent) 40%, transparent);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.28);
+    }
+    .method-card .big-letter {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: clamp(3rem, 5vw, 3.6rem);
+      line-height: 1;
+      letter-spacing: -0.04em;
+      color: color-mix(in oklch, var(--accent) 55%, var(--fg));
+      margin-bottom: 0.85rem;
+    }
+    .method-card h3 {
+      font-size: 1.25rem;
+      margin-bottom: 0.45rem;
+    }
+    .method-card p {
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+    .method-card .bar {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      height: 3px;
+      width: 0;
+      background: var(--accent-hex);
+      transition: width 0.7s var(--ease);
+    }
+    .method-card.is-inview .bar { width: 100%; }
+
+    /* —— Philosophy strip —— */
+    .philosophy {
+      padding: clamp(3.5rem, 8vw, 5.5rem) 0;
+    }
+    .philosophy-inner {
+      display: grid;
+      gap: 1.5rem;
+      padding: clamp(1.75rem, 4vw, 2.5rem);
+      border-radius: calc(var(--radius) + 4px);
+      border: 1px solid var(--border);
+      background:
+        linear-gradient(135deg, var(--accent-soft), transparent 45%),
+        var(--surface);
+    }
+    @media (min-width: 800px) {
+      .philosophy-inner {
+        grid-template-columns: 1.2fr 0.8fr;
+        align-items: center;
+        gap: 2.5rem;
+      }
+    }
+    .philosophy blockquote {
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: clamp(1.55rem, 3.2vw, 2.15rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+    }
+    .philosophy blockquote span { color: var(--accent-hex); }
+    .philosophy-aside {
+      display: grid;
+      gap: 0.85rem;
+    }
+    .philosophy-aside p {
+      font-size: 0.98rem;
+      color: var(--muted);
+      padding-left: 1rem;
+      border-left: 2px solid var(--border-strong);
+    }
+
+    /* —— Values —— */
+    .values-grid {
+      display: grid;
+      gap: 1rem;
+    }
+    @media (min-width: 720px) {
+      .values-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (min-width: 1000px) {
+      .values-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    .value-card {
+      padding: 1.5rem 1.4rem;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: transparent;
+      transition: background 0.25s var(--ease), border-color 0.25s var(--ease);
+    }
+    .value-card:hover {
+      background: var(--surface);
+      border-color: var(--border-strong);
+    }
+    .value-card h3 {
+      font-size: 1.15rem;
+      margin-bottom: 0.5rem;
+    }
+    .value-card p {
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+
+    /* —— CTA —— */
+    .cta {
+      padding: clamp(3.5rem, 8vw, 5.5rem) 0 clamp(4.5rem, 10vw, 6.5rem);
+    }
+    .cta-panel {
+      position: relative;
+      overflow: hidden;
+      border-radius: calc(var(--radius) + 6px);
+      border: 1px solid color-mix(in oklch, var(--accent) 30%, transparent);
+      background:
+        radial-gradient(ellipse 70% 80% at 90% 20%, var(--accent-soft), transparent 55%),
+        var(--surface);
+      padding: clamp(2rem, 5vw, 3.25rem);
+      display: grid;
+      gap: 1.75rem;
+    }
+    @media (min-width: 820px) {
+      .cta-panel {
+        grid-template-columns: 1.3fr auto;
+        align-items: end;
+      }
+    }
+    .cta-panel h2 {
+      font-size: clamp(1.85rem, 3.5vw, 2.6rem);
+      max-width: 16ch;
+      margin-bottom: 0.75rem;
+    }
+    .cta-panel p {
+      color: var(--muted);
+      max-width: 42ch;
+    }
+    .cta-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    /* —— Footer —— */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2.25rem 0 2.75rem;
+    }
+    .footer-inner {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.25rem 2rem;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .footer-copy {
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+    .footer-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem 1.35rem;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .footer-nav a {
+      font-size: 0.88rem;
+      color: var(--muted);
+      transition: color 0.2s var(--ease);
+    }
+    .footer-nav a:hover { color: var(--fg); }
+
+    /* —— Reveals —— */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+    }
+    .reveal.is-visible {
+      opacity: 1;
+      transform: none;
+    }
+    .reveal-delay-1 { transition-delay: 0.08s; }
+    .reveal-delay-2 { transition-delay: 0.16s; }
+    .reveal-delay-3 { transition-delay: 0.24s; }
+    .reveal-delay-4 { transition-delay: 0.32s; }
+    .reveal-delay-5 { transition-delay: 0.4s; }
+
+    /* mobile menu toggle */
+    .menu-btn {
+      display: none;
+      width: 44px;
+      height: 44px;
+      place-items: center;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+    }
+    @media (max-width: 720px) {
+      .menu-btn { display: grid; }
+      .nav-links.is-open {
+        display: flex;
+        position: absolute;
+        top: var(--nav-h);
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        padding: 0.75rem 1.25rem 1.25rem;
+        background: color-mix(in oklch, var(--bg-deep) 96%, transparent);
+        border-bottom: 1px solid var(--border);
+        backdrop-filter: blur(16px);
+      }
+      .nav-links.is-open a {
+        padding: 0.85rem 0.25rem;
+        border-bottom: 1px solid var(--border);
+      }
+      .nav-links.is-open .nav-cta-mobile {
+        display: inline-flex;
+        margin-top: 0.85rem;
+        width: 100%;
+      }
+    }
+    .nav-cta-mobile { display: none; }
+  </style>
+</head>
+<body>
+  <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+
+  <header class="nav" id="nav">
+    <div class="nav-inner">
+      <a class="logo" href="#topo" aria-label="Morgen, início">
+        <span class="logo-mark" aria-hidden="true">
+          <!-- Wordmark MORGEN (extraído do logo do projeto) -->
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="120 455 800 130" role="img" aria-label="Morgen">
+            <path fill="#f7f7f7" d="M232.77 558.75C232.49 552.56 232.31 538.61 232.38 527.75C232.45 516.89 232.19 508.12 231.8 508.25C231.42 508.39 222.52 516.77 212.01 526.87C201.51 536.98 192.78 545.08 192.62 544.87C192.46 544.67 181.35 531.9 167.92 516.49C136.32 480.24 127 469.34 127 468.6C127 468.27 131.88 468 137.85 468H148.71L169.78 492.32C181.37 505.69 191.55 517.21 192.39 517.91C193.69 518.99 197.92 515.43 221.02 493.84C235.93 479.9 248.55 468.35 249.07 468.17C249.64 467.96 250 487.71 250 518.92V570H233.29L232.77 558.75ZM127 504.54V570H144V521.46L135.5 513L127 504.54Z"/>
+            <path fill="#fcc92a" d="M320.27 572.63C301.86 567.93 286.72 553.68 280.59 535.26C277.45 525.85 277.02 511.7 279.6 502.93C282.35 493.55 288.06 483.92 294.73 477.4C305.7 466.67 318.1 461.65 333.5 461.71C349.04 461.76 361.57 467.44 372.92 479.57C400.29 508.84 388.73 557.01 351.02 570.8C342.95 573.75 328.12 574.63 320.27 572.63ZM347.47 551.64C355.08 548.16 361.42 541.92 365.25 534.15C368.23 528.1 368.5 526.75 368.5 518.02C368.5 509.62 368.16 507.76 365.6 502.22C361.84 494.07 353.34 486.02 345.28 482.99C337.33 479.99 325.94 480.5 317.8 484.23C306.83 489.26 297.95 501.52 296.42 513.76C294.23 531.33 307.02 549.51 324.73 553.97C330.8 555.51 341.41 554.42 347.47 551.64Z"/>
+            <path fill="#f7f7f7" d="M490.32 561.25C464.63 528.74 454 515.09 454 514.58C454 514.26 461.67 514 471.04 514C485.96 514 488.55 513.76 491.9 512.05C500.37 507.73 501.48 495.27 494 488.5C491.9 486.59 490 486.48 453.65 486H415.5L415.21 476.21L414.92 466.91L453.71 467.21C491.76 467.49 492.6 467.54 497.59 469.81C516.07 478.17 522.35 501.05 510.92 518.31C506.92 524.34 502.53 527.7 495.11 530.38L489.26 532.5L502.2 548.5C509.32 557.3 516.04 565.74 517.14 567.25L519.14 570H497.24L490.32 561.25Z"/>
+            <path fill="#f7f7f7" d="M582.75 568.92C571.36 566.23 556.24 554.35 550.98 543.95C539.82 521.89 543.57 496.96 560.41 481.25C563.8 478.09 569.18 474.23 572.36 472.68C582.66 467.67 588.42 467.04 623.75 467.02H656V485.91L620.25 486.2C585.18 486.49 584.42 486.54 580.21 488.79C556.15 501.64 556.5 536.77 580.8 548.7L586.5 551.5L638 552.12V528H598.92L599.5 510.5L627.75 510.23L656 509.97V570H621.25C602.14 569.84 584.81 569.4 582.75 568.92Z"/>
+            <path fill="#f7f7f7" d="M685.68 485.34C685.3 484.97 685 480.69 685 475.83V467H777.08L776.5 485.5L731.43 485.76C706.64 485.9 686.05 485.72 685.68 485.34ZM685 510H777V528H685V510ZM685 552H777V570H685V552Z"/>
+            <path fill="#f7f7f7" d="M858.92 531.44C832.38 510.23 809.6 492.04 808.3 491.02C806.03 489.24 805.94 488.7 806.22 478.08L806.5 466.99L829.57 485.25C842.26 495.29 861 510.14 871.22 518.25C881.44 526.36 890.07 533 890.4 533C890.73 533 891 518.15 891 500V467H908V518.5C908 546.83 907.82 570 907.59 570C907.37 570 885.47 552.65 858.92 531.44ZM806 542.88C806 521.34 806.26 515.95 807.25 516.71C807.94 517.23 811.42 519.83 815 522.49C818.58 525.15 821.9 527.67 822.39 528.1C822.88 528.53 823.47 538.13 823.7 549.44L824.12 570H806V542.88Z"/>
+          </svg>
+        </span>
+      </a>
+
+      <nav aria-label="Principal">
+        <ul class="nav-links" id="navLinks">
+          <li><a href="#problema">Problema</a></li>
+          <li><a href="#solucao">Solução</a></li>
+          <li><a href="#metodo">Método</a></li>
+          <li><a href="#valores">Valores</a></li>
+          <li class="nav-cta-mobile"><a class="btn btn-primary" href="#contato">Falar com a Morgen</a></li>
+        </ul>
+      </nav>
+
+      <div style="display:flex;align-items:center;gap:0.65rem;">
+        <a class="btn btn-primary nav-cta" href="#contato">Falar com a Morgen</a>
+        <button class="menu-btn" id="menuBtn" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="navLinks">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="topo">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-orb hero-orb-1" aria-hidden="true"></div>
+      <div class="hero-orb hero-orb-2" aria-hidden="true"></div>
+      <div class="wrap hero-grid">
+        <div>
+          <div class="kicker reveal">
+            <span class="kicker-dot" aria-hidden="true"></span>
+            Aquisição + automação
+          </div>
+          <h1 class="reveal reveal-delay-1">
+            Crescimento <span class="gold">organizado</span> para empresas de serviços
+          </h1>
+          <p class="hero-lead reveal reveal-delay-2">
+            Implementamos sistemas que captam clientes, organizam o atendimento e reduzem o trabalho manual da equipe, com método e previsibilidade.
+          </p>
+          <div class="hero-actions reveal reveal-delay-3">
+            <a class="btn btn-primary" href="#contato">
+              Quero organizar meu crescimento
+              <span class="btn-arrow" aria-hidden="true">→</span>
+            </a>
+            <a class="btn btn-ghost" href="#metodo">Ver o método M.O.R.G.E.N.</a>
+          </div>
+          <div class="hero-meta reveal reveal-delay-4">
+            <div>
+              <strong>B2B e serviços</strong>
+              <span>Comerciantes e empresas em crescimento</span>
+            </div>
+            <div>
+              <strong>Sistemas sob medida</strong>
+              <span>Sem complexidade desnecessária</span>
+            </div>
+            <div>
+              <strong>Tudo mensurável</strong>
+              <span>Se não mede, não melhora</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-panel reveal reveal-delay-2" id="methodPreview" aria-label="Prévia do método Morgen">
+          <div class="panel-head">
+            <span class="panel-label">Método M.O.R.G.E.N.</span>
+            <span class="panel-live"><i></i> Ao vivo</span>
+          </div>
+          <div class="method-mini" id="methodMini">
+            <div class="method-row is-active" data-i="0">
+              <span class="letter">M</span>
+              <span class="name">Mapear</span>
+              <span class="step">01</span>
+            </div>
+            <div class="method-row" data-i="1">
+              <span class="letter">O</span>
+              <span class="name">Organizar</span>
+              <span class="step">02</span>
+            </div>
+            <div class="method-row" data-i="2">
+              <span class="letter">R</span>
+              <span class="name">Relacionar</span>
+              <span class="step">03</span>
+            </div>
+            <div class="method-row" data-i="3">
+              <span class="letter">G</span>
+              <span class="name">Gerenciar</span>
+              <span class="step">04</span>
+            </div>
+            <div class="method-row" data-i="4">
+              <span class="letter">E</span>
+              <span class="name">Escalar</span>
+              <span class="step">05</span>
+            </div>
+            <div class="method-row" data-i="5">
+              <span class="letter">N</span>
+              <span class="name">Nutrir</span>
+              <span class="step">06</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROBLEM -->
+    <section class="section problem" id="problema">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <p class="eyebrow">O problema</p>
+          <h2>Onde o crescimento trava no dia a dia</h2>
+          <p>Empresas investem em anúncios sem estrutura para atender. Outras têm processos, mas não geram demanda. Os gargalos se repetem.</p>
+        </div>
+        <div class="problem-grid">
+          <article class="problem-card reveal">
+            <div class="idx">01</div>
+            <h3>Poucos clientes</h3>
+            <p>Demanda irregular e aquisição sem sistema, dependente de esforço pontual.</p>
+          </article>
+          <article class="problem-card reveal reveal-delay-1">
+            <div class="idx">02</div>
+            <h3>Atendimento lento</h3>
+            <p>Leads esfriam porque a resposta demora e o fluxo não está claro.</p>
+          </article>
+          <article class="problem-card reveal reveal-delay-2">
+            <div class="idx">03</div>
+            <h3>Falta de organização</h3>
+            <p>Informação espalhada, processos na cabeça das pessoas, zero previsibilidade.</p>
+          </article>
+          <article class="problem-card reveal">
+            <div class="idx">04</div>
+            <h3>Processos repetitivos</h3>
+            <p>A equipe gasta horas em tarefas manuais que já poderiam ser validadas e automatizadas.</p>
+          </article>
+          <article class="problem-card reveal reveal-delay-1">
+            <div class="idx">05</div>
+            <h3>Perda de oportunidades</h3>
+            <p>Contatos que entraram e sumiram. Ninguém sabe em qual etapa o negócio parou.</p>
+          </article>
+          <article class="problem-card reveal reveal-delay-2">
+            <div class="idx">06</div>
+            <h3>Excesso de trabalho manual</h3>
+            <p>Crescimento que exige mais pessoas, não mais sistema. Operação que não escala.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- VALUE -->
+    <section class="section" id="solucao">
+      <div class="wrap value-layout">
+        <div>
+          <div class="section-head reveal" style="margin-bottom: 1.5rem;">
+            <p class="eyebrow">Proposta de valor</p>
+            <h2>Sistemas que transformam processo em oportunidade</h2>
+            <p>A Morgen une marketing de aquisição com automação e inteligência artificial, sempre como meio, nunca como fim.</p>
+          </div>
+          <div class="value-list">
+            <div class="value-item reveal">
+              <span class="value-num">01</span>
+              <div>
+                <h3>Captar clientes com estrutura</h3>
+                <p>Estratégias de aquisição conectadas ao atendimento, para o lead não cair no vazio.</p>
+              </div>
+            </div>
+            <div class="value-item reveal reveal-delay-1">
+              <span class="value-num">02</span>
+              <div>
+                <h3>Automatizar o que já funciona</h3>
+                <p>Só automatizamos processos validados. Nunca automatizamos um problema.</p>
+              </div>
+            </div>
+            <div class="value-item reveal reveal-delay-2">
+              <span class="value-num">03</span>
+              <div>
+                <h3>Reduzir trabalho manual</h3>
+                <p>A equipe volta a focar no que gera resultado, com operação mais previsível.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <aside class="promise-box reveal reveal-delay-1">
+          <h3>Nossa promessa</h3>
+          <p>Toda solução precisa gerar pelo menos um destes resultados. Se não entregar nenhum, não deve ser implementada.</p>
+          <ul class="promise-list">
+            <li>
+              <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5l4 4 8-9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Aumentar aquisição de clientes
+            </li>
+            <li>
+              <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5l4 4 8-9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Reduzir trabalho manual
+            </li>
+            <li>
+              <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5l4 4 8-9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Melhorar organização
+            </li>
+            <li>
+              <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5l4 4 8-9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Economizar tempo
+            </li>
+            <li>
+              <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5l4 4 8-9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Aumentar previsibilidade da operação
+            </li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    <!-- METHOD -->
+    <section class="section method" id="metodo">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <p class="eyebrow">Como trabalhamos</p>
+          <h2>Método M.O.R.G.E.N.</h2>
+          <p>Seis etapas claras, da compreensão do negócio à melhoria contínua. Sem atalho fácil, com caminho correto.</p>
+        </div>
+        <div class="method-board">
+          <article class="method-card reveal" data-method>
+            <div class="big-letter">M</div>
+            <h3>Mapear</h3>
+            <p>Entendemos profundamente o negócio, os gargalos e as oportunidades reais.</p>
+            <span class="bar" aria-hidden="true"></span>
+          </article>
+          <article class="method-card reveal reveal-delay-1" data-method>
+            <div class="big-letter">O</div>
+            <h3>Organizar</h3>
+            <p>Estruturamos ativos digitais e processos para a operação parar de improvisar.</p>
+            <span class="bar" aria-hidden="true"></span>
+          </article>
+          <article class="method-card reveal reveal-delay-2" data-method>
+            <div class="big-letter">R</div>
+            <h3>Relacionar</h3>
+            <p>Criamos estratégias de aquisição de clientes conectadas ao restante do sistema.</p>
+            <span class="bar" aria-hidden="true"></span>
+          </article>
+          <article class="method-card reveal" data-method>
+            <div class="big-letter">G</div>
+            <h3>Gerenciar</h3>
+            <p>Implantamos automações e acompanhamos resultados com indicadores claros.</p>
+            <span class="bar" aria-hidden="true"></span>
+          </article>
+          <article class="method-card reveal reveal-delay-1" data-method>
+            <div class="big-letter">E</div>
+            <h3>Escalar</h3>
+            <p>Expandimos o que gera resultado e cortamos o que só consome energia.</p>
+            <span class="bar" aria-hidden="true"></span>
+          </article>
+          <article class="method-card reveal reveal-delay-2" data-method>
+            <div class="big-letter">N</div>
+            <h3>Nutrir</h3>
+            <p>Mantemos melhorias contínuas e relacionamento próximo com a operação.</p>
+            <span class="bar" aria-hidden="true"></span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- PHILOSOPHY -->
+    <section class="philosophy">
+      <div class="wrap">
+        <div class="philosophy-inner reveal">
+          <blockquote>
+            Não vendemos anúncios. Não vendemos automações. Não vendemos Inteligência Artificial.
+            <span> Vendemos crescimento organizado.</span>
+          </blockquote>
+          <div class="philosophy-aside">
+            <p>Tecnologia é um meio. Nunca um fim.</p>
+            <p>Nunca prometemos resultados impossíveis. Prometemos dedicação, método e melhoria contínua.</p>
+            <p>A integridade está acima do lucro. Nenhum contrato vale mais do que nossos princípios.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VALUES -->
+    <section class="section" id="valores" style="padding-top: 0;">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <p class="eyebrow">Cultura</p>
+          <h2>Valores que sustentam cada entrega</h2>
+          <p>Da constituição da Morgen: o que prometemos, cumprimos. Com disciplina, prudência e simplicidade.</p>
+        </div>
+        <div class="values-grid">
+          <article class="value-card reveal">
+            <h3>Comprometimento</h3>
+            <p>Cumprimos o que prometemos. Organização, responsabilidade e consistência em cada entrega.</p>
+          </article>
+          <article class="value-card reveal reveal-delay-1">
+            <h3>Disciplina</h3>
+            <p>Resultados são consequência de processos. Mantemos constância mesmo diante das dificuldades.</p>
+          </article>
+          <article class="value-card reveal reveal-delay-2">
+            <h3>Prudência</h3>
+            <p>Decisões responsáveis. Preferimos o caminho correto ao caminho mais fácil.</p>
+          </article>
+          <article class="value-card reveal">
+            <h3>Aprendizado contínuo</h3>
+            <p>A tecnologia evolui diariamente. Nossa obrigação é evoluir junto com ela.</p>
+          </article>
+          <article class="value-card reveal reveal-delay-1">
+            <h3>Simplicidade</h3>
+            <p>A melhor solução normalmente é a mais simples. Não criamos complexidade desnecessária.</p>
+          </article>
+          <article class="value-card reveal reveal-delay-2">
+            <h3>Tudo mensurável</h3>
+            <p>Se não conseguimos medir, não conseguimos melhorar. Princípio de operação, não slogan.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta" id="contato">
+      <div class="wrap">
+        <div class="cta-panel reveal">
+          <div>
+            <p class="eyebrow">Próximo passo</p>
+            <h2>Vamos mapear o que trava o seu crescimento</h2>
+            <p>Conversa direta para entender o negócio, os gargalos e se o método Morgen faz sentido para a sua operação.</p>
+          </div>
+          <div class="cta-actions">
+            <a class="btn btn-primary" href="mailto:contato@morgen.com.br?subject=Quero%20organizar%20meu%20crescimento">
+              Agendar conversa
+              <span class="btn-arrow" aria-hidden="true">→</span>
+            </a>
+            <a class="btn btn-ghost" href="#metodo">Rever o método</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap footer-inner">
+      <div>
+        <div class="logo" style="margin-bottom: 0.65rem;">
+          <span class="logo-mark" style="width: 96px;" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="120 455 800 130" role="img" aria-label="Morgen">
+              <path fill="#f7f7f7" d="M232.77 558.75C232.49 552.56 232.31 538.61 232.38 527.75C232.45 516.89 232.19 508.12 231.8 508.25C231.42 508.39 222.52 516.77 212.01 526.87C201.51 536.98 192.78 545.08 192.62 544.87C192.46 544.67 181.35 531.9 167.92 516.49C136.32 480.24 127 469.34 127 468.6C127 468.27 131.88 468 137.85 468H148.71L169.78 492.32C181.37 505.69 191.55 517.21 192.39 517.91C193.69 518.99 197.92 515.43 221.02 493.84C235.93 479.9 248.55 468.35 249.07 468.17C249.64 467.96 250 487.71 250 518.92V570H233.29L232.77 558.75ZM127 504.54V570H144V521.46L135.5 513L127 504.54Z"/>
+              <path fill="#fcc92a" d="M320.27 572.63C301.86 567.93 286.72 553.68 280.59 535.26C277.45 525.85 277.02 511.7 279.6 502.93C282.35 493.55 288.06 483.92 294.73 477.4C305.7 466.67 318.1 461.65 333.5 461.71C349.04 461.76 361.57 467.44 372.92 479.57C400.29 508.84 388.73 557.01 351.02 570.8C342.95 573.75 328.12 574.63 320.27 572.63ZM347.47 551.64C355.08 548.16 361.42 541.92 365.25 534.15C368.23 528.1 368.5 526.75 368.5 518.02C368.5 509.62 368.16 507.76 365.6 502.22C361.84 494.07 353.34 486.02 345.28 482.99C337.33 479.99 325.94 480.5 317.8 484.23C306.83 489.26 297.95 501.52 296.42 513.76C294.23 531.33 307.02 549.51 324.73 553.97C330.8 555.51 341.41 554.42 347.47 551.64Z"/>
+              <path fill="#f7f7f7" d="M490.32 561.25C464.63 528.74 454 515.09 454 514.58C454 514.26 461.67 514 471.04 514C485.96 514 488.55 513.76 491.9 512.05C500.37 507.73 501.48 495.27 494 488.5C491.9 486.59 490 486.48 453.65 486H415.5L415.21 476.21L414.92 466.91L453.71 467.21C491.76 467.49 492.6 467.54 497.59 469.81C516.07 478.17 522.35 501.05 510.92 518.31C506.92 524.34 502.53 527.7 495.11 530.38L489.26 532.5L502.2 548.5C509.32 557.3 516.04 565.74 517.14 567.25L519.14 570H497.24L490.32 561.25Z"/>
+              <path fill="#f7f7f7" d="M582.75 568.92C571.36 566.23 556.24 554.35 550.98 543.95C539.82 521.89 543.57 496.96 560.41 481.25C563.8 478.09 569.18 474.23 572.36 472.68C582.66 467.67 588.42 467.04 623.75 467.02H656V485.91L620.25 486.2C585.18 486.49 584.42 486.54 580.21 488.79C556.15 501.64 556.5 536.77 580.8 548.7L586.5 551.5L638 552.12V528H598.92L599.5 510.5L627.75 510.23L656 509.97V570H621.25C602.14 569.84 584.81 569.4 582.75 568.92Z"/>
+              <path fill="#f7f7f7" d="M685.68 485.34C685.3 484.97 685 480.69 685 475.83V467H777.08L776.5 485.5L731.43 485.76C706.64 485.9 686.05 485.72 685.68 485.34ZM685 510H777V528H685V510ZM685 552H777V570H685V552Z"/>
+              <path fill="#f7f7f7" d="M858.92 531.44C832.38 510.23 809.6 492.04 808.3 491.02C806.03 489.24 805.94 488.7 806.22 478.08L806.5 466.99L829.57 485.25C842.26 495.29 861 510.14 871.22 518.25C881.44 526.36 890.07 533 890.4 533C890.73 533 891 518.15 891 500V467H908V518.5C908 546.83 907.82 570 907.59 570C907.37 570 885.47 552.65 858.92 531.44ZM806 542.88C806 521.34 806.26 515.95 807.25 516.71C807.94 517.23 811.42 519.83 815 522.49C818.58 525.15 821.9 527.67 822.39 528.1C822.88 528.53 823.47 538.13 823.7 549.44L824.12 570H806V542.88Z"/>
+            </svg>
+          </span>
+        </div>
+        <p class="footer-copy">© <span id="year"></span> Morgen. Crescimento organizado.</p>
+      </div>
+      <ul class="footer-nav">
+        <li><a href="#problema">Problema</a></li>
+        <li><a href="#solucao">Solução</a></li>
+        <li><a href="#metodo">Método</a></li>
+        <li><a href="#valores">Valores</a></li>
+        <li><a href="#contato">Contato</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      document.getElementById("year").textContent = String(new Date().getFullYear());
+
+      // Nav scroll state + progress
+      const nav = document.getElementById("nav");
+      const progress = document.getElementById("scrollProgress");
+      function onScroll() {
+        const y = window.scrollY || 0;
+        nav.classList.toggle("is-scrolled", y > 8);
+        const doc = document.documentElement;
+        const max = doc.scrollHeight - window.innerHeight;
+        const p = max > 0 ? (y / max) * 100 : 0;
+        progress.style.width = p.toFixed(2) + "%";
+      }
+      window.addEventListener("scroll", onScroll, { passive: true });
+      onScroll();
+
+      // Mobile menu
+      const menuBtn = document.getElementById("menuBtn");
+      const navLinks = document.getElementById("navLinks");
+      menuBtn.addEventListener("click", () => {
+        const open = navLinks.classList.toggle("is-open");
+        menuBtn.setAttribute("aria-expanded", open ? "true" : "false");
+      });
+      navLinks.querySelectorAll("a").forEach((a) => {
+        a.addEventListener("click", () => {
+          navLinks.classList.remove("is-open");
+          menuBtn.setAttribute("aria-expanded", "false");
+        });
+      });
+
+      // Reveal on scroll
+      const reveals = document.querySelectorAll(".reveal");
+      if (reduce) {
+        reveals.forEach((el) => el.classList.add("is-visible"));
+      } else if ("IntersectionObserver" in window) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("is-visible");
+                io.unobserve(entry.target);
+              }
+            });
+          },
+          { rootMargin: "0px 0px -8% 0px", threshold: 0.12 }
+        );
+        reveals.forEach((el) => io.observe(el));
+      } else {
+        reveals.forEach((el) => el.classList.add("is-visible"));
+      }
+
+      // Method cards bar fill
+      const methodCards = document.querySelectorAll("[data-method]");
+      if (!reduce && "IntersectionObserver" in window) {
+        const mio = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("is-inview");
+                mio.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.35 }
+        );
+        methodCards.forEach((el) => mio.observe(el));
+      } else {
+        methodCards.forEach((el) => el.classList.add("is-inview"));
+      }
+
+      // Hero method cycle
+      const rows = Array.from(document.querySelectorAll("#methodMini .method-row"));
+      let idx = 0;
+      function setActive(i) {
+        rows.forEach((row, n) => row.classList.toggle("is-active", n === i));
+      }
+      if (!reduce && rows.length) {
+        setInterval(() => {
+          idx = (idx + 1) % rows.length;
+          setActive(idx);
+        }, 1600);
+      }
+      rows.forEach((row) => {
+        row.addEventListener("mouseenter", () => {
+          idx = Number(row.dataset.i) || 0;
+          setActive(idx);
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
