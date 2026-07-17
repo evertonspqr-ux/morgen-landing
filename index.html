@@ -287,39 +287,34 @@
       left: 0;
       color: var(--accent-hex);
     }
+    /* canais: só ícones, empilhados, sem chrome */
     .contact-channels {
       list-style: none;
-      margin: 0 0 1.25rem;
+      margin: 1.5rem 0 1.1rem;
       padding: 0;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      gap: 0.15rem;
+      gap: 0.85rem;
     }
-    .contact-channels li { margin: 0; padding: 0; }
+    .contact-channels li { margin: 0; padding: 0; line-height: 0; }
     .contact-channels a {
       display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 2.75rem;
-      height: 2.75rem;
-      border-radius: 999px;
-      color: var(--muted);
-      border: 1px solid transparent;
-      transition: color 150ms ease, border-color 150ms ease, background 150ms ease;
+      color: color-mix(in oklch, var(--fg) 42%, var(--muted));
+      opacity: 0.9;
+      transition: color 140ms ease, opacity 140ms ease;
     }
     .contact-channels a.channel-wa {
-      color: var(--accent-hex);
+      color: color-mix(in oklch, var(--accent) 72%, var(--fg));
+      opacity: 1;
     }
     @media (hover: hover) and (pointer: fine) {
       .contact-channels a:hover {
         color: var(--fg);
-        border-color: var(--line);
-        background: color-mix(in oklch, var(--surface) 60%, transparent);
+        opacity: 1;
       }
       .contact-channels a.channel-wa:hover {
         color: var(--accent-hex);
-        border-color: color-mix(in oklch, var(--accent) 40%, var(--line));
       }
     }
     .contact-channels .ch-icon {
@@ -328,8 +323,8 @@
       line-height: 0;
     }
     .contact-channels .ch-icon svg {
-      width: 1.3rem;
-      height: 1.3rem;
+      width: 1.2rem;
+      height: 1.2rem;
       display: block;
     }
 
