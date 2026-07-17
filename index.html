@@ -598,43 +598,74 @@
       max-width: 34ch;
     }
 
-    /* stack: ferramentas (não “trusted by clientes”) */
+    /* stack: faixa de logos em marquee */
     .stack-intro {
-      margin: -0.35rem 0 1.35rem;
+      margin: -0.35rem 0 1.5rem;
       max-width: 40ch;
       color: var(--muted);
       font-size: 0.98rem;
       text-wrap: pretty;
     }
-    .stack {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      max-width: 48rem;
+    .marquee {
+      position: relative;
+      overflow: hidden;
+      margin-inline: calc(50% - 50vw);
+      width: 100vw;
+      padding: 1.15rem 0;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      background: color-mix(in oklch, var(--surface) 55%, transparent);
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+      mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
     }
-    .stack li {
+    .marquee-track {
+      display: flex;
+      width: max-content;
+      gap: 0;
+      animation: marquee-x 38s linear infinite;
+    }
+    .marquee-group {
+      display: flex;
+      align-items: center;
+      gap: 2.75rem;
+      padding-inline: 1.4rem;
+    }
+    .marquee-item {
       display: inline-flex;
       align-items: center;
-      min-height: 2.45rem;
-      padding: 0.35rem 0.85rem;
-      border-radius: 999px;
-      border: 1px solid var(--line);
-      background: var(--surface-hex);
-      font-family: "IBM Plex Mono", ui-monospace, monospace;
-      font-size: 0.78rem;
-      font-weight: 500;
-      letter-spacing: 0.02em;
-      color: color-mix(in oklch, var(--fg) 88%, var(--muted));
-      transition: border-color 160ms ease, color 160ms ease;
+      justify-content: center;
+      gap: 0.55rem;
+      height: 2.5rem;
+      flex-shrink: 0;
+      opacity: 0.72;
+      transition: opacity 160ms ease;
+      filter: grayscale(1) brightness(1.35);
     }
     @media (hover: hover) and (pointer: fine) {
-      .stack li:hover {
-        border-color: color-mix(in oklch, var(--accent) 35%, var(--line));
-        color: var(--fg);
-      }
+      .marquee-item:hover { opacity: 1; }
+    }
+    .marquee-item img {
+      height: 1.55rem;
+      width: auto;
+      max-width: 7.5rem;
+      object-fit: contain;
+    }
+    .marquee-item .word {
+      font-family: "IBM Plex Mono", ui-monospace, monospace;
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: #c8c8d8;
+      white-space: nowrap;
+    }
+    @keyframes marquee-x {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .marquee-track { animation: none; flex-wrap: wrap; width: auto; justify-content: center; }
+      .marquee { margin-inline: 0; width: auto; -webkit-mask-image: none; mask-image: none; }
+      .marquee-group:last-child { display: none; }
     }
     /* título do método: não quebrar nos pontos do acrônimo */
     #metodo h2 {
@@ -889,6 +920,26 @@
       <p class="method-note reveal-item">
         Seis etapas para sair do improviso e construir crescimento que a operação aguenta.
       </p>
+    </section>
+
+    <section class="section wrap" id="stack">
+      <h2 class="reveal-item">Com o que operamos</h2>
+      <p class="stack-intro reveal-item">
+        Ferramentas de automação, IA e infraestrutura no fluxo de entrega.
+        O sistema é da sua operação; a stack é o meio.
+      </p>
+      <ul class="stack" aria-label="Ferramentas">
+        <li class="reveal-item">Claude Code</li>
+        <li class="reveal-item">Codex</li>
+        <li class="reveal-item">OpenClaw</li>
+        <li class="reveal-item">Hermes</li>
+        <li class="reveal-item">n8n</li>
+        <li class="reveal-item">Python</li>
+        <li class="reveal-item">Vercel</li>
+        <li class="reveal-item">GitHub</li>
+        <li class="reveal-item">Hostinger</li>
+        <li class="reveal-item">Hostingator</li>
+      </ul>
     </section>
 
     <section class="end" id="contato">

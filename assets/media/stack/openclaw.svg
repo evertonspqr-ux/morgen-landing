@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 108 28" role="img" aria-label="OpenClaw">
+  <title>OpenClaw</title>
+  <circle cx="10" cy="14" r="7" stroke="#c8c8d8" stroke-width="1.5" fill="none"/>
+  <path d="M10 9v5l3.5 2" stroke="#c8c8d8" stroke-width="1.5" stroke-linecap="round"/>
+  <text x="24" y="19" fill="#c8c8d8" font-family="IBM Plex Mono, ui-monospace, monospace" font-size="13" font-weight="600">OpenClaw</text>
+</svg>

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 88 28" role="img" aria-label="Codex">
+  <title>Codex</title>
+  <rect x="1" y="6" width="16" height="16" rx="3" stroke="#c8c8d8" stroke-width="1.5" fill="none"/>
+  <path d="M6 14h6M9 11v6" stroke="#c8c8d8" stroke-width="1.5" stroke-linecap="round"/>
+  <text x="24" y="19" fill="#c8c8d8" font-family="IBM Plex Mono, ui-monospace, monospace" font-size="13" font-weight="600">Codex</text>
+</svg>
