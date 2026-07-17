@@ -40,9 +40,9 @@
   </script>
   <style>
     /*
-      Morgen · amplitude visual v2 · build 2026-07-17
-      Dials: variance 6–7 · motion 6 · density 3–4
-      Você deve notar: barra ouro no topo + H1 maior + método em linha + steps com números grandes
+      Morgen · mobile-first + tcham
+      Base = mobile; desktop em min-width
+      Dials: variance 6 · motion 5 · density 3
     */
     :root {
       --bg: oklch(13% 0.05 275);
@@ -56,10 +56,21 @@
       --accent-hex: #fcc92a;
       --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
       --ease-press: cubic-bezier(0.32, 0.72, 0, 1);
-      --pad: clamp(1.25rem, 4.5vw, 2.25rem);
+      /* mobile base */
+      --pad: 1.15rem;
       --max: 1120px;
-      --r: 14px;
-      --nav-h: 68px;
+      --r: 12px;
+      --nav-h: 60px;
+      --section-y: 3.25rem;
+      --sticky-h: 4.75rem;
+    }
+    @media (min-width: 768px) {
+      :root {
+        --pad: clamp(1.5rem, 4vw, 2.25rem);
+        --nav-h: 68px;
+        --r: 14px;
+        --section-y: clamp(4.5rem, 10vw, 7rem);
+      }
     }
 
     /* prova visual de JS novo: barra de scroll ouro */
