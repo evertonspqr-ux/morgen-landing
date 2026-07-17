@@ -252,7 +252,12 @@
     .hero-copy {
       position: relative;
       z-index: 1;
-      max-width: 38rem;
+      /* colado na esquerda (só respiro do --pad) */
+      width: min(38rem, calc(100% - var(--pad) * 2));
+      margin: 0;
+      margin-left: var(--pad);
+      margin-right: auto;
+      text-align: left;
     }
     .kicker {
       margin: 0 0 1.25rem;
@@ -821,13 +826,12 @@
           id="hero-video"
           src="assets/media/bg-test.mp4"
           muted
-          loop
           playsinline
           autoplay
           preload="auto"
         ></video>
       </div>
-      <div class="wrap-wide hero-copy">
+      <div class="hero-copy">
         <p class="kicker reveal">Aquisição + automação</p>
         <h1 class="reveal">Crescimento <em>organizado</em> para empresas de serviços</h1>
         <p class="lede reveal">
@@ -1112,20 +1116,49 @@
   <script>
     document.getElementById("y").textContent = new Date().getFullYear();
 
-    /* hero video: mudo + autoplay */
+    /* hero video: mudo + começa no 1s + loop a partir daí */
     (function initHeroVideo() {
       const v = document.getElementById("hero-video");
       if (!v) return;
+      const START = 1;
       v.muted = true;
       v.defaultMuted = true;
       v.volume = 0;
       v.setAttribute("muted", "");
       v.setAttribute("playsinline", "");
+      v.loop = false;
+
       const tryPlay = () => v.play().catch(() => {});
-      tryPlay();
+
+      const jumpStart = () => {
+        if (v.currentTime < START) v.currentTime = START;
+      };
+
+      v.addEventListener("loadedmetadata", () => {
+        v.currentTime = START;
+        tryPlay();
+      });
+      v.addEventListener("seeked", tryPlay);
+      /* se o browser voltar pro 0 no loop nativo / seek */
+      v.addEventListener("timeupdate", () => {
+        if (v.currentTime > 0 && v.currentTime < START - 0.05) {
+          v.currentTime = START;
+        }
+      });
+      v.addEventListener("ended", () => {
+        v.currentTime = START;
+        tryPlay();
+      });
+
+      if (v.readyState >= 1) {
+        v.currentTime = START;
+        tryPlay();
+      }
+
       document.addEventListener("visibilitychange", () => {
         if (!document.hidden) tryPlay();
       });
+
       if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
         v.pause();
         v.removeAttribute("autoplay");
