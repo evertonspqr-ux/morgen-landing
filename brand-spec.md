@@ -30,7 +30,7 @@ Promessa de marca: **crescimento organizado** (não vende anúncios, automaçõe
 | Canal | Valor |
 |-------|--------|
 | E-mail | `morgenagency@gmail.com` |
-| WhatsApp | `+55 21 97136-2006` → `https://wa.me/5521971362006` |
+| WhatsApp | `+55 21 97062-0150` → `https://wa.me/5521970620150` |
 | Instagram | `https://instagram.com/morgenagencia/` |
 
 ## Postura de layout
