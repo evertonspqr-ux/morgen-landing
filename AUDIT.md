@@ -107,8 +107,11 @@ N/A (single page).
 1. [x] Merge `feat/media-mockup` → `main`  
 2. [x] OG image `assets/media/og.jpg` + meta tags  
 3. [x] Removido `bg-test.mp4` / `case-loop` (peso)  
-4. [ ] Prova social real quando houver cases  
-5. [ ] Domínio custom (se houver)  
+4. [x] Bloco honestidade (marca nova, sem cases)  
+5. [x] Favicon + apple-touch + robots.txt + sitemap + JSON-LD  
+6. [ ] Prova social real quando houver o 1º case  
+7. [ ] Domínio custom (se houver)  
 
 **Pages:** https://evertonspqr-ux.github.io/morgen-landing/  
+
 
