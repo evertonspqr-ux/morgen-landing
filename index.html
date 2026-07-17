@@ -635,20 +635,26 @@
       align-items: center;
       justify-content: center;
       gap: 0.55rem;
-      height: 2.5rem;
+      height: 2.75rem;
       flex-shrink: 0;
-      opacity: 0.72;
-      transition: opacity 160ms ease;
-      filter: grayscale(1) brightness(1.35);
+      opacity: 0.88;
+      transition: opacity 160ms ease, filter 160ms ease;
+      filter: grayscale(0.25) brightness(1.05);
     }
     @media (hover: hover) and (pointer: fine) {
-      .marquee-item:hover { opacity: 1; }
+      .marquee-item:hover {
+        opacity: 1;
+        filter: grayscale(0) brightness(1.08);
+      }
     }
     .marquee-item img {
-      height: 1.55rem;
+      height: 1.7rem;
       width: auto;
       max-width: 7.5rem;
       object-fit: contain;
+    }
+    .marquee-item img.logo-tall {
+      height: 2.15rem;
     }
     .marquee-item .word {
       font-family: "IBM Plex Mono", ui-monospace, monospace;
@@ -949,7 +955,7 @@
           </div>
           <div class="marquee-group" aria-hidden="true">
             <span class="marquee-item"><img src="assets/media/stack/claude.svg" alt="" height="24" /><span class="word">Claude Code</span></span>
-            <span class="marquee-item"><img src="assets/media/stack/codex.svg" alt="" height="24" /></span>
+            <span class="marquee-item"><img src="assets/media/stack/codex.svg" alt="" height="24" width="24" /><span class="word">Codex</span></span>
             <span class="marquee-item"><img src="assets/media/stack/openclaw.svg" alt="" height="24" /></span>
             <span class="marquee-item"><img src="assets/media/stack/hermes.svg" alt="" height="24" /></span>
             <span class="marquee-item"><img src="assets/media/stack/n8n.svg" alt="" height="24" /></span>
