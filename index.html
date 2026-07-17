@@ -404,13 +404,22 @@
       0%, 100% { box-shadow: 0 0 0 0 var(--accent-glow); }
       50% { box-shadow: 0 0 0 8px transparent; }
     }
-    .hero h1 {
-      font-size: clamp(2.45rem, 6vw, 4.4rem);
+    .hero h1,
+    .hero h1.hero-display {
+      font-size: clamp(2.75rem, 7.2vw, 5.25rem);
       font-weight: 800;
-      max-width: 14ch;
-      margin-bottom: 1.35rem;
+      max-width: none;
+      margin-bottom: 1.5rem;
+      line-height: 0.95;
+      letter-spacing: -0.045em;
     }
-    .hero h1 .gold { color: var(--accent-hex); }
+    .hero h1.hero-display .line {
+      display: block;
+    }
+    .hero h1 .gold,
+    .hero h1.hero-display .line.gold {
+      color: var(--accent-hex);
+    }
     .hero-lead {
       font-size: clamp(1.05rem, 1.6vw, 1.2rem);
       color: var(--muted);
@@ -1083,8 +1092,12 @@
             <span class="kicker-dot" aria-hidden="true"></span>
             Aquisição + automação
           </div>
-          <h1 id="hero-title" class="reveal reveal-delay-1">
-            Crescimento <span class="gold">organizado</span> para empresas de serviços
+          <h1 id="hero-title" class="reveal reveal-delay-1 hero-display">
+            <span class="line">Crescimento</span>
+            <span class="line gold">organizado</span>
+            <span class="line">para</span>
+            <span class="line">empresas</span>
+            <span class="line">de serviços</span>
           </h1>
           <p class="hero-lead reveal reveal-delay-2">
             Implementamos sistemas que captam clientes, organizam o atendimento e reduzem o trabalho manual da equipe, com método e previsibilidade.
