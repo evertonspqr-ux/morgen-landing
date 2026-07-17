@@ -83,6 +83,12 @@ Stagger de entrada na Etapa 5. Sem diagrama placeholder obrigatório (density 2)
 
 ---
 
+### 4b. Honestidade (`#agora`) — marca nova
+| Elemento | Conteúdo |
+|----------|----------|
+| H2 | `Ainda não é portfólio. É operação.` |
+| Texto | Morgen é nova; sem cases inventados; 1º passo = mapeamento; princípios |
+
 ### 5. CTA final (`#contato`) — conversão
 | Elemento | Conteúdo |
 |----------|----------|
