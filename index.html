@@ -145,7 +145,13 @@
     .hero-copy {
       position: relative;
       z-index: 1;
-      max-width: 34rem;
+      /* colado à esquerda: só o pad da página */
+      width: min(34rem, calc(100% - var(--pad) * 2));
+      max-width: none;
+      margin: 0;
+      margin-left: var(--pad);
+      margin-right: auto;
+      text-align: left;
     }
 
     /* 1 eyebrow na página (hero only) */
@@ -388,7 +394,7 @@
           preload="metadata"
         ></video>
       </div>
-      <div class="wrap hero-copy">
+      <div class="hero-copy">
         <p class="kicker reveal">Aquisição + automação</p>
         <h1 class="reveal">
           <span class="line">Crescimento <em>organizado</em></span>
