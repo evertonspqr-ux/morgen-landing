@@ -662,6 +662,9 @@
       from { transform: translateX(0); }
       to { transform: translateX(-50%); }
     }
+    @media (hover: hover) and (pointer: fine) {
+      .marquee:hover .marquee-track { animation-play-state: paused; }
+    }
     @media (prefers-reduced-motion: reduce) {
       .marquee-track { animation: none; flex-wrap: wrap; width: auto; justify-content: center; }
       .marquee { margin-inline: 0; width: auto; -webkit-mask-image: none; mask-image: none; }
@@ -922,24 +925,42 @@
       </p>
     </section>
 
-    <section class="section wrap" id="stack">
-      <h2 class="reveal-item">Com o que operamos</h2>
-      <p class="stack-intro reveal-item">
-        Ferramentas de automação, IA e infraestrutura no fluxo de entrega.
-        O sistema é da sua operação; a stack é o meio.
-      </p>
-      <ul class="stack" aria-label="Ferramentas">
-        <li class="reveal-item">Claude Code</li>
-        <li class="reveal-item">Codex</li>
-        <li class="reveal-item">OpenClaw</li>
-        <li class="reveal-item">Hermes</li>
-        <li class="reveal-item">n8n</li>
-        <li class="reveal-item">Python</li>
-        <li class="reveal-item">Vercel</li>
-        <li class="reveal-item">GitHub</li>
-        <li class="reveal-item">Hostinger</li>
-        <li class="reveal-item">Hostingator</li>
-      </ul>
+    <section class="section" id="stack">
+      <div class="wrap">
+        <h2 class="reveal-item">Com o que operamos</h2>
+        <p class="stack-intro reveal-item">
+          Ferramentas de automação, IA e infraestrutura no fluxo de entrega.
+          O sistema é da sua operação; a stack é o meio.
+        </p>
+      </div>
+      <div class="marquee reveal-item" aria-label="Ferramentas que usamos">
+        <div class="marquee-track">
+          <div class="marquee-group">
+            <span class="marquee-item"><img src="assets/media/stack/claude.svg" alt="" height="24" /><span class="word">Claude Code</span></span>
+            <span class="marquee-item"><img src="assets/media/stack/codex.svg" alt="Codex" height="24" /></span>
+            <span class="marquee-item"><img src="assets/media/stack/openclaw.svg" alt="OpenClaw" height="24" /></span>
+            <span class="marquee-item"><img src="assets/media/stack/hermes.svg" alt="Hermes" height="24" /></span>
+            <span class="marquee-item"><img src="assets/media/stack/n8n.svg" alt="n8n" height="24" /></span>
+            <span class="marquee-item"><img src="assets/media/stack/python.svg" alt="Python" height="24" /></span>
+            <span class="marquee-item"><img src="assets/media/stack/vercel.svg" alt="Vercel" height="24" /></span>
+            <span class="marquee-item"><img src="assets/media/stack/github.svg" alt="GitHub" height="24" /></span>
+            <span class="marquee-item"><img src="assets/media/stack/hostinger.svg" alt="Hostinger" height="24" /></span>
+            <span class="marquee-item"><img src="assets/media/stack/hostingator.svg" alt="Hostingator" height="24" /></span>
+          </div>
+          <div class="marquee-group" aria-hidden="true">
+            <span class="marquee-item"><img src="assets/media/stack/claude.svg" alt="" height="24" /><span class="word">Claude Code</span></span>
+            <span class="marquee-item"><img src="assets/media/stack/codex.svg" alt="" height="24" /></span>
+            <span class="marquee-item"><img src="assets/media/stack/openclaw.svg" alt="" height="24" /></span>
+            <span class="marquee-item"><img src="assets/media/stack/hermes.svg" alt="" height="24" /></span>
+            <span class="marquee-item"><img src="assets/media/stack/n8n.svg" alt="" height="24" /></span>
+            <span class="marquee-item"><img src="assets/media/stack/python.svg" alt="" height="24" /></span>
+            <span class="marquee-item"><img src="assets/media/stack/vercel.svg" alt="" height="24" /></span>
+            <span class="marquee-item"><img src="assets/media/stack/github.svg" alt="" height="24" /></span>
+            <span class="marquee-item"><img src="assets/media/stack/hostinger.svg" alt="" height="24" /></span>
+            <span class="marquee-item"><img src="assets/media/stack/hostingator.svg" alt="" height="24" /></span>
+          </div>
+        </div>
+      </div>
     </section>
 
     <section class="end" id="contato">
