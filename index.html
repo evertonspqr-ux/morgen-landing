@@ -264,13 +264,13 @@
     }
     .cta-note strong { color: var(--fg); font-weight: 500; }
 
-    /* end CTA — leve */
+    /* end CTA */
     .end-panel {
-      max-width: 32rem;
+      max-width: 28rem;
     }
     .end-list {
       list-style: none;
-      margin: 0 0 1.5rem;
+      margin: 0 0 1.65rem;
       padding: 0;
       display: grid;
       gap: 0.4rem;
@@ -287,45 +287,74 @@
       left: 0;
       color: var(--accent-hex);
     }
-    /* canais: só ícones, empilhados, sem chrome */
+    /* canais empilhados: ícone + nome, limpo com presença */
     .contact-channels {
       list-style: none;
-      margin: 1.5rem 0 1.1rem;
+      margin: 0 0 1.15rem;
       padding: 0;
       display: flex;
       flex-direction: column;
-      align-items: flex-start;
-      gap: 0.85rem;
+      gap: 0.55rem;
+      max-width: 16.5rem;
     }
-    .contact-channels li { margin: 0; padding: 0; line-height: 0; }
+    .contact-channels li { margin: 0; padding: 0; }
     .contact-channels a {
-      display: inline-flex;
-      color: color-mix(in oklch, var(--fg) 42%, var(--muted));
-      opacity: 0.9;
-      transition: color 140ms ease, opacity 140ms ease;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      width: 100%;
+      min-height: 3.15rem;
+      padding: 0.7rem 0.95rem;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: color-mix(in oklch, var(--surface) 70%, transparent);
+      color: var(--fg);
+      transition:
+        border-color 160ms ease,
+        background 160ms ease,
+        transform 160ms var(--ease-out);
     }
     .contact-channels a.channel-wa {
-      color: color-mix(in oklch, var(--accent) 72%, var(--fg));
-      opacity: 1;
+      border-color: color-mix(in oklch, var(--accent) 38%, var(--line));
+      background: color-mix(in oklch, var(--accent) 8%, var(--surface-hex));
     }
     @media (hover: hover) and (pointer: fine) {
       .contact-channels a:hover {
-        color: var(--fg);
-        opacity: 1;
+        border-color: color-mix(in oklch, var(--fg) 22%, var(--line));
+        background: color-mix(in oklch, var(--surface) 95%, var(--fg));
+        transform: translateY(-1px);
       }
       .contact-channels a.channel-wa:hover {
-        color: var(--accent-hex);
+        border-color: color-mix(in oklch, var(--accent) 55%, var(--line));
+        background: color-mix(in oklch, var(--accent) 14%, var(--surface-hex));
       }
     }
     .contact-channels .ch-icon {
-      display: block;
-      color: inherit;
+      display: grid;
+      place-items: center;
+      width: 1.65rem;
+      height: 1.65rem;
+      flex-shrink: 0;
+      color: var(--muted);
       line-height: 0;
+    }
+    .contact-channels a.channel-wa .ch-icon {
+      color: var(--accent-hex);
     }
     .contact-channels .ch-icon svg {
       width: 1.2rem;
       height: 1.2rem;
       display: block;
+    }
+    .contact-channels .ch-label {
+      font-family: "Syne", system-ui, sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      letter-spacing: -0.02em;
+      color: var(--fg);
+    }
+    .contact-channels a.channel-wa .ch-label {
+      color: var(--accent-hex);
     }
 
     footer .ig-handle {
@@ -1098,7 +1127,7 @@
                 aria-label="E-mail"
               >
                 <span class="ch-icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" focusable="false"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg>
                 </span>
               </a>
             </li>
@@ -1111,7 +1140,7 @@
                 aria-label="Instagram"
               >
                 <span class="ch-icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" focusable="false"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
                 </span>
               </a>
             </li>
