@@ -102,9 +102,13 @@ N/A (single page).
 
 ---
 
-## Próximos opcionais (fora do pipeline mínimo)
+## Pós-pipeline (deploy)
 
-1. Merge `feat/media-mockup` → `main` + Pages  
-2. OG image real (`og.png`)  
-3. Remover `assets/media/bg-test.mp4` se não for mais necessário  
-4. Prova social real quando houver cases  
+1. [x] Merge `feat/media-mockup` → `main`  
+2. [x] OG image `assets/media/og.jpg` + meta tags  
+3. [x] Removido `bg-test.mp4` / `case-loop` (peso)  
+4. [ ] Prova social real quando houver cases  
+5. [ ] Domínio custom (se houver)  
+
+**Pages:** https://evertonspqr-ux.github.io/morgen-landing/  
+

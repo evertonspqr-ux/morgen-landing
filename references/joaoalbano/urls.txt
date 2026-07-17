@@ -1,0 +1,5 @@
+https://joaoalbano.com/favicon.ico
+https://joaoalbano.com/favicon.png
+https://joaoalbano.com/manifest.json
+https://joaoalbano.com/static/css/main.177a3df1.css
+https://joaoalbano.com/static/js/main.d5b56c9d.js
