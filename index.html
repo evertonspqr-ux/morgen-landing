@@ -47,6 +47,36 @@
       color: var(--fg);
       background: var(--bg-hex);
       -webkit-font-smoothing: antialiased;
+      position: relative;
+    }
+
+    /* —— video de fundo (teste, mudo) —— */
+    .bg-video {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+    .bg-video video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      max-width: none;
+      opacity: 0.38;
+      filter: saturate(0.85) brightness(0.55);
+    }
+    .bg-video::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, color-mix(in oklch, var(--bg) 55%, transparent) 0%, var(--bg-hex) 92%),
+        color-mix(in oklch, var(--bg) 35%, transparent);
+    }
+    .page {
+      position: relative;
+      z-index: 1;
     }
     a { color: inherit; text-decoration: none; }
     img, video { display: block; max-width: 100%; }
@@ -763,6 +793,7 @@
       .btn { transition: none !important; }
       .hero::after, .marquee { animation: none !important; }
       .tilt { transform: none !important; }
+      .bg-video { display: none; }
     }
     @media (scripting: none) {
       .reveal, .method span {
@@ -774,9 +805,22 @@
   </style>
 </head>
 <body>
+  <div class="bg-video" aria-hidden="true">
+    <video
+      id="bg-video"
+      src="assets/media/bg-test.mp4"
+      muted
+      loop
+      playsinline
+      autoplay
+      preload="auto"
+    ></video>
+  </div>
+
+  <div class="page">
   <div class="mock-banner">
-    Branch <strong>feat/media-mockup</strong> · estrutura tipo releaf ·
-    slots = preencher em <strong>assets/media/</strong>
+    Branch <strong>feat/media-mockup</strong> · fundo de teste <strong>bg-test.mp4</strong> (sem áudio) ·
+    slots = <strong>assets/media/</strong>
   </div>
 
   <header class="nav">
@@ -862,7 +906,7 @@
       <div class="video-frame reveal">
         <div
           class="slot"
-          data-video="assets/media/case-loop.mp4"
+          data-video="assets/media/bg-test.mp4"
           data-poster="assets/media/case-poster.jpg"
         >
           <span class="slot-tag">vídeo</span>
@@ -1084,6 +1128,7 @@
     </a>
     <span>© <span id="y"></span> Morgen · mockup mídia</span>
   </footer>
+  </div><!-- /.page -->
 
   <details class="fill-sheet" open>
     <summary>Checklist mídia</summary>
@@ -1093,7 +1138,28 @@
   <script>
     document.getElementById("y").textContent = new Date().getFullYear();
 
+    /* fundo de teste: mudo garantido + play (autoplay policies) */
+    (function initBgVideo() {
+      const v = document.getElementById("bg-video");
+      if (!v) return;
+      v.muted = true;
+      v.defaultMuted = true;
+      v.volume = 0;
+      v.setAttribute("muted", "");
+      v.setAttribute("playsinline", "");
+      const tryPlay = () => v.play().catch(() => {});
+      tryPlay();
+      document.addEventListener("visibilitychange", () => {
+        if (!document.hidden) tryPlay();
+      });
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        v.pause();
+        v.closest(".bg-video")?.remove();
+      }
+    })();
+
     const MEDIA = [
+      ["bg-test.mp4", "Fundo de teste (ativo)"],
       ["hero-3d.png", "Hero 3D"],
       ["hero-ambient.jpg", "Foto ambient wide"],
       ["case-loop.mp4", "Vídeo case"],
