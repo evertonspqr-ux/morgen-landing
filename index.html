@@ -4,16 +4,23 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#020226" />
-  <meta name="description" content="Morgen. Crescimento organizado para empresas de serviços." />
+  <meta name="description" content="Morgen. Crescimento organizado para empresas de serviços. Sistemas de captação e automação." />
+  <meta property="og:title" content="Morgen" />
+  <meta property="og:description" content="Crescimento organizado para empresas de serviços." />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="pt_BR" />
+  <meta name="twitter:card" content="summary_large_image" />
   <title>Morgen</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=IBM+Plex+Mono:wght@500&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=IBM+Plex+Mono:wght@500&family=Syne:wght@700&display=swap" rel="stylesheet" />
+  <link rel="preload" href="assets/media/hero-poster.jpg" as="image" />
   <style>
     /*
-      Morgen · Everton Etapas 4–5 (UI + Motion)
-      Motion 3–4: CSS only (sem GSAP). opacity + transform.
-      Dials: variance 4 · motion 3–4 · density 2–3
+      Morgen · Everton Etapas 4–8 + 10
+      Etapa 6: parallax/3D skip (density 2, performance)
+      Etapa 7: poster + video condicional
+      Etapa 8: preload poster, fonts swap, video leve
     */
     :root {
       --bg: oklch(13% 0.05 275);
@@ -144,6 +151,10 @@
       inset: 0;
       z-index: 0;
       pointer-events: none;
+      /* LCP: poster estático sob o vídeo */
+      background:
+        center / cover no-repeat url("assets/media/hero-poster.jpg"),
+        var(--bg-hex);
     }
     .hero-media video {
       width: 100%;
@@ -156,6 +167,9 @@
     }
     .hero-media video.is-ready {
       opacity: 0.88;
+    }
+    .hero-media.is-static video {
+      display: none;
     }
     .hero-media::after {
       content: "";
@@ -408,10 +422,9 @@
         transition-delay: 0s !important;
       }
       .hero-media video {
-        display: none;
+        display: none !important;
         transition: none !important;
       }
-      .hero-media::after { background: var(--bg-hex); }
       .btn { transition: none !important; }
     }
   </style>
@@ -436,12 +449,12 @@
       <div class="hero-media" aria-hidden="true">
         <video
           id="hero-video"
-          src="assets/media/hero-bg.mp4?v=min1"
           muted
           loop
           playsinline
-          autoplay
-          preload="metadata"
+          preload="none"
+          poster="assets/media/hero-poster.jpg"
+          data-src="assets/media/hero-bg.mp4?v=min1"
         ></video>
       </div>
       <div class="hero-copy">
@@ -548,23 +561,70 @@
     document.getElementById("y").textContent = new Date().getFullYear();
     const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    /* Hero video: fade-in + loop mudo */
+    /*
+      Etapa 7–8: vídeo sob demanda.
+      Skip se reduced-motion, saveData, rede 2g, ou CPU fraca.
+      Poster cobre LCP até o play.
+    */
     (function heroVideo() {
+      const media = document.querySelector(".hero-media");
       const v = document.getElementById("hero-video");
-      if (!v || reduce) return;
+      if (!v || !media) return;
+
+      const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+      const slowNet =
+        conn &&
+        (conn.saveData ||
+          conn.effectiveType === "slow-2g" ||
+          conn.effectiveType === "2g");
+      const lowCPU = navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 2;
+      const skip = reduce || slowNet || lowCPU;
+
+      if (skip) {
+        media.classList.add("is-static");
+        return;
+      }
+
+      const src = v.getAttribute("data-src");
+      if (!src) return;
+
       v.muted = true;
       v.defaultMuted = true;
       v.volume = 0;
       v.loop = true;
+
       const play = () => v.play().catch(() => {});
-      const ready = () => {
-        v.classList.add("is-ready");
-        play();
+      const arm = () => {
+        if (v.dataset.armed) return;
+        v.dataset.armed = "1";
+        v.src = src;
+        v.load();
+        const onReady = () => {
+          v.classList.add("is-ready");
+          play();
+        };
+        v.addEventListener("loadeddata", onReady, { once: true });
+        v.addEventListener("canplay", play, { once: true });
       };
-      if (v.readyState >= 2) ready();
-      else v.addEventListener("loadeddata", ready, { once: true });
-      v.addEventListener("canplay", play, { once: true });
+
+      /* carrega quando hero está perto do viewport (já está, mas pattern reutilizável) */
+      if ("IntersectionObserver" in window) {
+        const vio = new IntersectionObserver(
+          (entries) => {
+            if (entries.some((e) => e.isIntersecting)) {
+              arm();
+              vio.disconnect();
+            }
+          },
+          { rootMargin: "80px", threshold: 0.01 }
+        );
+        vio.observe(media);
+      } else {
+        arm();
+      }
+
       document.addEventListener("visibilitychange", () => {
+        if (!v.dataset.armed) return;
         if (document.hidden) v.pause();
         else play();
       });
