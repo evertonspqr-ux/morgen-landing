@@ -168,8 +168,16 @@
     .btn-primary {
       background: var(--accent-hex);
       color: #161206;
+      box-shadow:
+        0 0 0 1px color-mix(in oklch, var(--accent) 30%, transparent),
+        0 8px 28px color-mix(in oklch, var(--accent) 22%, transparent);
     }
-    .btn-primary:hover { opacity: 0.93; }
+    .btn-primary:hover { opacity: 0.94; }
+    .btn-lg {
+      min-height: 52px;
+      padding: 0.9rem 1.45rem;
+      font-size: 0.95rem;
+    }
     .btn-ghost {
       border-color: var(--line);
       color: var(--fg);
@@ -184,10 +192,102 @@
       display: flex;
       flex-wrap: wrap;
       gap: 0.7rem;
+      align-items: center;
     }
     @media (max-width: 520px) {
       .btn-row { flex-direction: column; align-items: stretch; }
       .btn-row .btn { width: 100%; white-space: normal; }
+    }
+    .cta-note {
+      margin: 0.85rem 0 0;
+      font-size: 0.82rem;
+      color: var(--muted);
+      max-width: 36ch;
+    }
+    .cta-note strong { color: var(--fg); font-weight: 500; }
+
+    /* mid CTA strip */
+    .cta-strip {
+      margin-top: 2rem;
+      padding: 1.25rem 1.35rem;
+      border-radius: var(--r);
+      border: 1px solid color-mix(in oklch, var(--accent) 30%, var(--line));
+      background:
+        linear-gradient(
+          120deg,
+          color-mix(in oklch, var(--accent) 8%, var(--surface-hex)) 0%,
+          var(--surface-hex) 55%
+        );
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem 1.25rem;
+    }
+    .cta-strip p {
+      margin: 0;
+      max-width: 28ch;
+      font-size: 0.98rem;
+      color: var(--fg);
+      font-weight: 500;
+    }
+    .cta-strip span {
+      display: block;
+      margin-top: 0.25rem;
+      font-size: 0.85rem;
+      font-weight: 400;
+      color: var(--muted);
+    }
+
+    /* end panel */
+    .end-panel {
+      max-width: 36rem;
+      padding: 1.75rem 1.5rem;
+      border-radius: calc(var(--r) + 2px);
+      border: 1px solid color-mix(in oklch, var(--accent) 28%, var(--line));
+      background: color-mix(in oklch, var(--surface) 75%, transparent);
+    }
+    .end-list {
+      list-style: none;
+      margin: 0 0 1.35rem;
+      padding: 0;
+      display: grid;
+      gap: 0.55rem;
+    }
+    .end-list li {
+      display: flex;
+      gap: 0.55rem;
+      align-items: flex-start;
+      font-size: 0.92rem;
+      color: var(--muted);
+    }
+    .end-list li::before {
+      content: "";
+      width: 0.45rem;
+      height: 0.45rem;
+      margin-top: 0.4rem;
+      border-radius: 50%;
+      background: var(--accent-hex);
+      flex-shrink: 0;
+    }
+
+    /* sticky mobile CTA */
+    .sticky-cta {
+      display: none;
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 45;
+      padding: 0.75rem var(--pad) calc(0.75rem + env(safe-area-inset-bottom));
+      background: color-mix(in oklch, var(--bg) 92%, transparent);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid var(--line);
+    }
+    .sticky-cta .btn { width: 100%; }
+    @media (max-width: 720px) {
+      .sticky-cta { display: block; }
+      body { padding-bottom: 5.25rem; }
     }
 
     /* —— hero —— */
@@ -682,18 +782,6 @@
       </div>
       <p class="method-note reveal-item">
         Seis etapas para sair do improviso e construir crescimento que a operação aguenta.
-      </p>
-    </section>
-
-    <section class="section wrap honest" id="agora">
-      <h2 class="reveal-item">Ainda não é portfólio. É operação.</h2>
-      <p class="reveal-item">
-        A Morgen é nova. Não listamos cases que não existem. O primeiro passo é um mapeamento
-        direto do que trava o seu crescimento, com método, sem pitch de ferramenta.
-      </p>
-      <p class="reveal-item">
-        Tecnologia como meio. Crescimento como fim. Dedicação e melhoria contínua, sem
-        promessa impossível.
       </p>
     </section>
 
