@@ -62,7 +62,6 @@
       --r: 12px;
       --nav-h: 60px;
       --section-y: 3.25rem;
-      --sticky-h: 4.75rem;
     }
     @media (min-width: 768px) {
       :root {
@@ -117,13 +116,9 @@
       color: var(--fg);
       background: var(--bg-hex);
       -webkit-font-smoothing: antialiased;
-      padding-bottom: calc(var(--sticky-h) + env(safe-area-inset-bottom));
     }
     @media (min-width: 768px) {
-      body {
-        font-size: 17px;
-        padding-bottom: 0;
-      }
+      body { font-size: 17px; }
     }
     a { color: inherit; text-decoration: none; }
     img, video { display: block; max-width: 100%; }
@@ -269,78 +264,63 @@
     }
     .cta-note strong { color: var(--fg); font-weight: 500; }
 
-    /* end panel + canais separados */
+    /* end CTA — leve */
     .end-panel {
-      max-width: 36rem;
-      padding: 1.35rem 1.15rem;
-      border-radius: calc(var(--r) + 2px);
-      border: 1px solid color-mix(in oklch, var(--accent) 28%, var(--line));
-      background: color-mix(in oklch, var(--surface) 75%, transparent);
-    }
-    @media (min-width: 640px) {
-      .end-panel { padding: 1.75rem 1.5rem; }
+      max-width: 32rem;
     }
     .end-list {
       list-style: none;
-      margin: 0 0 1.35rem;
+      margin: 0 0 1.5rem;
       padding: 0;
       display: grid;
-      gap: 0.55rem;
+      gap: 0.4rem;
     }
     .end-list li {
-      display: flex;
-      gap: 0.55rem;
-      align-items: flex-start;
-      font-size: 0.92rem;
+      font-size: 0.95rem;
       color: var(--muted);
+      padding-left: 0.85rem;
+      position: relative;
     }
     .end-list li::before {
-      content: "";
-      width: 0.45rem;
-      height: 0.45rem;
-      margin-top: 0.4rem;
-      border-radius: 50%;
-      background: var(--accent-hex);
-      flex-shrink: 0;
+      content: "·";
+      position: absolute;
+      left: 0;
+      color: var(--accent-hex);
     }
     .contact-channels {
       list-style: none;
       margin: 0 0 1.25rem;
-      padding: 0.15rem 0 0;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 0.35rem 0.15rem;
-    }
-    .contact-channels li {
-      margin: 0;
       padding: 0;
       display: flex;
-      align-items: center;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.15rem;
     }
-    .contact-channels li + li::before {
-      content: "";
-      width: 1px;
-      height: 0.9rem;
-      margin: 0 0.65rem;
-      background: var(--line);
-      flex-shrink: 0;
-    }
+    .contact-channels li { margin: 0; padding: 0; }
     .contact-channels a {
       display: inline-flex;
       align-items: center;
-      gap: 0.45rem;
-      padding: 0.4rem 0.15rem;
-      min-height: 2.5rem;
+      justify-content: center;
+      width: 2.75rem;
+      height: 2.75rem;
+      border-radius: 999px;
       color: var(--muted);
-      transition: color 150ms ease;
+      border: 1px solid transparent;
+      transition: color 150ms ease, border-color 150ms ease, background 150ms ease;
     }
     .contact-channels a.channel-wa {
       color: var(--accent-hex);
     }
     @media (hover: hover) and (pointer: fine) {
-      .contact-channels a:hover { color: var(--fg); }
-      .contact-channels a.channel-wa:hover { color: var(--accent-hex); opacity: 0.88; }
+      .contact-channels a:hover {
+        color: var(--fg);
+        border-color: var(--line);
+        background: color-mix(in oklch, var(--surface) 60%, transparent);
+      }
+      .contact-channels a.channel-wa:hover {
+        color: var(--accent-hex);
+        border-color: color-mix(in oklch, var(--accent) 40%, var(--line));
+      }
     }
     .contact-channels .ch-icon {
       display: block;
@@ -348,15 +328,9 @@
       line-height: 0;
     }
     .contact-channels .ch-icon svg {
-      width: 1.15rem;
-      height: 1.15rem;
+      width: 1.3rem;
+      height: 1.3rem;
       display: block;
-    }
-    .contact-channels .ch-label {
-      font-size: 0.92rem;
-      font-weight: 500;
-      letter-spacing: -0.01em;
-      color: inherit;
     }
 
     footer .ig-handle {
@@ -364,37 +338,7 @@
       font-weight: 500;
     }
 
-    /* sticky mobile CTA — default on (mobile-first) */
-    .sticky-cta {
-      display: block;
-      position: fixed;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      z-index: 45;
-      padding: 0.7rem var(--pad) calc(0.7rem + env(safe-area-inset-bottom));
-      background: color-mix(in oklch, var(--bg) 94%, transparent);
-      backdrop-filter: blur(14px);
-      border-top: 1px solid color-mix(in oklch, var(--accent) 25%, var(--line));
-      box-shadow: 0 -8px 32px color-mix(in oklch, var(--bg) 50%, transparent);
-    }
-    .sticky-cta .btn {
-      width: 100%;
-      min-height: 50px;
-      animation: cta-pulse 2.8s var(--ease-out) infinite;
-    }
-    @keyframes cta-pulse {
-      0%, 100% { box-shadow: 0 0 0 1px color-mix(in oklch, var(--accent) 30%, transparent), 0 8px 24px color-mix(in oklch, var(--accent) 22%, transparent); }
-      50% { box-shadow: 0 0 0 1px color-mix(in oklch, var(--accent) 45%, transparent), 0 10px 36px color-mix(in oklch, var(--accent) 38%, transparent); }
-    }
-    @media (min-width: 768px) {
-      .sticky-cta { display: none; }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .sticky-cta .btn { animation: none; }
-    }
-
-    /* —— hero (mobile: CTA no viewport) —— */
+    /* —— hero —— */
     .hero {
       position: relative;
       overflow: hidden;
@@ -1047,7 +991,8 @@
         <span class="acro">seis etapas · ordem importa</span>
       </div>
       <p class="method-intro reveal-item">
-        Do diagnóstico à melhoria contínua. Tecnologia é meio — crescimento organizado é o fim.
+        Assim conduzimos cada atendimento — do diagnóstico à melhoria contínua.
+        Tecnologia é meio. Crescimento organizado é o fim.
       </p>
       <ol class="method-list" aria-label="Etapas do método MORGEN">
         <li class="reveal-item">
@@ -1100,26 +1045,26 @@
           <div class="marquee-group">
             <span class="marquee-item"><img src="assets/media/stack/claude.svg" alt="" height="24" /><span class="word">Claude Code</span></span>
             <span class="marquee-item"><img src="assets/media/stack/openai.svg" alt="" height="24" width="24" /><span class="word">Codex</span></span>
-            <span class="marquee-item"><img class="logo-tall" src="assets/media/stack/openclaw.svg" alt="OpenClaw" height="28" /></span>
-            <span class="marquee-item"><img src="assets/media/stack/hermes.svg" alt="Hermes" height="24" width="24" /><span class="word">Hermes</span></span>
-            <span class="marquee-item"><img src="assets/media/stack/n8n.svg" alt="n8n" height="24" /></span>
-            <span class="marquee-item"><img src="assets/media/stack/python.svg" alt="Python" height="24" /></span>
-            <span class="marquee-item"><img src="assets/media/stack/vercel.svg" alt="Vercel" height="24" /></span>
-            <span class="marquee-item"><img src="assets/media/stack/github.svg" alt="GitHub" height="24" /></span>
-            <span class="marquee-item"><img src="assets/media/stack/hostinger.svg" alt="Hostinger" height="24" /></span>
-            <span class="marquee-item"><img class="logo-tall" src="assets/media/stack/hostgator.svg" alt="HostGator" height="28" /></span>
+            <span class="marquee-item"><img class="logo-tall" src="assets/media/stack/openclaw.svg" alt="" height="28" /><span class="word">OpenClaw</span></span>
+            <span class="marquee-item"><img src="assets/media/stack/hermes.svg" alt="" height="24" width="24" /><span class="word">Hermes</span></span>
+            <span class="marquee-item"><img src="assets/media/stack/n8n.svg" alt="" height="24" /><span class="word">n8n</span></span>
+            <span class="marquee-item"><img src="assets/media/stack/python.svg" alt="" height="24" /><span class="word">Python</span></span>
+            <span class="marquee-item"><img src="assets/media/stack/vercel.svg" alt="" height="24" /><span class="word">Vercel</span></span>
+            <span class="marquee-item"><img src="assets/media/stack/github.svg" alt="" height="24" /><span class="word">GitHub</span></span>
+            <span class="marquee-item"><img src="assets/media/stack/hostinger.svg" alt="" height="24" /><span class="word">Hostinger</span></span>
+            <span class="marquee-item"><img class="logo-tall" src="assets/media/stack/hostgator.svg" alt="" height="28" /><span class="word">HostGator</span></span>
           </div>
           <div class="marquee-group" aria-hidden="true">
             <span class="marquee-item"><img src="assets/media/stack/claude.svg" alt="" height="24" /><span class="word">Claude Code</span></span>
             <span class="marquee-item"><img src="assets/media/stack/openai.svg" alt="" height="24" width="24" /><span class="word">Codex</span></span>
-            <span class="marquee-item"><img class="logo-tall" src="assets/media/stack/openclaw.svg" alt="" height="28" /></span>
+            <span class="marquee-item"><img class="logo-tall" src="assets/media/stack/openclaw.svg" alt="" height="28" /><span class="word">OpenClaw</span></span>
             <span class="marquee-item"><img src="assets/media/stack/hermes.svg" alt="" height="24" width="24" /><span class="word">Hermes</span></span>
-            <span class="marquee-item"><img src="assets/media/stack/n8n.svg" alt="" height="24" /></span>
-            <span class="marquee-item"><img src="assets/media/stack/python.svg" alt="" height="24" /></span>
-            <span class="marquee-item"><img src="assets/media/stack/vercel.svg" alt="" height="24" /></span>
-            <span class="marquee-item"><img src="assets/media/stack/github.svg" alt="" height="24" /></span>
-            <span class="marquee-item"><img src="assets/media/stack/hostinger.svg" alt="" height="24" /></span>
-            <span class="marquee-item"><img class="logo-tall" src="assets/media/stack/hostgator.svg" alt="" height="28" /></span>
+            <span class="marquee-item"><img src="assets/media/stack/n8n.svg" alt="" height="24" /><span class="word">n8n</span></span>
+            <span class="marquee-item"><img src="assets/media/stack/python.svg" alt="" height="24" /><span class="word">Python</span></span>
+            <span class="marquee-item"><img src="assets/media/stack/vercel.svg" alt="" height="24" /><span class="word">Vercel</span></span>
+            <span class="marquee-item"><img src="assets/media/stack/github.svg" alt="" height="24" /><span class="word">GitHub</span></span>
+            <span class="marquee-item"><img src="assets/media/stack/hostinger.svg" alt="" height="24" /><span class="word">Hostinger</span></span>
+            <span class="marquee-item"><img class="logo-tall" src="assets/media/stack/hostgator.svg" alt="" height="28" /><span class="word">HostGator</span></span>
           </div>
         </div>
       </div>
@@ -1149,7 +1094,6 @@
                 <span class="ch-icon" aria-hidden="true">
                   <svg viewBox="0 0 24 24" fill="currentColor" focusable="false"><path d="M17.47 14.38c-.28-.14-1.65-.81-1.9-.9-.26-.1-.44-.14-.63.14-.19.28-.72.9-.88 1.08-.16.19-.33.21-.6.07-.28-.14-1.17-.43-2.23-1.37-.82-.73-1.38-1.64-1.54-1.91-.16-.28-.02-.42.12-.56.13-.13.28-.33.42-.5.14-.16.19-.28.28-.47.1-.19.05-.35-.02-.5-.07-.14-.63-1.51-.86-2.07-.23-.55-.46-.47-.63-.48h-.54c-.19 0-.5.07-.76.35-.26.28-1 1-1 2.43s1.02 2.82 1.16 3.01c.14.19 2.01 3.07 4.87 4.31.68.29 1.21.47 1.62.6.68.21 1.3.18 1.79.11.55-.08 1.65-.67 1.88-1.32.23-.65.23-1.2.16-1.32-.07-.11-.25-.18-.53-.32zM12.05 21.8h-.01a9.8 9.8 0 0 1-4.99-1.37l-.36-.21-3.71.97 1-3.62-.24-.37a9.8 9.8 0 0 1-1.5-5.23c0-5.42 4.42-9.83 9.86-9.83a9.78 9.78 0 0 1 6.96 2.88 9.75 9.75 0 0 1 2.88 6.95c0 5.42-4.42 9.83-9.84 9.83zm8.41-18.24A11.75 11.75 0 0 0 12.04 0C5.45 0 .1 5.34.1 11.92c0 2.1.55 4.15 1.6 5.96L0 24l6.3-1.65a11.9 11.9 0 0 0 5.73 1.46h.01c6.59 0 11.94-5.34 11.94-11.92 0-3.19-1.24-6.18-3.5-8.43z"/></svg>
                 </span>
-                <span class="ch-label">WhatsApp</span>
               </a>
             </li>
             <li>
@@ -1161,7 +1105,6 @@
                 <span class="ch-icon" aria-hidden="true">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" focusable="false"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg>
                 </span>
-                <span class="ch-label">E-mail</span>
               </a>
             </li>
             <li>
@@ -1175,7 +1118,6 @@
                 <span class="ch-icon" aria-hidden="true">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" focusable="false"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
                 </span>
-                <span class="ch-label">Instagram</span>
               </a>
             </li>
           </ul>
@@ -1186,15 +1128,6 @@
       </div>
     </section>
   </main>
-
-  <div class="sticky-cta" id="sticky-cta">
-    <a
-      class="btn btn-primary"
-      href="https://wa.me/5521970620150?text=Oi%20Morgen%2C%20quero%20mapear%20o%20que%20trava%20o%20crescimento%20da%20minha%20empresa%20de%20servi%C3%A7os."
-      target="_blank"
-      rel="noopener noreferrer"
-    >Quero o diagnóstico no WhatsApp</a>
-  </div>
 
   <footer class="wrap">
     <a class="logo" href="#topo" aria-label="Morgen, início">
@@ -1223,23 +1156,14 @@
       }
     }
 
-    /* barra ouro + esconde sticky CTA no final (evita duplicar) */
+    /* barra ouro de progresso no scroll */
     (function scrollBar() {
       const bar = document.getElementById("scroll-progress");
-      const sticky = document.getElementById("sticky-cta");
-      const end = document.getElementById("contato");
+      if (!bar) return;
       const onScroll = () => {
         const h = document.documentElement;
         const max = h.scrollHeight - h.clientHeight;
-        const p = max > 0 ? (h.scrollTop / max) * 100 : 0;
-        if (bar) bar.style.width = p + "%";
-        if (sticky && end) {
-          const rect = end.getBoundingClientRect();
-          const nearEnd = rect.top < window.innerHeight * 0.85;
-          sticky.style.opacity = nearEnd ? "0" : "1";
-          sticky.style.pointerEvents = nearEnd ? "none" : "auto";
-          sticky.style.transition = "opacity 180ms ease";
-        }
+        bar.style.width = (max > 0 ? (h.scrollTop / max) * 100 : 0) + "%";
       };
       window.addEventListener("scroll", onScroll, { passive: true });
       onScroll();
