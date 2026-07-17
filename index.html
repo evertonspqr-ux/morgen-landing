@@ -138,6 +138,25 @@
       justify-content: space-between;
       gap: 1rem;
     }
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+    .nav-ig {
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--muted);
+      padding: 0.45rem 0.55rem;
+      border-radius: 8px;
+      transition: color 150ms ease;
+    }
+    @media (hover: hover) and (pointer: fine) {
+      .nav-ig:hover { color: var(--fg); }
+    }
+    @media (max-width: 520px) {
+      .nav-ig { display: none; }
+    }
     .logo img { width: 118px; height: auto; }
     @media (max-width: 480px) {
       .logo img { width: 100px; }
@@ -608,10 +627,11 @@
       max-width: 14ch;
       margin-bottom: 0.8rem;
     }
-    .end > .wrap > p {
-      margin: 0 0 1.75rem;
+    .end-lead {
+      margin: 0 0 1.15rem;
       color: var(--muted);
-      max-width: 28ch;
+      max-width: 34ch;
+      font-size: 1.05rem;
     }
 
     footer {
@@ -671,10 +691,10 @@
       </a>
       <a
         class="btn btn-primary"
-        href="https://wa.me/5521970620150?text=Quero%20mapear%20meu%20crescimento"
+        href="https://wa.me/5521970620150?text=Oi%20Morgen%2C%20quero%20mapear%20o%20que%20trava%20o%20crescimento%20da%20minha%20empresa%20de%20servi%C3%A7os."
         target="_blank"
         rel="noopener noreferrer"
-      >Falar no WhatsApp</a>
+      >Quero o diagnóstico</a>
     </div>
   </header>
 
@@ -702,13 +722,16 @@
         </p>
         <div class="btn-row reveal-item">
           <a
-            class="btn btn-primary"
-            href="https://wa.me/5521970620150?text=Quero%20mapear%20meu%20crescimento"
+            class="btn btn-primary btn-lg"
+            href="https://wa.me/5521970620150?text=Oi%20Morgen%2C%20quero%20mapear%20o%20que%20trava%20o%20crescimento%20da%20minha%20empresa%20de%20servi%C3%A7os."
             target="_blank"
             rel="noopener noreferrer"
-          >Quero mapear meu crescimento</a>
-          <a class="btn btn-ghost" href="#metodo">Ver o método</a>
+          >Quero o diagnóstico</a>
+          <a class="btn btn-ghost" href="#como">Como funciona</a>
         </div>
+        <p class="cta-note reveal-item">
+          <strong>Conversa no WhatsApp.</strong> Diagnóstico primeiro. Sem compromisso.
+        </p>
       </div>
     </section>
 
@@ -763,6 +786,18 @@
           <p>A equipe roda o sistema. Menos manual, mais clareza no dia a dia.</p>
         </article>
       </div>
+      <div class="cta-strip reveal-item">
+        <p>
+          Pronto para o primeiro passo?
+          <span>15 a 20 min no WhatsApp. Você sai com clareza do que trava.</span>
+        </p>
+        <a
+          class="btn btn-primary"
+          href="https://wa.me/5521970620150?text=Oi%20Morgen%2C%20quero%20mapear%20o%20que%20trava%20o%20crescimento%20da%20minha%20empresa%20de%20servi%C3%A7os."
+          target="_blank"
+          rel="noopener noreferrer"
+        >Quero o diagnóstico</a>
+      </div>
     </section>
 
     <section class="section wrap" id="metodo">
@@ -787,23 +822,44 @@
 
     <section class="end" id="contato">
       <div class="wrap">
-        <h2 class="reveal-item">Vamos mapear o que trava o seu crescimento</h2>
-        <p class="reveal-item">Conversa direta. Diagnóstico primeiro, sistema depois.</p>
-        <div class="btn-row reveal-item">
-          <a
-            class="btn btn-primary"
-            href="https://wa.me/5521970620150?text=Quero%20mapear%20meu%20crescimento"
-            target="_blank"
-            rel="noopener noreferrer"
-          >Falar no WhatsApp</a>
-          <a
-            class="btn btn-ghost"
-            href="mailto:morgenagency@gmail.com?subject=Quero%20mapear%20meu%20crescimento"
-          >Enviar e-mail</a>
+        <div class="end-panel reveal-item">
+          <h2>Vamos mapear o que trava o seu crescimento</h2>
+          <p class="end-lead">
+            Conversa direta no WhatsApp. Você conta o cenário; a gente devolve o que enxerga e o próximo passo.
+          </p>
+          <ul class="end-list">
+            <li>Onde a captação e o atendimento estão vazando</li>
+            <li>O que dá para organizar antes de automatizar</li>
+            <li>Se faz sentido seguir com a Morgen</li>
+          </ul>
+          <div class="btn-row">
+            <a
+              class="btn btn-primary btn-lg"
+              href="https://wa.me/5521970620150?text=Oi%20Morgen%2C%20quero%20mapear%20o%20que%20trava%20o%20crescimento%20da%20minha%20empresa%20de%20servi%C3%A7os."
+              target="_blank"
+              rel="noopener noreferrer"
+            >Quero o diagnóstico no WhatsApp</a>
+            <a
+              class="btn btn-ghost"
+              href="mailto:morgenagency@gmail.com?subject=Diagn%C3%B3stico%20Morgen&body=Ol%C3%A1%2C%20quero%20mapear%20o%20que%20trava%20o%20crescimento%20da%20minha%20empresa%20de%20servi%C3%A7os."
+            >Prefiro e-mail</a>
+          </div>
+          <p class="cta-note">
+            <strong>Sem pitch de ferramenta.</strong> Diagnóstico primeiro. Sistema depois, se fizer sentido.
+          </p>
         </div>
       </div>
     </section>
   </main>
+
+  <div class="sticky-cta" id="sticky-cta">
+    <a
+      class="btn btn-primary"
+      href="https://wa.me/5521970620150?text=Oi%20Morgen%2C%20quero%20mapear%20o%20que%20trava%20o%20crescimento%20da%20minha%20empresa%20de%20servi%C3%A7os."
+      target="_blank"
+      rel="noopener noreferrer"
+    >Quero o diagnóstico no WhatsApp</a>
+  </div>
 
   <footer class="wrap">
     <a class="logo" href="#topo" aria-label="Morgen, início">
@@ -832,15 +888,23 @@
       }
     }
 
-    /* barra ouro = prova de build */
+    /* barra ouro + esconde sticky CTA no final (evita duplicar) */
     (function scrollBar() {
       const bar = document.getElementById("scroll-progress");
-      if (!bar) return;
+      const sticky = document.getElementById("sticky-cta");
+      const end = document.getElementById("contato");
       const onScroll = () => {
         const h = document.documentElement;
         const max = h.scrollHeight - h.clientHeight;
         const p = max > 0 ? (h.scrollTop / max) * 100 : 0;
-        bar.style.width = p + "%";
+        if (bar) bar.style.width = p + "%";
+        if (sticky && end) {
+          const rect = end.getBoundingClientRect();
+          const nearEnd = rect.top < window.innerHeight * 0.85;
+          sticky.style.opacity = nearEnd ? "0" : "1";
+          sticky.style.pointerEvents = nearEnd ? "none" : "auto";
+          sticky.style.transition = "opacity 180ms ease";
+        }
       };
       window.addEventListener("scroll", onScroll, { passive: true });
       onScroll();
