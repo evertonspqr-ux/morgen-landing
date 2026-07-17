@@ -70,7 +70,7 @@
       justify-content: space-between;
       min-height: 64px;
     }
-    .logo img { width: 112px; height: auto; }
+    .logo img { width: 120px; height: auto; display: block; }
     .btn {
       display: inline-flex;
       align-items: center;
@@ -123,11 +123,11 @@
       margin: 0 0 1.5rem;
       font-family: "Syne", system-ui, sans-serif;
       font-weight: 800;
-      font-size: clamp(2.6rem, 7.5vw, 5rem);
-      line-height: 0.98;
-      letter-spacing: -0.035em;
+      font-size: clamp(1.85rem, 3.8vw, 2.65rem);
+      line-height: 1.12;
+      letter-spacing: -0.03em;
       text-wrap: balance;
-      max-width: 11ch;
+      max-width: 16ch;
     }
     h1 em {
       font-style: normal;
@@ -297,12 +297,7 @@
   <header class="nav">
     <div class="wrap nav-inner">
       <a class="logo" href="#topo" aria-label="Morgen">
-        <!-- wordmark inline (logo-morgen.svg) -->
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-label="Morgen" width="112" height="112">
-          <path fill="#020226" d="M0 0h1024v1024H0z"/>
-          <path fill="#f7f7f7" d="M582.75 568.92c-11.39-2.69-26.51-14.57-31.77-24.97-11.16-22.06-7.41-47 11.07-64.27 3.39-3.16 8.77-7.02 11.95-8.57 10.3-5.01 16.06-5.64 51.39-5.66L656 467v18.91l-35.75.29c-35.07.29-35.83.34-40.04 2.59-24.06 12.85-23.71 47.98.59 60.91l5.7 2.8H638V528h-39.08l.58-17.5 28.25-.27L656 509.97V570h-34.75c-19.11.06-36.44-.5-38.5-.98zM232.77 558.75l.52 11.25H250V518.92c0-31.21-.36-50.96-.93-50.75-.52.18-13.14 11.73-28.05 25.67C197.92 515.43 193.69 519 192.39 517.91c-.84-.7-11.02-12.22-22.61-25.59L148.71 468H137.85c-5.97 0-10.85.27-10.85.6 0 .74 9.32 11.64 40.92 47.89 13.43 15.41 24.54 28.18 24.7 28.38.16.21 8.89-7.89 19.39-18 10.51-10.1 19.41-18.48 19.79-18.62.39-.13.65 8.64.58 19.5-.07 10.86.11 24.81.39 31zM490.32 561.25 497.24 570h21.9l-2-2.75c-1.1-1.51-7.82-9.95-14.94-18.75L489.26 532.5l5.85-2.12c7.42-2.68 11.81-6.04 15.81-12.07 11.43-17.26 5.15-40.14-13.33-48.5-4.99-2.27-5.83-2.32-43.88-2.6L414.92 466.91l.29 9.3.29 9.29 38.15.5c36.35.48 38.25.59 40.35 2.5 7.48 6.77 6.37 19.23-2.1 23.55-3.35 1.71-5.94 1.95-20.86 1.95-9.37 0-17.04.26-17.04.58 0 .51 10.63 14.16 36.32 46.67zM858.92 531.44C832.38 510.23 809.6 492.04 808.3 491.02c-2.27-1.78-2.36-2.32-2.08-12.94L806.5 467l23.07 18.26c12.69 10.04 31.43 24.89 41.65 33 10.22 8.11 18.85 14.75 19.18 14.75.33 0 .6-14.85.6-33V467h17v51.5c0 28.33-.18 51.5-.41 51.5-.22 0-22.12-17.35-48.67-38.56zM685.68 485.34c.37.38 20.96.56 45.75.42L776.5 485.5l.58-18.5H685v8.83c0 4.86.3 9.14.68 9.51zM685 510h92v18H685zm0 42h92v18H685zM127 504.54V570h17v-48.54L135.5 513zM806 542.88V570h18.12l-.42-20.56c-.23-11.31-.82-20.91-1.31-21.34-.49-.43-3.81-2.95-7.39-5.61-3.58-2.66-7.06-5.26-7.75-5.78C806.26 515.95 806 521.34 806 542.88z"/>
-          <path fill="#fcc92a" d="M320.27 572.63c-18.41-4.7-33.55-18.95-39.68-37.37-2.58-9.56-2.15-23.71.43-33.09 2.75-9.38 8.46-19.01 15.13-25.53 10.97-10.73 23.37-15.75 38.77-15.81 15.54.05 28.07 5.73 39.42 17.86 27.37 29.27 15.81 77.44-21.9 91.23-8.07 2.95-22.9 3.83-30.97.71z"/>
-        </svg>
+        <img src="logo-morgen.svg" alt="Morgen" width="120" height="40" />
       </a>
       <a class="btn btn-primary" href="#contato">Falar com a Morgen</a>
     </div>
@@ -312,10 +307,8 @@
     <section class="hero wrap" id="topo">
       <p class="kicker reveal">Aquisição + automação</p>
       <h1 class="reveal">
-        Crescimento<br />
-        <em>organizado</em><br />
-        para empresas<br />
-        de serviços
+        Crescimento <em>organizado</em><br />
+        para empresas de serviços
       </h1>
       <p class="lede reveal">
         Sistemas que captam clientes, organizam o atendimento e reduzem o trabalho manual.
