@@ -1,6 +1,6 @@
 # Morgen — Wireframe (Everton · Etapa 3)
 
-**Status:** aguardando aprovação  
+**Status:** aprovado · Etapa 4 UI aplicada  
 **Dials:** variance 4 · motion 3–4 · density 2–3  
 **Base:** Etapa 1 (estratégia) + Etapa 2 (`DESIGN-DIRECTION.md`)
 

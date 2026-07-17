@@ -1,6 +1,6 @@
 # Morgen — Direção de arte (Everton · Etapa 2)
 
-**Status:** aguardando aprovação  
+**Status:** aprovado · base da Etapa 4  
 **Pipeline:** static HTML/CSS/JS · branch `feat/media-mockup`  
 **Dials:** variance **4** · motion **3–4** · density **2–3**
 
