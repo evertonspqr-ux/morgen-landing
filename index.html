@@ -305,79 +305,58 @@
     }
     .contact-channels {
       list-style: none;
-      margin: 0 0 1.15rem;
-      padding: 0;
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 0.65rem;
-    }
-    @media (min-width: 520px) {
-      .contact-channels {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 0.7rem;
-      }
-    }
-    .contact-channels li { margin: 0; padding: 0; }
-    .contact-channels a {
+      margin: 0 0 1.25rem;
+      padding: 0.15rem 0 0;
       display: flex;
-      flex-direction: column;
+      flex-wrap: wrap;
       align-items: center;
-      justify-content: center;
-      gap: 0.55rem;
-      width: 100%;
-      min-height: 5.5rem;
-      padding: 1rem 0.75rem;
-      border-radius: var(--r);
-      border: 1px solid var(--line);
-      background: color-mix(in oklch, var(--bg) 55%, var(--surface-hex));
-      text-align: center;
-      transition: border-color 160ms ease, background 160ms ease, transform 160ms var(--ease-out);
+      gap: 0.35rem 0.15rem;
+    }
+    .contact-channels li {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+    }
+    .contact-channels li + li::before {
+      content: "";
+      width: 1px;
+      height: 0.9rem;
+      margin: 0 0.65rem;
+      background: var(--line);
+      flex-shrink: 0;
+    }
+    .contact-channels a {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.4rem 0.15rem;
+      min-height: 2.5rem;
+      color: var(--muted);
+      transition: color 150ms ease;
     }
     .contact-channels a.channel-wa {
-      border-color: color-mix(in oklch, var(--accent) 40%, var(--line));
-      background:
-        linear-gradient(
-          160deg,
-          color-mix(in oklch, var(--accent) 12%, var(--surface-hex)) 0%,
-          var(--surface-hex) 65%
-        );
-    }
-    @media (hover: hover) and (pointer: fine) {
-      .contact-channels a:hover {
-        border-color: color-mix(in oklch, var(--accent) 45%, var(--line));
-        transform: translateY(-2px);
-      }
-      .contact-channels a.channel-wa:hover {
-        border-color: color-mix(in oklch, var(--accent) 55%, var(--line));
-      }
-    }
-    .contact-channels .ch-icon {
-      display: grid;
-      place-items: center;
-      width: 2.35rem;
-      height: 2.35rem;
-      border-radius: 999px;
-      background: color-mix(in oklch, var(--fg) 6%, transparent);
-      color: var(--fg);
-    }
-    .contact-channels a.channel-wa .ch-icon {
-      background: color-mix(in oklch, var(--accent) 18%, transparent);
       color: var(--accent-hex);
     }
+    @media (hover: hover) and (pointer: fine) {
+      .contact-channels a:hover { color: var(--fg); }
+      .contact-channels a.channel-wa:hover { color: var(--accent-hex); opacity: 0.88; }
+    }
+    .contact-channels .ch-icon {
+      display: block;
+      color: inherit;
+      line-height: 0;
+    }
     .contact-channels .ch-icon svg {
-      width: 1.25rem;
-      height: 1.25rem;
+      width: 1.15rem;
+      height: 1.15rem;
       display: block;
     }
     .contact-channels .ch-label {
-      font-family: "Syne", system-ui, sans-serif;
-      font-weight: 700;
-      font-size: 0.95rem;
-      letter-spacing: -0.02em;
-      color: var(--fg);
-    }
-    .contact-channels a.channel-wa .ch-label {
-      color: var(--accent-hex);
+      font-size: 0.92rem;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      color: inherit;
     }
 
     footer .ig-handle {
