@@ -63,16 +63,23 @@
       height: 100%;
       object-fit: cover;
       max-width: none;
-      opacity: 0.38;
-      filter: saturate(0.85) brightness(0.55);
+      opacity: 0.55;
+      filter: saturate(0.8) brightness(0.62);
     }
+    /* camada navy por cima do vídeo (legibilidade) */
     .bg-video::after {
       content: "";
       position: absolute;
       inset: 0;
+      z-index: 1;
       background:
-        linear-gradient(180deg, color-mix(in oklch, var(--bg) 55%, transparent) 0%, var(--bg-hex) 92%),
-        color-mix(in oklch, var(--bg) 35%, transparent);
+        linear-gradient(
+          180deg,
+          color-mix(in oklch, var(--bg) 72%, transparent) 0%,
+          color-mix(in oklch, var(--bg) 78%, transparent) 45%,
+          var(--bg-hex) 100%
+        ),
+        color-mix(in oklch, var(--bg) 48%, transparent);
     }
     .page {
       position: relative;
@@ -232,39 +239,17 @@
       will-change: transform;
     }
 
-    /* —— hero (releaf-scale type + media) —— */
+    /* —— hero: tipografia sobre o vídeo de fundo —— */
     .hero {
-      padding: clamp(3rem, 8vw, 5.5rem) 0 clamp(3.5rem, 9vw, 6rem);
+      padding: clamp(4.5rem, 14vw, 8.5rem) 0 clamp(4rem, 12vw, 7.5rem);
       position: relative;
       overflow: hidden;
+      min-height: min(78vh, 720px);
+      display: flex;
+      align-items: flex-end;
     }
-    .hero::after {
-      content: "";
-      position: absolute;
-      right: -10%;
-      top: -5%;
-      width: min(55vw, 520px);
-      height: min(55vw, 520px);
-      border-radius: 50%;
-      background: radial-gradient(circle, color-mix(in oklch, var(--accent) 18%, transparent), transparent 68%);
-      filter: blur(10px);
-      pointer-events: none;
-      animation: float-orb 11s ease-in-out infinite;
-    }
-    @keyframes float-orb {
-      0%, 100% { transform: translateY(0) scale(1); }
-      50% { transform: translateY(-22px) scale(1.04); }
-    }
-    .hero-grid {
-      display: grid;
-      gap: clamp(2rem, 5vw, 3.5rem);
-      align-items: center;
-    }
-    @media (min-width: 960px) {
-      .hero-grid {
-        grid-template-columns: 1.05fr 0.95fr;
-        gap: 3.5rem;
-      }
+    .hero-copy {
+      max-width: 38rem;
     }
     .kicker {
       margin: 0 0 1.25rem;
@@ -283,7 +268,7 @@
       line-height: 1.05;
       letter-spacing: -0.035em;
       text-wrap: balance;
-      max-width: 12ch;
+      max-width: 14ch;
     }
     h1 em {
       font-style: normal;
@@ -317,11 +302,6 @@
       font-weight: 700;
       letter-spacing: -0.02em;
     }
-    .hero-stage {
-      aspect-ratio: 5 / 4;
-      min-height: 280px;
-    }
-    .hero-stage .slot { height: 100%; min-height: 280px; }
 
     /* —— statement band —— */
     .statement {
@@ -791,7 +771,7 @@
         transition-delay: 0s !important;
       }
       .btn { transition: none !important; }
-      .hero::after, .marquee { animation: none !important; }
+      .marquee { animation: none !important; }
       .tilt { transform: none !important; }
       .bg-video { display: none; }
     }
@@ -840,34 +820,23 @@
   </header>
 
   <main>
-    <!-- 1. HERO -->
+    <!-- 1. HERO — vídeo de fundo substitui o slot 3D -->
     <section class="hero wrap-wide" id="topo">
-      <div class="hero-grid">
-        <div>
-          <p class="kicker reveal">Aquisição + automação</p>
-          <h1 class="reveal">Crescimento <em>organizado</em> para empresas de serviços</h1>
-          <p class="lede reveal">
-            Sistemas que captam clientes, organizam o atendimento e reduzem o trabalho manual.
-            Tecnologia como meio. Crescimento como fim.
-          </p>
-          <div class="hero-actions reveal">
-            <a class="btn btn-primary btn-lg" href="#contato">Quero mapear meu crescimento</a>
-            <a class="btn btn-ghost btn-lg" href="#video">Ver o sistema</a>
-          </div>
-          <div class="hero-meta reveal">
-            <div><b>Slot</b> métrica real 01</div>
-            <div><b>Slot</b> métrica real 02</div>
-            <div><b>Slot</b> métrica real 03</div>
-          </div>
+      <div class="hero-copy">
+        <p class="kicker reveal">Aquisição + automação</p>
+        <h1 class="reveal">Crescimento <em>organizado</em> para empresas de serviços</h1>
+        <p class="lede reveal">
+          Sistemas que captam clientes, organizam o atendimento e reduzem o trabalho manual.
+          Tecnologia como meio. Crescimento como fim.
+        </p>
+        <div class="hero-actions reveal">
+          <a class="btn btn-primary btn-lg" href="#contato">Quero mapear meu crescimento</a>
+          <a class="btn btn-ghost btn-lg" href="#video">Ver o sistema</a>
         </div>
-        <div class="hero-stage reveal tilt" data-tilt>
-          <div class="slot" data-src="assets/media/hero-3d.png" data-src-fallback="assets/media/hero-3d.webp">
-            <span class="slot-tag">3D / produto</span>
-            <div class="slot-label">
-              <code>hero-3d.png</code>
-              <span>Render 3D, mockup de produto ou foto de operação premium</span>
-            </div>
-          </div>
+        <div class="hero-meta reveal">
+          <div><b>Slot</b> métrica real 01</div>
+          <div><b>Slot</b> métrica real 02</div>
+          <div><b>Slot</b> métrica real 03</div>
         </div>
       </div>
     </section>
@@ -1160,7 +1129,6 @@
 
     const MEDIA = [
       ["bg-test.mp4", "Fundo de teste (ativo)"],
-      ["hero-3d.png", "Hero 3D"],
       ["hero-ambient.jpg", "Foto ambient wide"],
       ["case-loop.mp4", "Vídeo case"],
       ["case-poster.jpg", "Poster do vídeo"],
