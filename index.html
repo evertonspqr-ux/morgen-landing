@@ -1116,47 +1116,48 @@
   <script>
     document.getElementById("y").textContent = new Date().getFullYear();
 
-    /* hero video: mudo + começa no 1s + loop a partir daí */
+    /* hero video: mudo, começa em 1.1s, sem loop (para no fim) */
     (function initHeroVideo() {
       const v = document.getElementById("hero-video");
       if (!v) return;
-      const START = 1;
+      const START = 1.1;
       v.muted = true;
       v.defaultMuted = true;
       v.volume = 0;
+      v.loop = false;
       v.setAttribute("muted", "");
       v.setAttribute("playsinline", "");
-      v.loop = false;
+      v.removeAttribute("loop");
 
       const tryPlay = () => v.play().catch(() => {});
 
-      const jumpStart = () => {
+      const startFrom = () => {
         if (v.currentTime < START) v.currentTime = START;
+        tryPlay();
       };
 
-      v.addEventListener("loadedmetadata", () => {
-        v.currentTime = START;
-        tryPlay();
-      });
-      v.addEventListener("seeked", tryPlay);
-      /* se o browser voltar pro 0 no loop nativo / seek */
-      v.addEventListener("timeupdate", () => {
-        if (v.currentTime > 0 && v.currentTime < START - 0.05) {
-          v.currentTime = START;
+      v.addEventListener("loadedmetadata", startFrom);
+      /* se o browser forçar 0 no autoplay, corrige uma vez */
+      v.addEventListener(
+        "timeupdate",
+        function onEarly() {
+          if (v.currentTime > 0 && v.currentTime < START - 0.02) {
+            v.currentTime = START;
+          }
+          if (v.currentTime >= START) {
+            v.removeEventListener("timeupdate", onEarly);
+          }
         }
-      });
+      );
+      /* sem loop: no fim fica no último frame */
       v.addEventListener("ended", () => {
-        v.currentTime = START;
-        tryPlay();
+        v.pause();
       });
 
-      if (v.readyState >= 1) {
-        v.currentTime = START;
-        tryPlay();
-      }
+      if (v.readyState >= 1) startFrom();
 
       document.addEventListener("visibilitychange", () => {
-        if (!document.hidden) tryPlay();
+        if (!document.hidden && !v.ended) tryPlay();
       });
 
       if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
