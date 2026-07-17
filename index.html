@@ -222,19 +222,31 @@
       pointer-events: none;
     }
     .hero-media video {
+      position: absolute;
+      inset: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
       max-width: none;
-      /* sobe o vídeo: mais presente no hero */
-      opacity: 0.92;
       filter: saturate(0.95) brightness(0.78);
+      /* base visível; crossfade no loop */
+      opacity: 0;
+      transition: opacity 0.7s linear;
+    }
+    .hero-media video.is-active {
+      opacity: 0.92;
+      z-index: 1;
+    }
+    .hero-media video.is-fading-out {
+      opacity: 0;
+      z-index: 0;
     }
     /* scrim só o necessário pra ler o texto */
     .hero-media::after {
       content: "";
       position: absolute;
       inset: 0;
+      z-index: 2;
       background:
         linear-gradient(
           105deg,
@@ -781,7 +793,7 @@
       .btn { transition: none !important; }
       .marquee { animation: none !important; }
       .tilt { transform: none !important; }
-      .hero-media video { display: none; }
+      .hero-media video { display: none; transition: none !important; }
       .hero-media::after {
         background: var(--bg-hex);
       }
@@ -798,7 +810,7 @@
 <body>
   <div class="page">
   <div class="mock-banner">
-    Branch <strong>feat/media-mockup</strong> · hero <strong>hero-bg.mp4</strong> (corte 1.1s · sem áudio · sem loop) ·
+    Branch <strong>feat/media-mockup</strong> · hero <strong>hero-bg.mp4</strong> (corte 1.1s · loop infinito com crossfade) ·
     slots = <strong>assets/media/</strong>
   </div>
 
@@ -821,13 +833,20 @@
   <main>
     <!-- 1. HERO — vídeo é a mídia do bloco -->
     <section class="hero" id="topo">
-      <div class="hero-media" aria-hidden="true">
+      <div class="hero-media" aria-hidden="true" data-hero-loop>
+        <!-- A/B: loop infinito com crossfade (sem “desconectar”) -->
         <video
-          id="hero-video"
+          class="hero-v is-active"
           src="assets/media/hero-bg.mp4?v=11"
           muted
           playsinline
-          autoplay
+          preload="auto"
+        ></video>
+        <video
+          class="hero-v"
+          src="assets/media/hero-bg.mp4?v=11"
+          muted
+          playsinline
           preload="auto"
         ></video>
       </div>
@@ -1117,39 +1136,87 @@
     document.getElementById("y").textContent = new Date().getFullYear();
 
     /*
-      Hero video: arquivo já cortado em 1.1s (hero-bg.mp4), sem áudio, sem loop.
-      (seek no browser falhava: servidor local sem HTTP Range)
+      Hero video infinito: 2 camadas + crossfade antes do fim.
+      Arquivo já cortado em 1.1s (hero-bg.mp4), mudo. Sem hard cut no restart.
     */
-    (function initHeroVideo() {
-      const v = document.getElementById("hero-video");
-      if (!v) return;
-      v.muted = true;
-      v.defaultMuted = true;
-      v.volume = 0;
-      v.loop = false;
-      v.setAttribute("muted", "");
-      v.setAttribute("playsinline", "");
-      v.removeAttribute("loop");
+    (function initHeroVideoLoop() {
+      const root = document.querySelector("[data-hero-loop]");
+      if (!root) return;
+      const [a, b] = root.querySelectorAll("video.hero-v");
+      if (!a || !b) return;
 
-      const tryPlay = () => {
-        if (v.ended) return;
-        v.play().catch(() => {});
-      };
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (reduce) {
+        a.pause();
+        b.pause();
+        return;
+      }
 
-      v.addEventListener("canplay", tryPlay, { once: true });
-      v.addEventListener("ended", () => {
-        v.pause();
-      });
-      tryPlay();
+      const FADE = 0.7; /* segundos de crossfade (bate com CSS) */
+      let active = a;
+      let next = b;
+      let swapping = false;
+
+      function prep(v) {
+        v.muted = true;
+        v.defaultMuted = true;
+        v.volume = 0;
+        v.loop = false;
+        v.playsInline = true;
+        v.setAttribute("muted", "");
+        v.setAttribute("playsinline", "");
+      }
+      prep(a);
+      prep(b);
+
+      function playSafe(v) {
+        return v.play().catch(() => {});
+      }
+
+      function check(v) {
+        if (v !== active || swapping || !v.duration || !isFinite(v.duration)) return;
+        const left = v.duration - v.currentTime;
+        if (left > FADE + 0.05) return;
+        swap();
+      }
+
+      async function swap() {
+        if (swapping) return;
+        swapping = true;
+        try {
+          try { next.currentTime = 0; } catch (_) {}
+          await playSafe(next);
+          next.classList.add("is-active");
+          next.classList.remove("is-fading-out");
+          active.classList.remove("is-active");
+          active.classList.add("is-fading-out");
+          const prev = active;
+          active = next;
+          next = prev;
+          window.setTimeout(() => {
+            prev.pause();
+            prev.classList.remove("is-fading-out");
+            try { prev.currentTime = 0; } catch (_) {}
+            swapping = false;
+          }, FADE * 1000 + 40);
+        } catch (_) {
+          swapping = false;
+        }
+      }
+
+      a.addEventListener("timeupdate", () => check(a));
+      b.addEventListener("timeupdate", () => check(b));
+      a.classList.add("is-active");
+      playSafe(a);
 
       document.addEventListener("visibilitychange", () => {
-        if (!document.hidden && !v.ended) tryPlay();
+        if (document.hidden) {
+          a.pause();
+          b.pause();
+        } else {
+          playSafe(active);
+        }
       });
-
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-        v.pause();
-        v.removeAttribute("autoplay");
-      }
     })();
 
     const MEDIA = [
