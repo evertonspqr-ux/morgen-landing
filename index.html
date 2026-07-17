@@ -24,7 +24,12 @@
       --line: oklch(97% 0.005 100 / 0.1);
       --accent: oklch(85% 0.155 95);
       --accent-hex: #fcc92a;
+      /* Emil-style: ease-out for enter, snappy for press */
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-press: cubic-bezier(0.32, 0.72, 0, 1);
       --ease: cubic-bezier(0.22, 1, 0.36, 1);
+      --dur-enter: 700ms;
+      --dur-press: 180ms;
       --pad: clamp(1.25rem, 4vw, 2rem);
       --max: 1080px;
     }
@@ -33,7 +38,22 @@
     html { scroll-behavior: smooth; }
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
-      .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+      .reveal,
+      .reveal-child,
+      .method span {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+        transition-delay: 0s !important;
+      }
+      .btn { transition: none !important; }
+    }
+    /* Sem JS: conteúdo legível (progressive enhancement) */
+    @media (scripting: none) {
+      .reveal, .method span {
+        opacity: 1 !important;
+        transform: none !important;
+      }
     }
 
     body {
@@ -80,10 +100,13 @@
       border-radius: 999px;
       font-weight: 600;
       font-size: 0.9rem;
-      transition: transform 0.2s var(--ease), opacity 0.2s ease;
+      /* micro: only transform + opacity (compositor) */
+      transition:
+        transform var(--dur-press) var(--ease-press),
+        opacity var(--dur-press) ease;
     }
     .btn:hover { transform: translateY(-1px); }
-    .btn:active { transform: translateY(0); }
+    .btn:active { transform: scale(0.97); }
     .btn-primary {
       background: var(--accent-hex);
       color: #161206;
@@ -244,6 +267,17 @@
       font-weight: 700;
       font-size: 1rem;
       letter-spacing: 0.02em;
+      /* Moment 2: chip stagger — opacity + translateY only */
+      opacity: 0;
+      transform: translateY(10px) scale(0.96);
+      transition:
+        opacity 520ms var(--ease-out),
+        transform 520ms var(--ease-out);
+      transition-delay: calc(var(--i, 0) * 55ms);
+    }
+    .method.in span {
+      opacity: 1;
+      transform: none;
     }
     .method span b {
       color: var(--accent-hex);
@@ -283,16 +317,38 @@
     }
     footer .logo img { width: 100px; height: auto; display: block; }
 
-    /* motion leve */
+    /*
+      Motion (Emil Kowalski principles, pure CSS):
+      1) Hero entrance — staggered opacity + Y, ease-out
+      2) Method chips — scroll-triggered stagger
+      Only transform/opacity. No layout thrash. reduced-motion above.
+    */
     .reveal {
       opacity: 0;
-      transform: translateY(16px);
-      transition: opacity 0.65s var(--ease), transform 0.65s var(--ease);
+      transform: translateY(14px);
+      transition:
+        opacity var(--dur-enter) var(--ease-out),
+        transform var(--dur-enter) var(--ease-out);
+      transition-delay: var(--d, 0ms);
     }
     .reveal.in {
       opacity: 1;
       transform: none;
     }
+
+    /* Hero: orchestrated first paint (not waiting for IO delay) */
+    .hero .reveal {
+      --d: 0ms;
+    }
+    .hero .reveal:nth-child(1) { --d: 40ms; }
+    .hero .reveal:nth-child(2) { --d: 110ms; }
+    .hero .reveal:nth-child(3) { --d: 190ms; }
+    .hero .reveal:nth-child(4) { --d: 270ms; }
+
+    /* Section blocks: slight extra delay when scrolling in */
+    section:not(.hero) .reveal { --d: 40ms; }
+    section:not(.hero) .reveal:nth-child(2) { --d: 100ms; }
+    section:not(.hero) .reveal:nth-child(3) { --d: 160ms; }
   </style>
 </head>
 <body>
@@ -360,13 +416,13 @@
 
     <section class="wrap" id="metodo">
       <h2 class="reveal">Método M.O.R.G.E.N.</h2>
-      <div class="method reveal" aria-label="Mapear, Organizar, Relacionar, Gerenciar, Escalar, Nutrir">
-        <span><b>M</b>apear</span>
-        <span><b>O</b>rganizar</span>
-        <span><b>R</b>elacionar</span>
-        <span><b>G</b>erenciar</span>
-        <span><b>E</b>scalar</span>
-        <span><b>N</b>utrir</span>
+      <div class="method" data-stagger aria-label="Mapear, Organizar, Relacionar, Gerenciar, Escalar, Nutrir">
+        <span style="--i:0"><b>M</b>apear</span>
+        <span style="--i:1"><b>O</b>rganizar</span>
+        <span style="--i:2"><b>R</b>elacionar</span>
+        <span style="--i:3"><b>G</b>erenciar</span>
+        <span style="--i:4"><b>E</b>scalar</span>
+        <span style="--i:5"><b>N</b>utrir</span>
       </div>
       <p class="method-note reveal">
         Seis etapas para sair do improviso e construir crescimento que a operação aguenta.
@@ -389,11 +445,39 @@
 
   <script>
     document.getElementById("y").textContent = new Date().getFullYear();
-    const io = new IntersectionObserver(
-      (entries) => entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add("in"); }),
-      { threshold: 0.15, rootMargin: "0px 0px -8% 0px" }
-    );
-    document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    function revealAll() {
+      document.querySelectorAll(".reveal, [data-stagger]").forEach((el) => {
+        el.classList.add("in");
+      });
+    }
+
+    if (reduce) {
+      revealAll();
+    } else {
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (!e.isIntersecting) return;
+            e.target.classList.add("in");
+            io.unobserve(e.target); /* play once — no thrash on re-scroll */
+          });
+        },
+        { threshold: 0.12, rootMargin: "0px 0px -6% 0px" }
+      );
+
+      document.querySelectorAll(".reveal, [data-stagger]").forEach((el) => io.observe(el));
+
+      /* Hero: enter on first frame so first paint isn't blank for ~IO tick */
+      requestAnimationFrame(() => {
+        document.querySelectorAll(".hero .reveal").forEach((el) => {
+          el.classList.add("in");
+          io.unobserve(el);
+        });
+      });
+    }
   </script>
 </body>
 </html>
