@@ -289,6 +289,30 @@
       background: var(--accent-hex);
       flex-shrink: 0;
     }
+    .end-social {
+      margin: 1.15rem 0 0;
+      padding-top: 1.1rem;
+      border-top: 1px solid var(--line);
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+    .end-social a {
+      color: var(--fg);
+      font-weight: 600;
+      border-bottom: 1px solid color-mix(in oklch, var(--accent) 55%, transparent);
+      transition: color 150ms ease, border-color 150ms ease;
+    }
+    @media (hover: hover) and (pointer: fine) {
+      .end-social a:hover {
+        color: var(--accent-hex);
+        border-color: var(--accent-hex);
+      }
+    }
+
+    footer .ig-handle {
+      color: var(--fg);
+      font-weight: 500;
+    }
 
     /* sticky mobile CTA */
     .sticky-cta {
@@ -573,6 +597,45 @@
       font-size: 0.95rem;
       max-width: 34ch;
     }
+
+    /* stack: ferramentas (não “trusted by clientes”) */
+    .stack-intro {
+      margin: -0.35rem 0 1.35rem;
+      max-width: 40ch;
+      color: var(--muted);
+      font-size: 0.98rem;
+      text-wrap: pretty;
+    }
+    .stack {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      max-width: 48rem;
+    }
+    .stack li {
+      display: inline-flex;
+      align-items: center;
+      min-height: 2.45rem;
+      padding: 0.35rem 0.85rem;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: var(--surface-hex);
+      font-family: "IBM Plex Mono", ui-monospace, monospace;
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      color: color-mix(in oklch, var(--fg) 88%, var(--muted));
+      transition: border-color 160ms ease, color 160ms ease;
+    }
+    @media (hover: hover) and (pointer: fine) {
+      .stack li:hover {
+        border-color: color-mix(in oklch, var(--accent) 35%, var(--line));
+        color: var(--fg);
+      }
+    }
     /* título do método: não quebrar nos pontos do acrônimo */
     #metodo h2 {
       max-width: none;
@@ -689,12 +752,20 @@
       <a class="logo" href="#topo" aria-label="Morgen, início">
         <img src="logo-morgen.svg?v=nobg" alt="Morgen" width="118" height="25" />
       </a>
-      <a
-        class="btn btn-primary"
-        href="https://wa.me/5521970620150?text=Oi%20Morgen%2C%20quero%20mapear%20o%20que%20trava%20o%20crescimento%20da%20minha%20empresa%20de%20servi%C3%A7os."
-        target="_blank"
-        rel="noopener noreferrer"
-      >Quero o diagnóstico</a>
+      <div class="nav-actions">
+        <a
+          class="nav-ig"
+          href="https://instagram.com/morgenagencia/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >@morgenagencia</a>
+        <a
+          class="btn btn-primary"
+          href="https://wa.me/5521970620150?text=Oi%20Morgen%2C%20quero%20mapear%20o%20que%20trava%20o%20crescimento%20da%20minha%20empresa%20de%20servi%C3%A7os."
+          target="_blank"
+          rel="noopener noreferrer"
+        >Quero o diagnóstico</a>
+      </div>
     </div>
   </header>
 
@@ -847,6 +918,10 @@
           <p class="cta-note">
             <strong>Sem pitch de ferramenta.</strong> Diagnóstico primeiro. Sistema depois, se fizer sentido.
           </p>
+          <p class="end-social">
+            Acompanhe o dia a dia no Instagram
+            <a href="https://instagram.com/morgenagencia/" target="_blank" rel="noopener noreferrer">@morgenagencia</a>
+          </p>
         </div>
       </div>
     </section>
@@ -868,7 +943,7 @@
     <div class="footer-links">
       <a href="mailto:morgenagency@gmail.com">morgenagency@gmail.com</a>
       <a href="https://wa.me/5521970620150" target="_blank" rel="noopener noreferrer">+55 21 97062-0150</a>
-      <a href="https://instagram.com/morgenagencia/" target="_blank" rel="noopener noreferrer">Instagram</a>
+      <a class="ig-handle" href="https://instagram.com/morgenagencia/" target="_blank" rel="noopener noreferrer">@morgenagencia</a>
       <span>© <span id="y"></span> Morgen</span>
     </div>
   </footer>
