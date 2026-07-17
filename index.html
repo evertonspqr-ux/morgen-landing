@@ -11,9 +11,9 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=IBM+Plex+Mono:wght@500&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
   <style>
     /*
-      Morgen · Everton Etapa 4 (UI/UX)
-      Wireframe + DESIGN-DIRECTION · static
-      Dials: variance 4 · motion 3 · density 2–3
+      Morgen · Everton Etapas 4–5 (UI + Motion)
+      Motion 3–4: CSS only (sem GSAP). opacity + transform.
+      Dials: variance 4 · motion 3–4 · density 2–3
     */
     :root {
       --bg: oklch(13% 0.05 275);
@@ -24,12 +24,14 @@
       --line: oklch(97% 0.002 100 / 0.12);
       --accent: oklch(85% 0.16 95);
       --accent-hex: #fcc92a;
+      /* expo-ish ease-out (Emil / Everton) */
       --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
       --ease-press: cubic-bezier(0.32, 0.72, 0, 1);
+      --dur-reveal: 680ms;
+      --dur-chip: 520ms;
       --pad: clamp(1.25rem, 4vw, 2rem);
       --max: 1080px;
       --space-section: clamp(3.75rem, 10vw, 6.25rem);
-      --wa: https://wa.me/5521970620150?text=Quero%20mapear%20meu%20crescimento;
     }
 
     *, *::before, *::after { box-sizing: border-box; }
@@ -148,8 +150,12 @@
       height: 100%;
       object-fit: cover;
       max-width: none;
-      opacity: 0.88;
+      opacity: 0;
       filter: saturate(0.92) brightness(0.76);
+      transition: opacity 1.1s var(--ease-out);
+    }
+    .hero-media video.is-ready {
+      opacity: 0.88;
     }
     .hero-media::after {
       content: "";
@@ -299,15 +305,22 @@
       font-size: 0.92rem;
       letter-spacing: -0.01em;
       opacity: 0;
-      transform: translateY(8px);
+      transform: translateY(10px) scale(0.97);
       transition:
-        opacity 480ms var(--ease-out),
-        transform 480ms var(--ease-out);
-      transition-delay: calc(var(--i, 0) * 50ms);
+        opacity var(--dur-chip) var(--ease-out),
+        transform var(--dur-chip) var(--ease-out),
+        border-color 180ms ease;
+      transition-delay: calc(var(--i, 0) * 55ms);
     }
     .method.in span {
       opacity: 1;
       transform: none;
+    }
+    @media (hover: hover) {
+      .method.in span:hover {
+        border-color: color-mix(in oklch, var(--accent) 40%, var(--line));
+        transform: translateY(-1px);
+      }
     }
     .method span b {
       color: var(--accent-hex);
@@ -359,23 +372,31 @@
     }
     .footer-links a:hover { color: var(--fg); }
 
-    /* —— motion (opacity + transform only) —— */
+    /* —— motion (opacity + transform only; no bounce/elastic) —— */
     .reveal {
       opacity: 0;
-      transform: translateY(14px);
+      transform: translateY(16px);
       transition:
-        opacity 600ms var(--ease-out),
-        transform 600ms var(--ease-out);
+        opacity var(--dur-reveal) var(--ease-out),
+        transform var(--dur-reveal) var(--ease-out);
       transition-delay: var(--d, 0ms);
     }
     .reveal.in {
       opacity: 1;
       transform: none;
     }
-    .hero .reveal:nth-child(1) { --d: 30ms; }
-    .hero .reveal:nth-child(2) { --d: 90ms; }
-    .hero .reveal:nth-child(3) { --d: 150ms; }
-    .hero .reveal:nth-child(4) { --d: 210ms; }
+    /* hero: orquestra entrada */
+    .hero .reveal:nth-child(1) { --d: 40ms; }
+    .hero .reveal:nth-child(2) { --d: 110ms; }
+    .hero .reveal:nth-child(3) { --d: 180ms; }
+    .hero .reveal:nth-child(4) { --d: 250ms; }
+    /* seções: stagger leve entre filhos */
+    section.block .reveal:nth-child(1),
+    section.end .reveal:nth-child(1) { --d: 20ms; }
+    section.block .reveal:nth-child(2),
+    section.end .reveal:nth-child(2) { --d: 90ms; }
+    section.block .reveal:nth-child(3),
+    section.end .reveal:nth-child(3) { --d: 150ms; }
 
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
@@ -386,7 +407,10 @@
         transition: none !important;
         transition-delay: 0s !important;
       }
-      .hero-media video { display: none; }
+      .hero-media video {
+        display: none;
+        transition: none !important;
+      }
       .hero-media::after { background: var(--bg-hex); }
       .btn { transition: none !important; }
     }
@@ -524,6 +548,7 @@
     document.getElementById("y").textContent = new Date().getFullYear();
     const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+    /* Hero video: fade-in + loop mudo */
     (function heroVideo() {
       const v = document.getElementById("hero-video");
       if (!v || reduce) return;
@@ -532,17 +557,26 @@
       v.volume = 0;
       v.loop = true;
       const play = () => v.play().catch(() => {});
+      const ready = () => {
+        v.classList.add("is-ready");
+        play();
+      };
+      if (v.readyState >= 2) ready();
+      else v.addEventListener("loadeddata", ready, { once: true });
       v.addEventListener("canplay", play, { once: true });
-      play();
       document.addEventListener("visibilitychange", () => {
         if (document.hidden) v.pause();
         else play();
       });
     })();
 
-    if (reduce) {
-      document.querySelectorAll(".reveal, [data-stagger]").forEach((el) => el.classList.add("in"));
-    } else {
+    /* Reveals: once, ease-out; play once (unobserve) */
+    (function motion() {
+      const targets = document.querySelectorAll(".reveal, [data-stagger]");
+      if (reduce) {
+        targets.forEach((el) => el.classList.add("in"));
+        return;
+      }
       const io = new IntersectionObserver(
         (entries) => {
           entries.forEach((e) => {
@@ -551,16 +585,17 @@
             io.unobserve(e.target);
           });
         },
-        { threshold: 0.12, rootMargin: "0px 0px -6% 0px" }
+        { threshold: 0.14, rootMargin: "0px 0px -8% 0px" }
       );
-      document.querySelectorAll(".reveal, [data-stagger]").forEach((el) => io.observe(el));
+      targets.forEach((el) => io.observe(el));
+      /* hero no primeiro frame (sem espera de IO) */
       requestAnimationFrame(() => {
         document.querySelectorAll(".hero .reveal").forEach((el) => {
           el.classList.add("in");
           io.unobserve(el);
         });
       });
-    }
+    })();
   </script>
 </body>
 </html>
