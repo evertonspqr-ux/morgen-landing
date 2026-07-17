@@ -5,57 +5,39 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#020226" />
-  <meta name="description" content="Morgen. Crescimento organizado para empresas de serviços." />
-  <title>Morgen</title>
+  <meta name="description" content="Morgen. Crescimento organizado para empresas de serviços. Mockup com slots de mídia." />
+  <title>Morgen — mockup mídia</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=IBM+Plex+Mono:wght@400;500&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
   <style>
-    /* Dials: variance 4 · motion 3 · density 2 (minimal)
-       Cena: dono de empresa de serviço à noite, tela navy, ouro só no CTA.
-       Paleta 100% brand-spec Morgen. Zero paleta ANC. */
+    /*
+      Branch: feat/media-mockup
+      Ref: releaf.bio (ritmo editorial + blocos de mídia grandes)
+      Dials: variance 6 · motion 5 · density 6
+      Brand 100% Morgen. Placeholders = você preenche em assets/media/
+    */
 
     :root {
       --bg: oklch(13% 0.05 275);
       --bg-hex: #020226;
-      --surface: oklch(17% 0.05 275);
+      --surface: oklch(17% 0.055 275);
+      --surface-hex: #0a0a3a;
       --fg: oklch(97% 0.005 100);
       --muted: oklch(68% 0.035 275);
-      --line: oklch(97% 0.005 100 / 0.1);
+      --line: oklch(97% 0.005 100 / 0.12);
       --accent: oklch(85% 0.155 95);
       --accent-hex: #fcc92a;
-      /* Emil-style: ease-out for enter, snappy for press */
       --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
       --ease-press: cubic-bezier(0.32, 0.72, 0, 1);
-      --ease: cubic-bezier(0.22, 1, 0.36, 1);
-      --dur-enter: 700ms;
-      --dur-press: 180ms;
-      --pad: clamp(1.25rem, 4vw, 2rem);
-      --max: 1080px;
+      --pad: clamp(1.25rem, 4vw, 2.25rem);
+      --max: 1180px;
+      --max-wide: 1360px;
+      --r: 14px;
     }
 
     *, *::before, *::after { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
-    @media (prefers-reduced-motion: reduce) {
-      html { scroll-behavior: auto; }
-      .reveal,
-      .reveal-child,
-      .method span {
-        opacity: 1 !important;
-        transform: none !important;
-        transition: none !important;
-        transition-delay: 0s !important;
-      }
-      .btn { transition: none !important; }
-    }
-    /* Sem JS: conteúdo legível (progressive enhancement) */
-    @media (scripting: none) {
-      .reveal, .method span {
-        opacity: 1 !important;
-        transform: none !important;
-      }
-    }
-
     body {
       margin: 0;
       min-height: 100%;
@@ -66,78 +48,198 @@
       background: var(--bg-hex);
       -webkit-font-smoothing: antialiased;
     }
-
     a { color: inherit; text-decoration: none; }
-    img { display: block; max-width: 100%; }
+    img, video { display: block; max-width: 100%; }
     button { font: inherit; border: 0; background: none; color: inherit; cursor: pointer; }
 
     .wrap {
       width: min(var(--max), calc(100% - var(--pad) * 2));
       margin-inline: auto;
     }
+    .wrap-wide {
+      width: min(var(--max-wide), calc(100% - var(--pad) * 2));
+      margin-inline: auto;
+    }
 
-    /* —— nav: só logo + CTA —— */
+    /* —— mock ribbon —— */
+    .mock-banner {
+      background: color-mix(in oklch, var(--accent) 14%, var(--bg));
+      border-bottom: 1px solid color-mix(in oklch, var(--accent) 35%, transparent);
+      color: var(--fg);
+      font-family: "IBM Plex Mono", ui-monospace, monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.04em;
+      text-align: center;
+      padding: 0.55rem var(--pad);
+    }
+    .mock-banner strong { color: var(--accent-hex); font-weight: 500; }
+
+    /* —— nav —— */
     .nav {
       position: sticky;
       top: 0;
-      z-index: 20;
+      z-index: 40;
       background: color-mix(in oklch, var(--bg) 88%, transparent);
-      backdrop-filter: blur(12px);
+      backdrop-filter: blur(14px);
       border-bottom: 1px solid var(--line);
     }
     .nav-inner {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      min-height: 64px;
+      gap: 1rem;
+      min-height: 68px;
     }
-    .logo img { width: 132px; height: auto; display: block; }
+    .nav-links {
+      display: none;
+      gap: 1.35rem;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+    .nav-links a:hover { color: var(--fg); }
+    @media (min-width: 880px) {
+      .nav-links { display: flex; }
+    }
+    .logo img { width: 128px; height: auto; }
+
     .btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 0.7rem 1.15rem;
+      gap: 0.4rem;
+      padding: 0.72rem 1.2rem;
       border-radius: 999px;
       font-weight: 600;
       font-size: 0.9rem;
-      /* micro: only transform + opacity (compositor) */
-      transition:
-        transform var(--dur-press) var(--ease-press),
-        opacity var(--dur-press) ease;
+      transition: transform 180ms var(--ease-press), opacity 180ms ease, border-color 180ms ease;
     }
     .btn:hover { transform: translateY(-1px); }
     .btn:active { transform: scale(0.97); }
-    .btn-primary {
-      background: var(--accent-hex);
-      color: #161206;
-    }
+    .btn-primary { background: var(--accent-hex); color: #161206; }
     .btn-primary:hover { opacity: 0.92; }
     .btn-ghost {
       border: 1px solid var(--line);
       color: var(--fg);
     }
-    .btn-ghost:hover { border-color: color-mix(in oklch, var(--accent) 45%, var(--line)); }
+    .btn-ghost:hover {
+      border-color: color-mix(in oklch, var(--accent) 45%, var(--line));
+    }
+    .btn-lg { padding: 0.9rem 1.45rem; font-size: 0.95rem; }
 
-    /* —— hero: tipografia grande, pouco texto —— */
-    .hero {
-      padding: clamp(4.5rem, 12vw, 8.5rem) 0 clamp(4rem, 10vw, 7rem);
+    /* —— media slot (placeholder system) —— */
+    .slot {
       position: relative;
+      overflow: hidden;
+      border-radius: var(--r);
+      border: 1px dashed color-mix(in oklch, var(--accent) 40%, var(--line));
+      background:
+        linear-gradient(135deg, color-mix(in oklch, var(--surface) 90%, transparent), var(--bg-hex)),
+        repeating-linear-gradient(
+          -45deg,
+          transparent,
+          transparent 10px,
+          color-mix(in oklch, var(--fg) 3%, transparent) 10px,
+          color-mix(in oklch, var(--fg) 3%, transparent) 11px
+        );
+      min-height: 12rem;
+    }
+    .slot.has-media {
+      border-style: solid;
+      border-color: var(--line);
+      background: var(--surface-hex);
+    }
+    .slot img,
+    .slot video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      inset: 0;
+    }
+    .slot-label {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-content: center;
+      gap: 0.35rem;
+      text-align: center;
+      padding: 1.25rem;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .slot.has-media .slot-label { display: none; }
+    .slot-label code {
+      font-family: "IBM Plex Mono", ui-monospace, monospace;
+      font-size: 0.72rem;
+      color: var(--accent-hex);
+      letter-spacing: 0.02em;
+    }
+    .slot-label span {
+      font-size: 0.82rem;
+      color: var(--muted);
+      max-width: 22ch;
+    }
+    .slot-tag {
+      position: absolute;
+      top: 0.75rem;
+      left: 0.75rem;
+      z-index: 2;
+      font-family: "IBM Plex Mono", ui-monospace, monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.55rem;
+      border-radius: 999px;
+      background: color-mix(in oklch, var(--bg) 75%, transparent);
+      border: 1px solid var(--line);
+      color: var(--muted);
+    }
+
+    /* tilt host */
+    .tilt {
+      transform-style: preserve-3d;
+      transition: transform 0.4s var(--ease-out);
+      will-change: transform;
+    }
+
+    /* —— hero (releaf-scale type + media) —— */
+    .hero {
+      padding: clamp(3rem, 8vw, 5.5rem) 0 clamp(3.5rem, 9vw, 6rem);
+      position: relative;
+      overflow: hidden;
     }
     .hero::after {
       content: "";
       position: absolute;
-      right: -8%;
-      top: 10%;
-      width: min(48vw, 420px);
-      height: min(48vw, 420px);
+      right: -10%;
+      top: -5%;
+      width: min(55vw, 520px);
+      height: min(55vw, 520px);
       border-radius: 50%;
-      background: radial-gradient(circle, color-mix(in oklch, var(--accent) 16%, transparent), transparent 68%);
-      filter: blur(8px);
+      background: radial-gradient(circle, color-mix(in oklch, var(--accent) 18%, transparent), transparent 68%);
+      filter: blur(10px);
       pointer-events: none;
+      animation: float-orb 11s ease-in-out infinite;
+    }
+    @keyframes float-orb {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-22px) scale(1.04); }
+    }
+    .hero-grid {
+      display: grid;
+      gap: clamp(2rem, 5vw, 3.5rem);
+      align-items: center;
+    }
+    @media (min-width: 960px) {
+      .hero-grid {
+        grid-template-columns: 1.05fr 0.95fr;
+        gap: 3.5rem;
+      }
     }
     .kicker {
-      margin: 0 0 1.5rem;
-      font-size: 0.75rem;
+      margin: 0 0 1.25rem;
+      font-family: "IBM Plex Mono", ui-monospace, monospace;
+      font-size: 0.72rem;
       font-weight: 500;
       letter-spacing: 0.14em;
       text-transform: uppercase;
@@ -146,23 +248,21 @@
     h1 {
       margin: 0 0 1.25rem;
       font-family: "Syne", system-ui, sans-serif;
-      font-weight: 700;
-      /* ~1.5–2rem: título, não outdoor */
-      font-size: clamp(1.5rem, 2.6vw, 2rem);
-      line-height: 1.25;
-      letter-spacing: -0.025em;
-      text-wrap: pretty;
-      max-width: 22rem;
+      font-weight: 800;
+      font-size: clamp(2.15rem, 5.2vw, 3.65rem);
+      line-height: 1.05;
+      letter-spacing: -0.035em;
+      text-wrap: balance;
+      max-width: 12ch;
     }
     h1 em {
       font-style: normal;
       color: var(--accent-hex);
     }
     .lede {
-      margin: 0 0 2.25rem;
-      max-width: 32ch;
-      font-size: clamp(1.05rem, 1.8vw, 1.2rem);
-      line-height: 1.55;
+      margin: 0 0 2rem;
+      max-width: 36ch;
+      font-size: clamp(1.05rem, 1.6vw, 1.2rem);
       color: var(--muted);
       text-wrap: pretty;
     }
@@ -170,109 +270,282 @@
       display: flex;
       flex-wrap: wrap;
       gap: 0.75rem;
+      margin-bottom: 1.75rem;
     }
-
-    /* —— seções: poucas, ar —— */
-    section {
-      padding: clamp(3.5rem, 9vw, 6rem) 0;
-      border-top: 1px solid var(--line);
-    }
-    h2 {
-      margin: 0 0 1.75rem;
-      font-family: "Syne", system-ui, sans-serif;
-      font-weight: 700;
-      font-size: clamp(1.55rem, 3.2vw, 2.15rem);
-      letter-spacing: -0.03em;
-      line-height: 1.15;
-      text-wrap: balance;
-      max-width: 16ch;
-    }
-
-    /* problemas: lista, não card grid de 6 */
-    .pain-list {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      display: grid;
-      gap: 0;
-      max-width: 36rem;
-    }
-    .pain-list li {
-      padding: 1.1rem 0;
-      border-top: 1px solid var(--line);
-      font-size: 1.05rem;
-      color: var(--fg);
-    }
-    .pain-list li:last-child { border-bottom: 1px solid var(--line); }
-    .pain-list span {
-      display: block;
-      margin-top: 0.25rem;
-      font-size: 0.92rem;
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.25rem 1.75rem;
+      font-size: 0.85rem;
       color: var(--muted);
     }
+    .hero-meta b {
+      display: block;
+      color: var(--fg);
+      font-family: "Syne", system-ui, sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .hero-stage {
+      aspect-ratio: 5 / 4;
+      min-height: 280px;
+    }
+    .hero-stage .slot { height: 100%; min-height: 280px; }
 
-    /* o que fazemos: 3 linhas só */
-    .offer {
+    /* —— statement band —— */
+    .statement {
+      padding: clamp(3rem, 8vw, 5rem) 0;
+      border-top: 1px solid var(--line);
+    }
+    .statement-grid {
       display: grid;
       gap: 2rem;
     }
-    @media (min-width: 800px) {
-      .offer { grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+    @media (min-width: 860px) {
+      .statement-grid {
+        grid-template-columns: 1.2fr 0.8fr;
+        align-items: end;
+        gap: 3rem;
+      }
     }
-    .offer p {
+    .statement h2 {
+      margin: 0;
+      font-family: "Syne", system-ui, sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.65rem, 3.4vw, 2.45rem);
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      text-wrap: balance;
+      max-width: 22ch;
+    }
+    .statement p {
       margin: 0;
       color: var(--muted);
-      max-width: 36ch;
+      max-width: 34ch;
       font-size: 1.05rem;
     }
-    .offer-list {
+    .statement .slot {
+      min-height: 220px;
+      aspect-ratio: 4 / 3;
+    }
+
+    /* —— video case —— */
+    .video-section {
+      padding: clamp(2.5rem, 7vw, 4.5rem) 0 clamp(3.5rem, 9vw, 6rem);
+    }
+    .video-frame {
+      position: relative;
+      border-radius: calc(var(--r) + 4px);
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: var(--surface-hex);
+      aspect-ratio: 16 / 9;
+    }
+    .video-frame .slot {
+      position: absolute;
+      inset: 0;
+      border: 0;
+      border-radius: 0;
+      min-height: 0;
+    }
+    .video-caption {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 0.75rem 1.5rem;
+      margin-top: 1rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+    .video-caption strong {
+      color: var(--fg);
+      font-weight: 600;
+    }
+
+    /* —— section chrome —— */
+    section.block {
+      padding: clamp(3.5rem, 9vw, 6.5rem) 0;
+      border-top: 1px solid var(--line);
+    }
+    .sec-head {
+      margin-bottom: clamp(1.75rem, 4vw, 2.5rem);
+      max-width: 40rem;
+    }
+    .sec-head .eyebrow {
+      margin: 0 0 0.75rem;
+      font-family: "IBM Plex Mono", ui-monospace, monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    h2 {
+      margin: 0 0 0.75rem;
+      font-family: "Syne", system-ui, sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.55rem, 3.2vw, 2.25rem);
+      letter-spacing: -0.03em;
+      line-height: 1.12;
+      text-wrap: balance;
+    }
+    .sec-head p {
+      margin: 0;
+      color: var(--muted);
+      max-width: 42ch;
+    }
+
+    /* —— split rows (photo + copy) —— */
+    .split {
+      display: grid;
+      gap: 1.75rem;
+      align-items: center;
+    }
+    @media (min-width: 860px) {
+      .split {
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem;
+      }
+      .split.reverse .split-media { order: 2; }
+      .split.reverse .split-copy { order: 1; }
+    }
+    .split + .split { margin-top: clamp(2.5rem, 6vw, 4rem); }
+    .split .slot {
+      min-height: 260px;
+      aspect-ratio: 5 / 4;
+    }
+    .split h3 {
+      margin: 0 0 0.65rem;
+      font-family: "Syne", system-ui, sans-serif;
+      font-weight: 700;
+      font-size: 1.35rem;
+      letter-spacing: -0.02em;
+    }
+    .split p {
+      margin: 0 0 1rem;
+      color: var(--muted);
+      max-width: 38ch;
+    }
+    .bullet-list {
       list-style: none;
       margin: 0;
       padding: 0;
       display: grid;
-      gap: 1.25rem;
+      gap: 0.65rem;
     }
-    .offer-list li {
+    .bullet-list li {
       padding-left: 1rem;
-      border-left: 1px solid color-mix(in oklch, var(--accent) 55%, transparent);
+      border-left: 1px solid color-mix(in oklch, var(--accent) 50%, transparent);
+      color: var(--fg);
+      font-size: 0.95rem;
     }
-    .offer-list strong {
+    .bullet-list li span {
       display: block;
-      font-family: "Syne", system-ui, sans-serif;
-      font-weight: 700;
-      font-size: 1.05rem;
-      letter-spacing: -0.02em;
-      margin-bottom: 0.2rem;
+      color: var(--muted);
+      font-size: 0.88rem;
+      margin-top: 0.15rem;
     }
-    .offer-list span { color: var(--muted); font-size: 0.95rem; }
 
-    /* método: uma linha de letras, sem cards */
+    /* —— bento 3D / media —— */
+    .bento {
+      display: grid;
+      gap: 0.85rem;
+    }
+    @media (min-width: 720px) {
+      .bento {
+        grid-template-columns: 1.2fr 1fr 1fr;
+        grid-template-rows: auto auto;
+      }
+      .bento .cell-a { grid-column: 1; grid-row: 1 / span 2; min-height: 100%; }
+      .bento .cell-a .slot { height: 100%; min-height: 360px; }
+    }
+    .bento .slot {
+      min-height: 180px;
+      aspect-ratio: 1;
+    }
+    .bento .cell-a .slot { aspect-ratio: auto; }
+    .bento figcaption {
+      margin-top: 0.55rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+    .bento figure { margin: 0; }
+
+    /* —— logo marquee —— */
+    .marquee-wrap {
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      padding: 1.75rem 0;
+      overflow: hidden;
+      background: color-mix(in oklch, var(--surface) 55%, transparent);
+    }
+    .marquee-label {
+      text-align: center;
+      font-family: "IBM Plex Mono", ui-monospace, monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 0 0 1.1rem;
+    }
+    .marquee {
+      display: flex;
+      gap: 1rem;
+      width: max-content;
+      animation: marquee 32s linear infinite;
+    }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+    .logo-pill {
+      flex: 0 0 auto;
+      width: 140px;
+      height: 56px;
+      border-radius: 12px;
+      border: 1px dashed var(--line);
+      background: var(--bg-hex);
+      display: grid;
+      place-items: center;
+      font-family: "IBM Plex Mono", ui-monospace, monospace;
+      font-size: 0.68rem;
+      color: var(--muted);
+      overflow: hidden;
+      position: relative;
+    }
+    .logo-pill img {
+      max-width: 70%;
+      max-height: 60%;
+      object-fit: contain;
+      filter: brightness(0) invert(0.85);
+      opacity: 0.75;
+    }
+    .logo-pill.has-media {
+      border-style: solid;
+    }
+
+    /* —— method —— */
     .method {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.5rem 0.35rem;
-      max-width: 40rem;
+      gap: 0.5rem;
     }
     .method span {
       display: inline-flex;
       align-items: center;
       justify-content: center;
       min-width: 2.75rem;
-      height: 2.75rem;
-      padding: 0 0.65rem;
+      height: 2.85rem;
+      padding: 0 0.7rem;
       border-radius: 10px;
-      background: var(--surface);
+      background: var(--surface-hex);
       border: 1px solid var(--line);
       font-family: "Syne", system-ui, sans-serif;
       font-weight: 700;
-      font-size: 1rem;
-      letter-spacing: 0.02em;
-      /* Moment 2: chip stagger — opacity + translateY only */
+      font-size: 0.98rem;
       opacity: 0;
       transform: translateY(10px) scale(0.96);
-      transition:
-        opacity 520ms var(--ease-out),
-        transform 520ms var(--ease-out);
+      transition: opacity 520ms var(--ease-out), transform 520ms var(--ease-out);
       transition-delay: calc(var(--i, 0) * 55ms);
     }
     .method.in span {
@@ -284,28 +557,135 @@
       font-weight: 800;
       margin-right: 0.15rem;
     }
-    .method-note {
-      margin: 1.5rem 0 0;
-      color: var(--muted);
-      font-size: 0.95rem;
-      max-width: 34ch;
+    .method-layout {
+      display: grid;
+      gap: 2rem;
+    }
+    @media (min-width: 900px) {
+      .method-layout {
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+        gap: 3rem;
+      }
+    }
+    .method-layout .slot {
+      min-height: 280px;
+      aspect-ratio: 4 / 3;
     }
 
-    /* cta final: quieto */
-    .end {
-      padding: clamp(4rem, 12vw, 7rem) 0;
-      border-top: 1px solid var(--line);
-      text-align: left;
+    /* —— testimonials —— */
+    .quotes {
+      display: grid;
+      gap: 1rem;
     }
-    .end h2 { max-width: 14ch; margin-bottom: 1rem; }
-    .end p {
+    @media (min-width: 800px) {
+      .quotes { grid-template-columns: repeat(3, 1fr); }
+    }
+    .quote {
+      margin: 0;
+      padding: 1.35rem;
+      border-radius: var(--r);
+      border: 1px solid var(--line);
+      background: var(--surface-hex);
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+      min-height: 100%;
+    }
+    .quote p {
+      margin: 0;
+      font-size: 0.98rem;
+      color: var(--fg);
+      flex: 1;
+    }
+    .quote footer {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      border: 0;
+      padding: 0;
+    }
+    .avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      overflow: hidden;
+      flex-shrink: 0;
+      border: 1px dashed var(--line);
+      background: var(--bg-hex);
+      position: relative;
+    }
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .avatar-label {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      font-size: 0.55rem;
+      font-family: "IBM Plex Mono", ui-monospace, monospace;
+      color: var(--muted);
+      text-align: center;
+      padding: 0.2rem;
+    }
+    .avatar.has-media {
+      border-style: solid;
+    }
+    .avatar.has-media .avatar-label { display: none; }
+    .quote cite {
+      font-style: normal;
+      font-size: 0.85rem;
+    }
+    .quote cite strong { display: block; font-weight: 600; }
+    .quote cite span { color: var(--muted); font-size: 0.8rem; }
+
+    /* —— end CTA —— */
+    .end {
+      position: relative;
+      padding: clamp(4.5rem, 12vw, 7.5rem) 0;
+      border-top: 1px solid var(--line);
+      overflow: hidden;
+    }
+    .end-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+    .end-bg .slot {
+      position: absolute;
+      inset: 0;
+      border: 0;
+      border-radius: 0;
+      min-height: 100%;
+      opacity: 0.35;
+    }
+    .end-bg::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        180deg,
+        color-mix(in oklch, var(--bg) 88%, transparent) 0%,
+        color-mix(in oklch, var(--bg) 92%, transparent) 100%
+      );
+      z-index: 1;
+    }
+    .end .wrap { position: relative; z-index: 2; }
+    .end h2 {
+      max-width: 16ch;
+      margin-bottom: 0.85rem;
+    }
+    .end > .wrap > p {
       margin: 0 0 1.75rem;
       color: var(--muted);
-      max-width: 28ch;
+      max-width: 32ch;
     }
 
-    footer {
-      padding: 1.5rem 0 2.25rem;
+    footer.site-footer {
+      padding: 1.75rem 0 2.5rem;
       border-top: 1px solid var(--line);
       color: var(--muted);
       font-size: 0.85rem;
@@ -315,143 +695,546 @@
       justify-content: space-between;
       align-items: center;
     }
-    footer .logo img { width: 100px; height: auto; display: block; }
+    footer.site-footer .logo img { width: 100px; }
 
-    /*
-      Motion (Emil Kowalski principles, pure CSS):
-      1) Hero entrance — staggered opacity + Y, ease-out
-      2) Method chips — scroll-triggered stagger
-      Only transform/opacity. No layout thrash. reduced-motion above.
-    */
+    /* —— fill checklist floating (dev aid) —— */
+    .fill-sheet {
+      position: fixed;
+      right: 1rem;
+      bottom: 1rem;
+      z-index: 50;
+      width: min(280px, calc(100vw - 2rem));
+      max-height: 42vh;
+      overflow: auto;
+      padding: 0.9rem 1rem;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: color-mix(in oklch, var(--bg) 92%, transparent);
+      backdrop-filter: blur(12px);
+      font-size: 0.75rem;
+      color: var(--muted);
+      box-shadow: 0 12px 40px color-mix(in oklch, var(--bg) 60%, transparent);
+    }
+    .fill-sheet summary {
+      cursor: pointer;
+      font-family: "IBM Plex Mono", ui-monospace, monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent-hex);
+      list-style: none;
+    }
+    .fill-sheet summary::-webkit-details-marker { display: none; }
+    .fill-sheet ol {
+      margin: 0.75rem 0 0;
+      padding-left: 1.1rem;
+      display: grid;
+      gap: 0.35rem;
+    }
+    .fill-sheet li.done { color: color-mix(in oklch, var(--fg) 55%, var(--muted)); text-decoration: line-through; }
+
+    /* —— motion —— */
     .reveal {
       opacity: 0;
-      transform: translateY(14px);
+      transform: translateY(16px);
       transition:
-        opacity var(--dur-enter) var(--ease-out),
-        transform var(--dur-enter) var(--ease-out);
+        opacity 700ms var(--ease-out),
+        transform 700ms var(--ease-out);
       transition-delay: var(--d, 0ms);
     }
     .reveal.in {
       opacity: 1;
       transform: none;
     }
-
-    /* Hero: orchestrated first paint (not waiting for IO delay) */
-    .hero .reveal {
-      --d: 0ms;
-    }
     .hero .reveal:nth-child(1) { --d: 40ms; }
-    .hero .reveal:nth-child(2) { --d: 110ms; }
-    .hero .reveal:nth-child(3) { --d: 190ms; }
-    .hero .reveal:nth-child(4) { --d: 270ms; }
+    .hero .reveal:nth-child(2) { --d: 100ms; }
+    .hero .reveal:nth-child(3) { --d: 170ms; }
+    .hero .reveal:nth-child(4) { --d: 240ms; }
+    .hero .reveal:nth-child(5) { --d: 300ms; }
 
-    /* Section blocks: slight extra delay when scrolling in */
-    section:not(.hero) .reveal { --d: 40ms; }
-    section:not(.hero) .reveal:nth-child(2) { --d: 100ms; }
-    section:not(.hero) .reveal:nth-child(3) { --d: 160ms; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .reveal, .method span {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+        transition-delay: 0s !important;
+      }
+      .btn { transition: none !important; }
+      .hero::after, .marquee { animation: none !important; }
+      .tilt { transform: none !important; }
+    }
+    @media (scripting: none) {
+      .reveal, .method span {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+      .fill-sheet { display: none; }
+    }
   </style>
 </head>
 <body>
+  <div class="mock-banner">
+    Branch <strong>feat/media-mockup</strong> · estrutura tipo releaf ·
+    slots = preencher em <strong>assets/media/</strong>
+  </div>
+
   <header class="nav">
     <div class="wrap nav-inner">
       <a class="logo" href="#topo" aria-label="Morgen">
-        <img src="logo-morgen.svg?v=nobg" alt="Morgen" width="132" height="28" style="width:132px;height:auto" />
+        <img src="logo-morgen.svg?v=nobg" alt="Morgen" width="128" height="27" />
       </a>
+      <nav class="nav-links" aria-label="Principal">
+        <a href="#problema">Problema</a>
+        <a href="#solucao">Solução</a>
+        <a href="#sistema">Sistema</a>
+        <a href="#metodo">Método</a>
+        <a href="#prova">Prova</a>
+      </nav>
       <a class="btn btn-primary" href="#contato">Falar com a Morgen</a>
     </div>
   </header>
 
   <main>
-    <section class="hero wrap" id="topo">
-      <p class="kicker reveal">Aquisição + automação</p>
-      <h1 class="reveal">
-        Crescimento <em>organizado</em> para empresas de serviços
-      </h1>
-      <p class="lede reveal">
-        Sistemas que captam clientes, organizam o atendimento e reduzem o trabalho manual.
-        Tecnologia como meio. Crescimento como fim.
-      </p>
-      <div class="hero-actions reveal">
-        <a class="btn btn-primary" href="#contato">Quero mapear meu crescimento</a>
-        <a class="btn btn-ghost" href="#metodo">Ver o método</a>
+    <!-- 1. HERO -->
+    <section class="hero wrap-wide" id="topo">
+      <div class="hero-grid">
+        <div>
+          <p class="kicker reveal">Aquisição + automação</p>
+          <h1 class="reveal">Crescimento <em>organizado</em> para empresas de serviços</h1>
+          <p class="lede reveal">
+            Sistemas que captam clientes, organizam o atendimento e reduzem o trabalho manual.
+            Tecnologia como meio. Crescimento como fim.
+          </p>
+          <div class="hero-actions reveal">
+            <a class="btn btn-primary btn-lg" href="#contato">Quero mapear meu crescimento</a>
+            <a class="btn btn-ghost btn-lg" href="#video">Ver o sistema</a>
+          </div>
+          <div class="hero-meta reveal">
+            <div><b>Slot</b> métrica real 01</div>
+            <div><b>Slot</b> métrica real 02</div>
+            <div><b>Slot</b> métrica real 03</div>
+          </div>
+        </div>
+        <div class="hero-stage reveal tilt" data-tilt>
+          <div class="slot" data-src="assets/media/hero-3d.png" data-src-fallback="assets/media/hero-3d.webp">
+            <span class="slot-tag">3D / produto</span>
+            <div class="slot-label">
+              <code>hero-3d.png</code>
+              <span>Render 3D, mockup de produto ou foto de operação premium</span>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
-    <section class="wrap" id="problema">
-      <h2 class="reveal">Onde o crescimento trava</h2>
-      <ul class="pain-list reveal">
-        <li>Poucos clientes <span>Captação irregular, mês a mês.</span></li>
-        <li>Atendimento lento <span>Lead esfria antes da resposta.</span></li>
-        <li>Processo manual <span>Equipe gasta tempo no operacional.</span></li>
-        <li>Oportunidades perdidas <span>Follow-up sem sistema.</span></li>
-      </ul>
-    </section>
-
-    <section class="wrap" id="solucao">
-      <div class="offer">
+    <!-- 2. STATEMENT + AMBIENT -->
+    <section class="statement wrap">
+      <div class="statement-grid">
         <div class="reveal">
-          <h2>O que a Morgen faz</h2>
+          <h2>A Morgen implementa a operação de crescimento, não vende “mais uma ferramenta”.</h2>
+        </div>
+        <div class="reveal">
           <p>
-            Implementa sistemas automatizados para empresas de serviços conquistarem clientes,
-            organizarem o atendimento e crescerem com menos caos. Não vendemos anúncio nem
-            “mais uma ferramenta”. Entregamos operação.
+            Para donos de empresas de serviço que já faturam, mas sentem o atendimento e a captação
+            travando o próximo salto.
           </p>
         </div>
-        <ul class="offer-list reveal">
-          <li>
-            <strong>Captar com estrutura</strong>
-            <span>Entrada de demanda com caminho claro.</span>
-          </li>
-          <li>
-            <strong>Automatizar o que já funciona</strong>
-            <span>Só o que a operação valida no dia a dia.</span>
-          </li>
-          <li>
-            <strong>Reduzir trabalho manual</strong>
-            <span>Tempo da equipe volta para o que gera receita.</span>
-          </li>
-        </ul>
+      </div>
+      <div class="reveal" style="margin-top:2rem">
+        <div class="slot" data-src="assets/media/hero-ambient.jpg" style="min-height:min(52vw,380px);aspect-ratio:21/9">
+          <span class="slot-tag">foto wide</span>
+          <div class="slot-label">
+            <code>hero-ambient.jpg</code>
+            <span>Foto ambiente: equipe, operação, ou still cinematográfico</span>
+          </div>
+        </div>
       </div>
     </section>
 
-    <section class="wrap" id="metodo">
-      <h2 class="reveal">Método M.O.R.G.E.N.</h2>
-      <div class="method" data-stagger aria-label="Mapear, Organizar, Relacionar, Gerenciar, Escalar, Nutrir">
-        <span style="--i:0"><b>M</b>apear</span>
-        <span style="--i:1"><b>O</b>rganizar</span>
-        <span style="--i:2"><b>R</b>elacionar</span>
-        <span style="--i:3"><b>G</b>erenciar</span>
-        <span style="--i:4"><b>E</b>scalar</span>
-        <span style="--i:5"><b>N</b>utrir</span>
+    <!-- 3. VIDEO -->
+    <section class="video-section wrap" id="video">
+      <div class="sec-head reveal">
+        <p class="eyebrow">Demonstração</p>
+        <h2>O sistema em movimento</h2>
+        <p>Loop curto do fluxo (captação → atendimento → follow-up). Pode ser screen capture ou motion 3D.</p>
       </div>
-      <p class="method-note reveal">
-        Seis etapas para sair do improviso e construir crescimento que a operação aguenta.
-      </p>
+      <div class="video-frame reveal">
+        <div
+          class="slot"
+          data-video="assets/media/case-loop.mp4"
+          data-poster="assets/media/case-poster.jpg"
+        >
+          <span class="slot-tag">vídeo</span>
+          <div class="slot-label">
+            <code>case-loop.mp4</code> + <code>case-poster.jpg</code>
+            <span>MP4 mudo em loop · 16:9 · 8–15s</span>
+          </div>
+        </div>
+      </div>
+      <div class="video-caption reveal">
+        <span><strong>Slot legenda:</strong> o que o vídeo mostra</span>
+        <span>Duração alvo: 12s</span>
+      </div>
     </section>
 
-    <section class="end wrap" id="contato">
-      <h2 class="reveal">Vamos mapear o que trava o seu crescimento</h2>
-      <p class="reveal">Conversa direta. Diagnóstico primeiro, sistema depois.</p>
-      <a class="btn btn-primary reveal" href="mailto:contato@morgen.com.br?subject=Quero%20mapear%20meu%20crescimento">
-        Falar com a Morgen
-      </a>
+    <!-- 4. PROBLEM / SOLUTION SPLITS -->
+    <section class="block wrap" id="problema">
+      <div class="sec-head reveal">
+        <p class="eyebrow">Onde trava</p>
+        <h2>Crescimento sem sistema vira esforço sem escala</h2>
+      </div>
+
+      <div class="split">
+        <div class="split-media reveal tilt" data-tilt>
+          <div class="slot" data-src="assets/media/pain-ops.jpg">
+            <span class="slot-tag">foto</span>
+            <div class="slot-label">
+              <code>pain-ops.jpg</code>
+              <span>Foto do caos operacional (inbox, planilha, WhatsApp)</span>
+            </div>
+          </div>
+        </div>
+        <div class="split-copy reveal">
+          <h3>O problema real</h3>
+          <p>Captação irregular, lead esfriando e equipe presa no manual. O faturamento sobe, a operação não aguenta.</p>
+          <ul class="bullet-list">
+            <li>Poucos clientes <span>Entrada de demanda sem ritmo.</span></li>
+            <li>Atendimento lento <span>Resposta fora da janela de compra.</span></li>
+            <li>Processo manual <span>Tempo caro gasto no operacional.</span></li>
+            <li>Follow-up frágil <span>Oportunidade sem sistema.</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="split reverse" id="solucao">
+        <div class="split-media reveal tilt" data-tilt>
+          <div class="slot" data-src="assets/media/solucao-dash.jpg">
+            <span class="slot-tag">foto / UI</span>
+            <div class="slot-label">
+              <code>solucao-dash.jpg</code>
+              <span>Dashboard, fluxo ou still do sistema Morgen</span>
+            </div>
+          </div>
+        </div>
+        <div class="split-copy reveal">
+          <h3>O que a Morgen faz</h3>
+          <p>
+            Implementa sistemas automatizados para captar, organizar o atendimento e crescer
+            com menos caos. Operação, não anúncio solto.
+          </p>
+          <ul class="bullet-list">
+            <li>Captar com estrutura <span>Caminho claro da demanda.</span></li>
+            <li>Automatizar o que já funciona <span>Só o que a operação valida.</span></li>
+            <li>Reduzir trabalho manual <span>Equipe de volta na receita.</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. BENTO 3D -->
+    <section class="block wrap" id="sistema">
+      <div class="sec-head reveal">
+        <p class="eyebrow">Peças do sistema</p>
+        <h2>Blocos visuais (3D / still / UI)</h2>
+        <p>Grade tipo product shot. Troque por renders, fotos de produto digital ou frames do app.</p>
+      </div>
+      <div class="bento">
+        <figure class="cell-a reveal">
+          <div class="slot" data-src="assets/media/bento-1.png">
+            <span class="slot-tag">3D principal</span>
+            <div class="slot-label">
+              <code>bento-1.png</code>
+              <span>Hero 3D do sistema (maior)</span>
+            </div>
+          </div>
+          <figcaption>Slot: peça principal do produto</figcaption>
+        </figure>
+        <figure class="reveal">
+          <div class="slot" data-src="assets/media/bento-2.png">
+            <span class="slot-tag">3D</span>
+            <div class="slot-label">
+              <code>bento-2.png</code>
+              <span>Módulo captação</span>
+            </div>
+          </div>
+          <figcaption>Slot: captação</figcaption>
+        </figure>
+        <figure class="reveal">
+          <div class="slot" data-src="assets/media/bento-3.png">
+            <span class="slot-tag">3D</span>
+            <div class="slot-label">
+              <code>bento-3.png</code>
+              <span>Módulo atendimento</span>
+            </div>
+          </div>
+          <figcaption>Slot: atendimento</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- 6. MARQUEE LOGOS -->
+    <div class="marquee-wrap" aria-label="Clientes e marcas (placeholders)">
+      <p class="marquee-label">Marcas / clientes · substituir logos</p>
+      <div class="marquee" id="marquee">
+        <!-- duplicated in JS for seamless loop -->
+      </div>
+    </div>
+
+    <!-- 7. METHOD -->
+    <section class="block wrap" id="metodo">
+      <div class="method-layout">
+        <div>
+          <div class="sec-head reveal" style="margin-bottom:1.25rem">
+            <p class="eyebrow">Método</p>
+            <h2>M.O.R.G.E.N.</h2>
+            <p>Seis etapas para sair do improviso e construir crescimento que a operação aguenta.</p>
+          </div>
+          <div class="method" data-stagger aria-label="Mapear, Organizar, Relacionar, Gerenciar, Escalar, Nutrir">
+            <span style="--i:0"><b>M</b>apear</span>
+            <span style="--i:1"><b>O</b>rganizar</span>
+            <span style="--i:2"><b>R</b>elacionar</span>
+            <span style="--i:3"><b>G</b>erenciar</span>
+            <span style="--i:4"><b>E</b>scalar</span>
+            <span style="--i:5"><b>N</b>utrir</span>
+          </div>
+        </div>
+        <div class="reveal tilt" data-tilt>
+          <div class="slot" data-src="assets/media/metodo-diagram.png">
+            <span class="slot-tag">diagrama / 3D</span>
+            <div class="slot-label">
+              <code>metodo-diagram.png</code>
+              <span>Diagrama ou animação estática do método</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. SOCIAL PROOF -->
+    <section class="block wrap" id="prova">
+      <div class="sec-head reveal">
+        <p class="eyebrow">Prova</p>
+        <h2>Quem já organizou o crescimento</h2>
+        <p>Depoimentos placeholder. Troque texto, cargo e fotos.</p>
+      </div>
+      <div class="quotes">
+        <blockquote class="quote reveal">
+          <p>“Slot de citação 01. Resultado concreto em uma frase.”</p>
+          <footer>
+            <div class="avatar" data-src="assets/media/avatar-1.jpg">
+              <span class="avatar-label">avatar-1</span>
+            </div>
+            <cite>
+              <strong>Nome Cliente 01</strong>
+              <span>Cargo · Empresa</span>
+            </cite>
+          </footer>
+        </blockquote>
+        <blockquote class="quote reveal">
+          <p>“Slot de citação 02. Antes vs depois sem inventar número.”</p>
+          <footer>
+            <div class="avatar" data-src="assets/media/avatar-2.jpg">
+              <span class="avatar-label">avatar-2</span>
+            </div>
+            <cite>
+              <strong>Nome Cliente 02</strong>
+              <span>Cargo · Empresa</span>
+            </cite>
+          </footer>
+        </blockquote>
+        <blockquote class="quote reveal">
+          <p>“Slot de citação 03. Como a operação mudou no dia a dia.”</p>
+          <footer>
+            <div class="avatar" data-src="assets/media/avatar-3.jpg">
+              <span class="avatar-label">avatar-3</span>
+            </div>
+            <cite>
+              <strong>Nome Cliente 03</strong>
+              <span>Cargo · Empresa</span>
+            </cite>
+          </footer>
+        </blockquote>
+      </div>
+    </section>
+
+    <!-- 9. END CTA -->
+    <section class="end" id="contato">
+      <div class="end-bg" aria-hidden="true">
+        <div class="slot" data-src="assets/media/cta-bg.jpg">
+          <div class="slot-label">
+            <code>cta-bg.jpg</code>
+            <span>Fundo wide do CTA final</span>
+          </div>
+        </div>
+      </div>
+      <div class="wrap">
+        <h2 class="reveal">Vamos mapear o que trava o seu crescimento</h2>
+        <p class="reveal">Conversa direta. Diagnóstico primeiro, sistema depois.</p>
+        <a class="btn btn-primary btn-lg reveal" href="mailto:contato@morgen.com.br?subject=Quero%20mapear%20meu%20crescimento">
+          Falar com a Morgen
+        </a>
+      </div>
     </section>
   </main>
 
-  <footer class="wrap">
-    <a class="logo" href="#topo" aria-label="Morgen"><img src="logo-morgen.svg?v=nobg" alt="Morgen" width="110" height="24" style="width:110px;height:auto" /></a>
-    <span>© <span id="y"></span> Morgen</span>
+  <footer class="wrap site-footer">
+    <a class="logo" href="#topo" aria-label="Morgen">
+      <img src="logo-morgen.svg?v=nobg" alt="Morgen" width="100" height="21" />
+    </a>
+    <span>© <span id="y"></span> Morgen · mockup mídia</span>
   </footer>
+
+  <details class="fill-sheet" open>
+    <summary>Checklist mídia</summary>
+    <ol id="fill-list"></ol>
+  </details>
 
   <script>
     document.getElementById("y").textContent = new Date().getFullYear();
 
+    const MEDIA = [
+      ["hero-3d.png", "Hero 3D"],
+      ["hero-ambient.jpg", "Foto ambient wide"],
+      ["case-loop.mp4", "Vídeo case"],
+      ["case-poster.jpg", "Poster do vídeo"],
+      ["pain-ops.jpg", "Foto problema"],
+      ["solucao-dash.jpg", "Foto / UI solução"],
+      ["bento-1.png", "Bento 3D principal"],
+      ["bento-2.png", "Bento captação"],
+      ["bento-3.png", "Bento atendimento"],
+      ["metodo-diagram.png", "Diagrama método"],
+      ["avatar-1.jpg", "Avatar 1"],
+      ["avatar-2.jpg", "Avatar 2"],
+      ["avatar-3.jpg", "Avatar 3"],
+      ["cta-bg.jpg", "Fundo CTA"],
+      ["logo-client-1.svg", "Logo cliente 1"],
+      ["logo-client-2.svg", "Logo cliente 2"],
+      ["logo-client-3.svg", "Logo cliente 3"],
+      ["logo-client-4.svg", "Logo cliente 4"],
+      ["logo-client-5.svg", "Logo cliente 5"],
+      ["logo-client-6.svg", "Logo cliente 6"],
+    ];
+
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    function revealAll() {
-      document.querySelectorAll(".reveal, [data-stagger]").forEach((el) => {
-        el.classList.add("in");
+    /* —— hydrate image slots if file exists —— */
+    async function probe(url) {
+      try {
+        const res = await fetch(url, { method: "HEAD", cache: "no-store" });
+        return res.ok;
+      } catch {
+        return false;
+      }
+    }
+
+    async function hydrateSlots() {
+      const filled = new Set();
+
+      for (const el of document.querySelectorAll(".slot[data-src]")) {
+        const src = el.getAttribute("data-src");
+        const ok = await probe(src);
+        if (!ok) continue;
+        const img = document.createElement("img");
+        img.src = src;
+        img.alt = "";
+        img.loading = "lazy";
+        el.appendChild(img);
+        el.classList.add("has-media");
+        filled.add(src.split("/").pop());
+      }
+
+      for (const el of document.querySelectorAll(".slot[data-video]")) {
+        const videoSrc = el.getAttribute("data-video");
+        const poster = el.getAttribute("data-poster") || "";
+        const hasVideo = await probe(videoSrc);
+        if (!hasVideo) {
+          if (poster && (await probe(poster))) {
+            const img = document.createElement("img");
+            img.src = poster;
+            img.alt = "";
+            el.appendChild(img);
+            el.classList.add("has-media");
+            filled.add(poster.split("/").pop());
+          }
+          continue;
+        }
+        const video = document.createElement("video");
+        video.muted = true;
+        video.loop = true;
+        video.playsInline = true;
+        video.preload = "metadata";
+        if (poster) video.poster = poster;
+        const source = document.createElement("source");
+        source.src = videoSrc;
+        source.type = "video/mp4";
+        video.appendChild(source);
+        el.appendChild(video);
+        el.classList.add("has-media");
+        filled.add(videoSrc.split("/").pop());
+        if (poster) filled.add(poster.split("/").pop());
+
+        if (!reduce) {
+          const io = new IntersectionObserver(
+            ([entry]) => {
+              if (entry.isIntersecting) video.play().catch(() => {});
+              else video.pause();
+            },
+            { threshold: 0.35 }
+          );
+          io.observe(video);
+        }
+      }
+
+      for (const el of document.querySelectorAll(".avatar[data-src]")) {
+        const src = el.getAttribute("data-src");
+        if (!(await probe(src))) continue;
+        const img = document.createElement("img");
+        img.src = src;
+        img.alt = "";
+        el.appendChild(img);
+        el.classList.add("has-media");
+        filled.add(src.split("/").pop());
+      }
+
+      /* logos marquee */
+      const track = document.getElementById("marquee");
+      const logoFiles = MEDIA.filter(([f]) => f.startsWith("logo-client")).map(([f]) => f);
+      const pills = [];
+      for (const file of logoFiles) {
+        const path = `assets/media/${file}`;
+        const ok = await probe(path);
+        const pill = document.createElement("div");
+        pill.className = "logo-pill" + (ok ? " has-media" : "");
+        if (ok) {
+          const img = document.createElement("img");
+          img.src = path;
+          img.alt = file;
+          pill.appendChild(img);
+          filled.add(file);
+        } else {
+          pill.textContent = file.replace(".svg", "");
+        }
+        pills.push(pill);
+      }
+      /* duplicate for seamless loop */
+      [...pills, ...pills.map((p) => p.cloneNode(true))].forEach((p) => track.appendChild(p));
+
+      /* checklist UI */
+      const list = document.getElementById("fill-list");
+      MEDIA.forEach(([file, label]) => {
+        const li = document.createElement("li");
+        li.textContent = `${label} · ${file}`;
+        if (filled.has(file)) li.classList.add("done");
+        list.appendChild(li);
       });
+    }
+
+    hydrateSlots();
+
+    /* —— reveals —— */
+    function revealAll() {
+      document.querySelectorAll(".reveal, [data-stagger]").forEach((el) => el.classList.add("in"));
     }
 
     if (reduce) {
@@ -462,19 +1245,32 @@
           entries.forEach((e) => {
             if (!e.isIntersecting) return;
             e.target.classList.add("in");
-            io.unobserve(e.target); /* play once — no thrash on re-scroll */
+            io.unobserve(e.target);
           });
         },
         { threshold: 0.12, rootMargin: "0px 0px -6% 0px" }
       );
-
       document.querySelectorAll(".reveal, [data-stagger]").forEach((el) => io.observe(el));
-
-      /* Hero: enter on first frame so first paint isn't blank for ~IO tick */
       requestAnimationFrame(() => {
         document.querySelectorAll(".hero .reveal").forEach((el) => {
           el.classList.add("in");
           io.unobserve(el);
+        });
+      });
+    }
+
+    /* —— light tilt (fake 3D) —— */
+    if (!reduce) {
+      document.querySelectorAll("[data-tilt]").forEach((el) => {
+        const max = 6;
+        el.addEventListener("mousemove", (e) => {
+          const r = el.getBoundingClientRect();
+          const x = (e.clientX - r.left) / r.width - 0.5;
+          const y = (e.clientY - r.top) / r.height - 0.5;
+          el.style.transform = `perspective(900px) rotateX(${(-y * max).toFixed(2)}deg) rotateY(${(x * max).toFixed(2)}deg)`;
+        });
+        el.addEventListener("mouseleave", () => {
+          el.style.transform = "";
         });
       });
     }
