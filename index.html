@@ -22,7 +22,7 @@
   <title>Morgen</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=IBM+Plex+Mono:wght@500&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=IBM+Plex+Mono:wght@500&family=Outfit:wght@600;700;800&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
   <link rel="preload" href="assets/media/hero-poster.jpg" as="image" />
   <script type="application/ld+json">
   {
@@ -485,7 +485,7 @@
       position: relative;
       z-index: 1;
       width: calc(100% - var(--pad) * 2);
-      max-width: 36rem;
+      max-width: 40rem;
       margin: 0 0 0 var(--pad);
       text-align: left;
     }
@@ -502,57 +502,76 @@
       .kicker { margin-bottom: 1rem; font-size: 0.7rem; letter-spacing: 0.14em; }
     }
     /*
-      H1: exatamente 2 linhas. Nunca palavra por palavra.
-      max-width frouxo + white-space:nowrap nas linhas + fonte que cabe.
+      H1: Outfit display (presença) + sublinha DM Sans.
+      "Crescimento / organizado" em stack — nunca palavra solta.
+      A frase longa NÃO disputa o mesmo tamanho do display.
     */
     h1 {
-      margin: 0 0 0.9rem;
-      font-family: "Syne", system-ui, sans-serif;
+      margin: 0 0 1.15rem;
+      max-width: 18ch;
+      font-family: "Outfit", "DM Sans", system-ui, sans-serif;
       font-weight: 800;
-      font-size: clamp(1.35rem, 5.4vw, 1.85rem);
-      line-height: 1.18;
-      letter-spacing: -0.025em;
-      max-width: 100%;
-      width: 100%;
-      word-break: normal;
-      overflow-wrap: normal;
-      hyphens: none;
-      text-wrap: unset;
+      font-size: clamp(2.65rem, 11.5vw, 3.35rem);
+      line-height: 0.98;
+      letter-spacing: -0.045em;
+      text-wrap: balance;
     }
     @media (min-width: 480px) {
-      h1 { font-size: clamp(1.55rem, 4.2vw, 2.1rem); }
+      h1 {
+        max-width: 14ch;
+        font-size: clamp(3rem, 9vw, 3.75rem);
+      }
     }
     @media (min-width: 768px) {
       h1 {
-        margin-bottom: 1.15rem;
-        font-size: clamp(2rem, 3.8vw, 2.85rem);
-        line-height: 1.12;
-        letter-spacing: -0.03em;
+        margin-bottom: 1.35rem;
+        max-width: 12ch;
+        font-size: clamp(3.5rem, 6.2vw, 4.75rem);
+        letter-spacing: -0.05em;
       }
     }
-    h1 .line {
+    h1 .h1-display {
       display: block;
-      white-space: nowrap;
     }
-    h1 em {
+    h1 .h1-display em {
+      display: block;
       font-style: normal;
-      font-weight: inherit;
+      font-weight: 800;
       color: var(--accent-hex);
-      text-shadow: 0 0 28px color-mix(in oklch, var(--accent) 40%, transparent);
+      text-shadow: 0 0 40px color-mix(in oklch, var(--accent) 35%, transparent);
+    }
+    h1 .h1-sub {
+      display: block;
+      margin-top: 0.85rem;
+      max-width: 18ch;
+      font-family: "DM Sans", system-ui, sans-serif;
+      font-weight: 500;
+      font-size: clamp(1.05rem, 3.8vw, 1.2rem);
+      line-height: 1.35;
+      letter-spacing: -0.01em;
+      color: color-mix(in oklch, var(--fg) 78%, var(--muted));
+    }
+    @media (min-width: 768px) {
+      h1 .h1-sub {
+        margin-top: 1rem;
+        max-width: 22ch;
+        font-size: 1.25rem;
+        letter-spacing: -0.015em;
+      }
     }
     .lede {
       margin: 0 0 1.35rem;
-      max-width: 30ch;
-      font-size: 0.98rem;
-      line-height: 1.5;
+      max-width: 32ch;
+      font-size: 1rem;
+      line-height: 1.55;
       color: var(--muted);
       text-wrap: pretty;
     }
     @media (min-width: 768px) {
       .lede {
         margin-bottom: 1.85rem;
-        max-width: 32ch;
-        font-size: clamp(1.02rem, 1.5vw, 1.12rem);
+        max-width: 34ch;
+        font-size: clamp(1.05rem, 1.5vw, 1.15rem);
       }
     }
 
@@ -1028,10 +1047,9 @@
       <div class="hero-copy">
         <p class="kicker reveal-item">Aquisição + automação</p>
         <h1 class="reveal-item">
-          <span class="line">Crescimento <em>organizado</em></span>
-          <span class="line">para empresas de serviços</span>
+          <span class="h1-display">Crescimento <em>organizado</em></span>
+          <span class="h1-sub">para empresas de serviços</span>
         </h1>
-        <!-- 2 linhas fixas via .line { white-space:nowrap }. NÃO usar max-width em ch/em no h1. -->
         <p class="lede reveal-item">
           Sistemas que captam clientes, organizam o atendimento e reduzem o trabalho manual.
         </p>
