@@ -135,20 +135,26 @@
       color: var(--accent);
     }
     h1 {
-      margin: 0 0 1.1rem;
+      margin: 0 0 1.15rem;
       font-family: "Syne", system-ui, sans-serif;
-      font-weight: 800;
-      font-size: clamp(1.85rem, 4.2vw, 2.75rem);
-      line-height: 1.08;
-      letter-spacing: -0.03em;
-      text-wrap: balance;
-      max-width: 14ch;
+      font-weight: 700;
+      /* frase contínua, não poster de 4 linhas */
+      font-size: clamp(1.55rem, 3.2vw, 2.15rem);
+      line-height: 1.22;
+      letter-spacing: -0.025em;
+      max-width: 18ch;
+      text-wrap: pretty;
     }
-    h1 em { font-style: normal; color: var(--accent); }
+    h1 em {
+      font-style: normal;
+      font-weight: inherit;
+      color: var(--accent);
+    }
     .lede {
       margin: 0 0 1.75rem;
-      max-width: 34ch;
+      max-width: 36ch;
       font-size: clamp(1rem, 1.5vw, 1.12rem);
+      line-height: 1.55;
       color: var(--muted);
       text-wrap: pretty;
     }
