@@ -40,10 +40,9 @@
   </script>
   <style>
     /*
-      Morgen · Everton redesign 2026-07
-      Design read: B2B agência, dono de serviço, navy+ouro, marca nova
-      Dials: variance 5 · motion 5 · density 3
-      Stack: static HTML + GSAP CDN (sem FM/Next)
+      Morgen · amplitude visual v2 · build 2026-07-17
+      Dials: variance 6–7 · motion 6 · density 3–4
+      Você deve notar: barra ouro no topo + H1 maior + método em linha + steps com números grandes
     */
     :root {
       --bg: oklch(13% 0.05 275);
@@ -55,13 +54,40 @@
       --line: oklch(97% 0.002 100 / 0.12);
       --accent: oklch(85% 0.16 95);
       --accent-hex: #fcc92a;
-      /* Emil: strong ease-out */
       --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
       --ease-press: cubic-bezier(0.32, 0.72, 0, 1);
       --pad: clamp(1.25rem, 4.5vw, 2.25rem);
       --max: 1120px;
-      --r: 12px;
+      --r: 14px;
       --nav-h: 68px;
+    }
+
+    /* prova visual de JS novo: barra de scroll ouro */
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 60;
+      height: 3px;
+      width: 0%;
+      background: var(--accent-hex);
+      pointer-events: none;
+      box-shadow: 0 0 12px color-mix(in oklch, var(--accent) 55%, transparent);
+    }
+    .build-tag {
+      position: fixed;
+      right: 0.75rem;
+      bottom: 0.75rem;
+      z-index: 50;
+      font-family: "IBM Plex Mono", ui-monospace, monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.06em;
+      color: var(--accent-hex);
+      background: color-mix(in oklch, var(--bg) 88%, transparent);
+      border: 1px solid color-mix(in oklch, var(--accent) 40%, var(--line));
+      border-radius: 999px;
+      padding: 0.35rem 0.65rem;
+      pointer-events: none;
     }
 
     *, *::before, *::after { box-sizing: border-box; }
@@ -235,11 +261,11 @@
     h1 {
       margin: 0 0 1.15rem;
       font-family: "Syne", system-ui, sans-serif;
-      font-weight: 700;
-      font-size: clamp(1.75rem, 3.8vw, 2.55rem);
-      line-height: 1.14;
-      letter-spacing: -0.03em;
-      max-width: 12em;
+      font-weight: 800;
+      font-size: clamp(2.05rem, 5.2vw, 3.35rem);
+      line-height: 1.08;
+      letter-spacing: -0.035em;
+      max-width: 11em;
       text-wrap: balance;
     }
     h1 .line { display: block; }
@@ -247,6 +273,7 @@
       font-style: normal;
       font-weight: inherit;
       color: var(--accent-hex);
+      text-shadow: 0 0 40px color-mix(in oklch, var(--accent) 35%, transparent);
     }
     .lede {
       margin: 0 0 1.85rem;
@@ -330,36 +357,72 @@
       font-size: 0.95rem;
     }
 
-    /* processo: 3 colunas distintas do resto */
+    /* processo: 3 cards com ênfase diferente (não grid idêntico) */
     .steps {
       display: grid;
-      gap: 1.5rem;
-      margin-top: 0.5rem;
+      gap: 1rem;
+      margin-top: 0.75rem;
     }
     @media (min-width: 800px) {
-      .steps { grid-template-columns: repeat(3, 1fr); gap: 1.75rem; }
+      .steps {
+        grid-template-columns: 1.15fr 1fr 1fr;
+        gap: 1.15rem;
+        align-items: stretch;
+      }
     }
     .step {
-      padding: 1.35rem 1.25rem;
+      position: relative;
+      padding: 1.5rem 1.35rem 1.4rem;
       border-radius: var(--r);
       background: var(--surface-hex);
       border: 1px solid var(--line);
+      transition:
+        transform 180ms var(--ease-out),
+        border-color 180ms ease;
+      overflow: hidden;
+    }
+    .step-featured {
+      border-color: color-mix(in oklch, var(--accent) 45%, var(--line));
+      background:
+        linear-gradient(
+          160deg,
+          color-mix(in oklch, var(--accent) 10%, var(--surface-hex)) 0%,
+          var(--surface-hex) 55%
+        );
+    }
+    @media (hover: hover) and (pointer: fine) {
+      .step:hover {
+        transform: translateY(-4px);
+        border-color: color-mix(in oklch, var(--accent) 40%, var(--line));
+      }
     }
     .step-n {
       display: block;
-      margin-bottom: 0.85rem;
-      font-family: "IBM Plex Mono", ui-monospace, monospace;
-      font-size: 0.72rem;
-      letter-spacing: 0.08em;
+      margin-bottom: 0.65rem;
+      font-family: "Syne", system-ui, sans-serif;
+      font-weight: 800;
+      font-size: clamp(2.4rem, 4vw, 3rem);
+      line-height: 1;
+      letter-spacing: -0.04em;
       color: var(--accent-hex);
+      opacity: 0.95;
+    }
+    .step-label {
+      display: block;
+      margin-bottom: 0.55rem;
+      font-family: "IBM Plex Mono", ui-monospace, monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
     }
     .step strong {
       display: block;
       font-family: "Syne", system-ui, sans-serif;
       font-weight: 700;
-      font-size: 1.05rem;
+      font-size: 1.12rem;
       letter-spacing: -0.02em;
-      margin-bottom: 0.35rem;
+      margin-bottom: 0.4rem;
     }
     .step p {
       margin: 0;
@@ -368,37 +431,56 @@
       line-height: 1.5;
     }
 
-    /* método chips */
-    .method {
+    /* método: trilha + chips grandes */
+    .method-track {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.5rem;
-      max-width: 44rem;
+      align-items: center;
+      gap: 0.45rem 0.35rem;
+      max-width: 52rem;
+      padding: 1.15rem 1.1rem;
+      border-radius: calc(var(--r) + 4px);
+      border: 1px solid color-mix(in oklch, var(--accent) 28%, var(--line));
+      background: color-mix(in oklch, var(--surface) 70%, transparent);
+    }
+    .method {
+      display: contents;
     }
     .method span {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-height: 2.75rem;
-      padding: 0 0.75rem;
-      border-radius: 10px;
-      background: var(--surface-hex);
+      min-height: 3.15rem;
+      padding: 0 0.9rem;
+      border-radius: 12px;
+      background: var(--bg-hex);
       border: 1px solid var(--line);
       font-family: "Syne", system-ui, sans-serif;
       font-weight: 700;
-      font-size: 0.92rem;
+      font-size: 1rem;
       letter-spacing: -0.01em;
       transition: border-color 160ms ease, transform 160ms var(--ease-out);
     }
     .method span b {
       color: var(--accent-hex);
       font-weight: 800;
-      margin-right: 0.12rem;
+      font-size: 1.2em;
+      margin-right: 0.15rem;
+    }
+    .method-join {
+      width: 0.55rem;
+      height: 2px;
+      background: color-mix(in oklch, var(--accent) 55%, transparent);
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+    @media (max-width: 640px) {
+      .method-join { display: none; }
     }
     @media (hover: hover) and (pointer: fine) {
       .method span:hover {
-        border-color: color-mix(in oklch, var(--accent) 45%, var(--line));
-        transform: translateY(-1px);
+        border-color: color-mix(in oklch, var(--accent) 55%, var(--line));
+        transform: translateY(-2px);
       }
     }
     .method-note {
@@ -479,7 +561,11 @@
     }
   </style>
 </head>
+<!-- morgen build: 2026-07-17-v2-amplitude · se você NÃO vê barra ouro no topo + tag "build v2", está em cache -->
 <body class="js">
+  <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+  <div class="build-tag" aria-hidden="true">build v2 · amplitude</div>
+
   <header class="nav">
     <div class="wrap nav-inner">
       <a class="logo" href="#topo" aria-label="Morgen, início">
@@ -563,18 +649,21 @@
     <section class="section wrap" id="como">
       <h2 class="reveal-item">Como começamos</h2>
       <div class="steps">
-        <article class="step reveal-item">
-          <span class="step-n">Mapear</span>
+        <article class="step step-featured reveal-item">
+          <span class="step-n">01</span>
+          <span class="step-label">Mapear</span>
           <strong>Diagnóstico</strong>
           <p>Entendemos o negócio e o que trava a operação hoje.</p>
         </article>
         <article class="step reveal-item">
-          <span class="step-n">Organizar</span>
+          <span class="step-n">02</span>
+          <span class="step-label">Organizar</span>
           <strong>Sistema</strong>
           <p>Estruturamos captação, atendimento e fluxo com o que já funciona.</p>
         </article>
         <article class="step reveal-item">
-          <span class="step-n">Operar</span>
+          <span class="step-n">03</span>
+          <span class="step-label">Operar</span>
           <strong>Crescimento</strong>
           <p>A equipe roda o sistema. Menos manual, mais clareza no dia a dia.</p>
         </article>
@@ -583,13 +672,20 @@
 
     <section class="section wrap" id="metodo">
       <h2 class="reveal-item">Método M.O.R.G.E.N.</h2>
-      <div class="method" aria-label="Mapear, Organizar, Relacionar, Gerenciar, Escalar, Nutrir">
-        <span class="reveal-item"><b>M</b>apear</span>
-        <span class="reveal-item"><b>O</b>rganizar</span>
-        <span class="reveal-item"><b>R</b>elacionar</span>
-        <span class="reveal-item"><b>G</b>erenciar</span>
-        <span class="reveal-item"><b>E</b>scalar</span>
-        <span class="reveal-item"><b>N</b>utrir</span>
+      <div class="method-track" aria-label="Mapear, Organizar, Relacionar, Gerenciar, Escalar, Nutrir">
+        <div class="method">
+          <span class="method-chip"><b>M</b>apear</span>
+          <span class="method-join" aria-hidden="true"></span>
+          <span class="method-chip"><b>O</b>rganizar</span>
+          <span class="method-join" aria-hidden="true"></span>
+          <span class="method-chip"><b>R</b>elacionar</span>
+          <span class="method-join" aria-hidden="true"></span>
+          <span class="method-chip"><b>G</b>erenciar</span>
+          <span class="method-join" aria-hidden="true"></span>
+          <span class="method-chip"><b>E</b>scalar</span>
+          <span class="method-join" aria-hidden="true"></span>
+          <span class="method-chip"><b>N</b>utrir</span>
+        </div>
       </div>
       <p class="method-note reveal-item">
         Seis etapas para sair do improviso e construir crescimento que a operação aguenta.
@@ -645,6 +741,20 @@
   <script>
     document.getElementById("y").textContent = new Date().getFullYear();
     const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    /* barra ouro = prova de build v2 */
+    (function scrollBar() {
+      const bar = document.getElementById("scroll-progress");
+      if (!bar) return;
+      const onScroll = () => {
+        const h = document.documentElement;
+        const max = h.scrollHeight - h.clientHeight;
+        const p = max > 0 ? (h.scrollTop / max) * 100 : 0;
+        bar.style.width = p + "%";
+      };
+      window.addEventListener("scroll", onScroll, { passive: true });
+      onScroll();
+    })();
 
     /* Hero video: on-demand, skip slow / reduced */
     (function heroVideo() {
@@ -711,36 +821,56 @@
       gsap.registerPlugin(ScrollTrigger);
       const ease = "power3.out"; /* close to Emil ease-out */
 
-      /* Hero orchestrated enter */
+      /* Hero: entrada mais óbvia */
       const heroItems = gsap.utils.toArray(".hero .reveal-item");
-      gsap.set(heroItems, { opacity: 0, y: 18 });
+      gsap.set(heroItems, { opacity: 0, y: 28, scale: 0.98 });
       gsap.to(heroItems, {
         opacity: 1,
         y: 0,
-        duration: 0.7,
-        stagger: 0.08,
+        scale: 1,
+        duration: 0.75,
+        stagger: 0.1,
         ease,
-        delay: 0.05,
+        delay: 0.08,
       });
 
-      /* Sections: batch reveals */
+      /* Sections */
       gsap.utils.toArray("section.section, section.end").forEach((section) => {
         const items = section.querySelectorAll(".reveal-item");
         if (!items.length) return;
-        gsap.set(items, { opacity: 0, y: 20 });
+        gsap.set(items, { opacity: 0, y: 24 });
         gsap.to(items, {
           opacity: 1,
           y: 0,
-          duration: 0.65,
-          stagger: 0.06,
+          duration: 0.7,
+          stagger: 0.07,
           ease,
           scrollTrigger: {
             trigger: section,
-            start: "top 82%",
+            start: "top 80%",
             once: true,
           },
         });
       });
+
+      /* Método chips: stagger forte (momento signature) */
+      const chips = gsap.utils.toArray(".method-chip");
+      if (chips.length) {
+        gsap.set(chips, { opacity: 0, y: 16, scale: 0.92 });
+        gsap.to(chips, {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.55,
+          stagger: 0.09,
+          ease,
+          scrollTrigger: {
+            trigger: ".method-track",
+            start: "top 78%",
+            once: true,
+          },
+        });
+      }
     }
 
     window.addEventListener("load", initMotion);
