@@ -25,6 +25,14 @@ Promessa de marca: **crescimento organizado** (não vende anúncios, automaçõe
 - **Body:** `DM Sans` (legível, B2B humano)
 - **Mono / labels:** `IBM Plex Mono` (método M.O.R.G.E.N., metadados)
 
+## Contato
+
+| Canal | Valor |
+|-------|--------|
+| E-mail | `morgenagency@gmail.com` |
+| WhatsApp | `+55 21 97136-2006` → `https://wa.me/5521971362006` |
+| Instagram | `https://instagram.com/morgenagencia/` |
+
 ## Postura de layout
 
 1. Fundo navy sólido; accent dourado ≤10% da superfície (CTAs, O do logo, highlights).
